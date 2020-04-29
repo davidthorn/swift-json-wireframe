@@ -74,10 +74,6 @@ public class View: UIViewController {
             assertionFailure("The button does not exist")
         }
 
-        if route.wireframe == nil {
-            assertionFailure("the wire frame is nil")
-        }
-
         if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
             let view = View(route: targetRoute)
             navigationController?.pushViewController(view, animated: true)

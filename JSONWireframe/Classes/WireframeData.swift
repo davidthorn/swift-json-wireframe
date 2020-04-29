@@ -10,7 +10,7 @@ import Foundation
 
 public class WireframeData: Codable {
     let appName: String
-    let routes: [Route]
+    var routes: [Route]
     let root: RouteName
 }
 
@@ -18,6 +18,15 @@ extension WireframeData {
 
     func route(for name: String) -> Route? {
         routes.first { $0.name == name }
+    }
+
+    func setRoutes() {
+
+        routes.forEach { route in
+            route.wireframe = self
+            route.setSubRoutes()
+        }
+
     }
 
 }

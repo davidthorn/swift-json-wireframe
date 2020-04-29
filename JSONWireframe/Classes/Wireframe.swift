@@ -12,8 +12,9 @@ public typealias RouteName = String
 
 public final class Wireframe {
 
+    var wireframe: WireframeData!
     let navigation: UINavigationController
-    
+
     public init(navigation: UINavigationController) {
         self.navigation = navigation
     }
@@ -29,25 +30,27 @@ public final class Wireframe {
             let data = try Data.init(contentsOf: url)
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let wireframe = try decoder.decode(WireframeData.self, from: data)
+            wireframe = try decoder.decode(WireframeData.self, from: data)
+            wireframe.setRoutes()
 
-            wireframe.routes.forEach { route in
-                route.wireframe = wireframe
-
-                let subviewRoutes = route.subroutes
-                route.routes = subviewRoutes?.compactMap {
-                    let childRoute = wireframe.route(for: $0)
-                    childRoute?.parent = route
-                    childRoute?.wireframe = wireframe
-                    return childRoute
-                }
-                if let subviews = route.routes {
-                    subviews.forEach { subroute in
-                        debugPrint(subroute.name)
-                    }
-                }
-
-            }
+//            let llll = wireframe
+//
+//            wireframe.routes.forEach { route in
+//                route.wireframe = wireframe
+//
+//                let subviewRoutes = route.subroutes
+//                route.routes = subviewRoutes?.compactMap {
+//                    let childRoute = wireframe.route(for: $0)
+//                    childRoute?.parent = route
+//                    return childRoute
+//                }
+//                if let subviews = route.routes {
+//                    subviews.forEach { subroute in
+//                        debugPrint(subroute.name)
+//                    }
+//                }
+//
+//            }
 
             if let root = wireframe.route(for: wireframe.root) {
                 let view = View(route: root)

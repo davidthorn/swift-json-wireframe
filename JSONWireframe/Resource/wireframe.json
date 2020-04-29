@@ -7,7 +7,15 @@
             "title" : "Home",
             "subroutes": [
                 "profile",
-                "logout"
+                "logout",
+                "categories"
+            ]
+        },
+        {
+            "name": "categories",
+            "title": "Categories",
+            "subroutes": [
+                "address"
             ]
         },
         {
@@ -43,7 +51,8 @@
         },
         {
             "name": "change-email",
-            "title": "Change Mail"
+            "title": "Change Mail",
+            "subroutes": [ "categories" ]
         },
         {
             "name": "logout",

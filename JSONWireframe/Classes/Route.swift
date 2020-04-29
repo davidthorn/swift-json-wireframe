@@ -15,5 +15,22 @@ public class Route: Codable {
     var routes: [Route]?
     let navigation: Navigation?
     weak var parent: Route?
-    var wireframe: WireframeData?
+    weak var wireframe: WireframeData? {
+        didSet {
+            debugPrint("\(String(describing: Self.self)) wireframe: \(name)")
+        }
+    }
+    func setSubRoutes() {
+        routes = routes ?? []
+        subroutes?.forEach { subrouteName in
+            if let subRoute = wireframe?.route(for: subrouteName) {
+                subRoute.parent = self
+                routes?.append(subRoute)
+            }
+        }
+    }
+
+    deinit {
+        debugPrint("\(String(describing: Self.self)) deinit: \(String(describing: wireframe))")
+    }
 }
