@@ -26,6 +26,8 @@
 		9394E2DE245A21F4007F2325 /* WireframeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DD245A21F4007F2325 /* WireframeData.swift */; };
 		9394E2E0245A221C007F2325 /* RouteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DF245A221C007F2325 /* RouteButton.swift */; };
 		9394E2E2245A223B007F2325 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E1245A223B007F2325 /* View.swift */; };
+		9394E2E4245A2C20007F2325 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E3245A2C20007F2325 /* Plugin.swift */; };
+		9394E2E6245A2DF2007F2325 /* ProfilePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E5245A2DF2007F2325 /* ProfilePlugin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		9394E2DD245A21F4007F2325 /* WireframeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireframeData.swift; sourceTree = "<group>"; };
 		9394E2DF245A221C007F2325 /* RouteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteButton.swift; sourceTree = "<group>"; };
 		9394E2E1245A223B007F2325 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		9394E2E3245A2C20007F2325 /* Plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
+		9394E2E5245A2DF2007F2325 /* ProfilePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePlugin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,7 @@
 				9394E243245A0860007F2325 /* Assets.xcassets */,
 				9394E245245A0860007F2325 /* LaunchScreen.storyboard */,
 				9394E248245A0860007F2325 /* Info.plist */,
+				9394E2E5245A2DF2007F2325 /* ProfilePlugin.swift */,
 			);
 			path = JSONWireframe;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				9394E2DD245A21F4007F2325 /* WireframeData.swift */,
 				9394E2DF245A221C007F2325 /* RouteButton.swift */,
 				9394E2E1245A223B007F2325 /* View.swift */,
+				9394E2E3245A2C20007F2325 /* Plugin.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -270,6 +276,7 @@
 				9394E260245A08E9007F2325 /* Wireframe.swift in Sources */,
 				9394E2D3245A14C3007F2325 /* UIEdgeInsets.swift in Sources */,
 				9394E2DC245A21E1007F2325 /* Route.swift in Sources */,
+				9394E2E4245A2C20007F2325 /* Plugin.swift in Sources */,
 				9394E2D8245A21B8007F2325 /* NavigationButton.swift in Sources */,
 				9394E23F245A085F007F2325 /* ViewController.swift in Sources */,
 				9394E2E0245A221C007F2325 /* RouteButton.swift in Sources */,
@@ -280,6 +287,7 @@
 				9394E2DA245A21CE007F2325 /* Navigation.swift in Sources */,
 				9394E23D245A085F007F2325 /* SceneDelegate.swift in Sources */,
 				9394E2E2245A223B007F2325 /* View.swift in Sources */,
+				9394E2E6245A2DF2007F2325 /* ProfilePlugin.swift in Sources */,
 				9394E2D1245A1151007F2325 /* Optional.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

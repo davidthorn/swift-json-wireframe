@@ -12,6 +12,7 @@ public typealias RouteName = String
 
 public final class Wireframe {
 
+    public static var plugins = [Plugin.Type]()
     var wireframe: WireframeData!
     let navigation: UINavigationController
 
@@ -32,34 +33,11 @@ public final class Wireframe {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             wireframe = try decoder.decode(WireframeData.self, from: data)
             wireframe.setRoutes()
-
-//            let llll = wireframe
-//
-//            wireframe.routes.forEach { route in
-//                route.wireframe = wireframe
-//
-//                let subviewRoutes = route.subroutes
-//                route.routes = subviewRoutes?.compactMap {
-//                    let childRoute = wireframe.route(for: $0)
-//                    childRoute?.parent = route
-//                    return childRoute
-//                }
-//                if let subviews = route.routes {
-//                    subviews.forEach { subroute in
-//                        debugPrint(subroute.name)
-//                    }
-//                }
-//
-//            }
-
             if let root = wireframe.route(for: wireframe.root) {
                 let view = View(route: root)
                 navigation.setViewControllers([view], animated: true)
                 view.didMove(toParent: navigation)
             }
-
-
-            debugPrint(wireframe)
             
         } catch let error {
             debugPrint(error.localizedDescription)

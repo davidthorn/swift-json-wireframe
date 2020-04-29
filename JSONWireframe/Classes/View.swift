@@ -10,7 +10,7 @@ import UIKit
 
 public class View: UIViewController {
 
-    private let route: Route!
+    public let route: Route!
 
     private let stackView = UIStackView()
 
@@ -78,6 +78,24 @@ public class View: UIViewController {
             let view = View(route: targetRoute)
             navigationController?.pushViewController(view, animated: true)
         }
+    }
+
+    func setRightBarButtons() {
+        guard let navigation = route.navigation,
+            let buttons = navigation.buttons?.filter({ $0.type == .right }) else { return }
+
+        var rightButtons = navigationItem.rightBarButtonItems ?? []
+
+       buttons.enumerated().forEach { info in
+            let barButton = UIBarButtonItem(title: info.element.name,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(barButtonTapped))
+            barButton.tag = info.offset
+            rightButtons.append(barButton)
+        }
+
+        navigationItem.setRightBarButtonItems(rightButtons, animated: true)
     }
 
     deinit {

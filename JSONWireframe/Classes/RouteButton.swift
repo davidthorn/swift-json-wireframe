@@ -31,7 +31,7 @@ class RouteButton: UIControl {
     }
 
     @objc func buttonTapped() {
-        let view = View(route: route)
+        let view = Wireframe.plugins.first { $0.init().name == route.name }?.init().controller(route: route) ?? View(route: route)
         controller.navigationController?.pushViewController(view, animated: true)
     }
 
