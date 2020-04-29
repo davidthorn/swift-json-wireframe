@@ -1,0 +1,53 @@
+{
+    "app_name" : "tester",
+    "root": "home",
+    "routes": [
+        {
+            "name": "home",
+            "title" : "Home",
+            "subroutes": [
+                "profile",
+                "logout"
+            ]
+        },
+        {
+            "name": "profile",
+            "title": "Profile",
+            "subroutes": [
+                "address",
+                "password_reset",
+                "change-email"
+            ],
+            "navigation": {
+                "buttons": [
+                    {
+                        "type": "right",
+                        "name": "logout",
+                        "target": "logout"
+                    },
+                    {
+                        "type": "left",
+                        "name": "change-email",
+                        "target": "change-email"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "address",
+            "title": "Address"
+        },
+        {
+            "name": "password_reset",
+            "title": "Password Reset"
+        },
+        {
+            "name": "change-email",
+            "title": "Change Mail"
+        },
+        {
+            "name": "logout",
+            "title": "Logout"
+        }
+    ]
+}
