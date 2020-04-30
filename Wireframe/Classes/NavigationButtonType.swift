@@ -20,9 +20,3 @@ public enum NavigationButtonType: String, Codable {
     case right
 
 }
-
-extension NavigationButtonType: Hashable {
-
-    
-
-}

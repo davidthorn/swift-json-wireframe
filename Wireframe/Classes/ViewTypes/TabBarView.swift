@@ -8,7 +8,9 @@
 
 import UIKit
 
-public final class TabBarView: UITabBarController {
+// MARK: - Implementation -
+
+public final class TabBarView: UITabBarController, NavigationManager {
 
     // MARK: - Public Properties -
 
@@ -27,65 +29,19 @@ public final class TabBarView: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - ViewController Lifecycle -
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = []
         title = route.title
         view.backgroundColor = .white
-
-        if let navigation = route.navigation {
-            var leftButtons = navigationItem.leftBarButtonItems ?? []
-            var rightButtons = navigationItem.rightBarButtonItems ?? []
-
-            navigation.buttons?.enumerated().forEach { info in
-                let barButton = UIBarButtonItem(title: info.element.name,
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(barButtonTapped))
-                barButton.tag = info.offset
-                switch info.element.buttonType {
-                case .left:
-                    navigationItem.leftItemsSupplementBackButton = true
-                    leftButtons.append(barButton)
-                case .right:
-                    rightButtons.append(barButton)
-                }
-            }
-
-            navigationItem.setRightBarButtonItems(rightButtons, animated: true)
-            navigationItem.setLeftBarButtonItems(leftButtons, animated: true)
-        }
-
-        let subItems = route.tabItems?
-            .compactMap({ route.wireframe?.route(for: $0) })
-
-        var tabController = [UIViewController]()
-
-        subItems?.enumerated().forEach { item in
-            let subItemRoute = item.element
-            let commonView: UIViewController
-            switch subItemRoute.type {
-            case .navigation:
-                let navigation = UINavigationController()
-                let view = View(route: subItemRoute)
-                navigation.setViewControllers([view], animated: true)
-                view.didMove(toParent: navigation)
-                navigation.tabBarItem = view.tabBarItem
-                commonView = navigation
-            case .view:
-                let view = View(route: subItemRoute)
-                commonView = view
-            case .tabbar:
-                fatalError("A tab bar cannot sit within a tab bar!")
-            }
-
-            commonView.tabBarItem = .init(title: subItemRoute.name, image: nil, tag: item.offset)
-            tabController.append(commonView)
-        }
-
-        viewControllers = tabController
+        configureNavigationBarItem(selector: #selector(barButtonTapped))
+        viewControllers = tabBarControllers()
 
     }
+
+    // MARK: - Selectors -
 
     @objc func barButtonTapped(button: UIBarButtonItem) {
 
@@ -95,63 +51,16 @@ public final class TabBarView: UITabBarController {
 
         if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
             let view = View(route: targetRoute)
-            navigationController?.pushViewController(view, animated: true)
+            show(controller: view, route: targetRoute)
         }
     }
 
-    public func setRightBarButtons() {
-        let buttons = route.navigationBar.rightBarButtonItems
-
-        var rightButtons = navigationItem.rightBarButtonItems ?? []
-
-        buttons.enumerated().forEach { info in
-            let barButton: UIBarButtonItem
-            if let icon = info.element.icon {
-                let image = UIImage(named: icon.imageName, in: .main, compatibleWith: nil)
-                barButton = .init(image: image, style: .plain, target: self, action: #selector(barButtonTapped))
-            } else {
-                barButton = UIBarButtonItem(title: info.element.name,
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(barButtonTapped))
-            }
-            barButton.tag = info.offset
-            rightButtons.append(barButton)
-        }
-
-        navigationItem.setRightBarButtonItems(rightButtons, animated: true)
-    }
-
-    public func setLeftBarButtons() {
-        let buttons = route.navigationBar.leftBarButtonItems
-
-        var leftButtons = navigationItem.leftBarButtonItems ?? []
-        navigationItem.leftItemsSupplementBackButton = true
-
-        buttons.enumerated().forEach { info in
-            let barButton: UIBarButtonItem
-            if let icon = info.element.icon {
-                let image = UIImage(named: icon.imageName, in: .main, compatibleWith: nil)
-                barButton = .init(image: image, style: .plain, target: self, action: #selector(barButtonTapped))
-            } else {
-                barButton = UIBarButtonItem(title: info.element.name,
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(barButtonTapped))
-            }
-
-            barButton.tag = info.offset
-            leftButtons.append(barButton)
-        }
-
-        navigationItem.setLeftBarButtonItems(leftButtons, animated: true)
-    }
+    // MARK: - Deinitialisation -
 
     deinit {
         debugPrint("\(String(describing: Self.self)) \(route.title) deinit")
     }
 }
-
 
 // MARK: - Extension - RouteButtonDelegate -
 
@@ -162,19 +71,55 @@ extension TabBarView: RouteButtonDelegate {
         let commonView: UIViewController
         switch route.type {
         case .view:
-            commonView = View(route: route)
+            commonView = route.controller(with: route.name) ?? View(route: route)
         case .tabbar:
-            commonView = TabBarView(route: route)
+            commonView = route.controller(with: route.name) ?? TabBarView(route: route)
         case .navigation:
-            let navigation = UINavigationController()
-            let view = View(route: route)
-            navigation.setViewControllers([view], animated: true)
-            view.didMove(toParent: navigation)
-            commonView = navigation
+            commonView = navigationController(containing: route)
         }
 
-        let view = route.controller(with: route.name) ?? commonView
-        navigationController?.pushViewController(view, animated: true)
+        show(controller: route.controller(with: route.name) ?? commonView, route: route)
+
+    }
+
+    func tabBarControllers() -> [UIViewController] {
+        let subItems = route.tabItems?
+            .compactMap({ route.wireframe?.route(for: $0) })
+
+        var tabController = [UIViewController]()
+
+        subItems?.enumerated().forEach { item in
+            let subItemRoute = item.element
+            let commonView: UIViewController
+            switch subItemRoute.type {
+            case .navigation:
+                commonView = navigationController(containing: subItemRoute)
+            case .view:
+                commonView = route.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
+            case .tabbar:
+                fatalError("A tab bar cannot sit within a tab bar!")
+            }
+
+            commonView.tabBarItem = .init(title: subItemRoute.name, image: nil, tag: item.offset)
+            tabController.append(commonView)
+        }
+
+        return tabController
+    }
+
+    func navigationController(containing subItemRoute: Route) -> UIViewController {
+        let navigation = UINavigationController()
+        let view = route.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
+        navigation.setViewControllers([view], animated: true)
+        view.didMove(toParent: navigation)
+        return navigation
+    }
+
+    func show(controller: UIViewController, route: Route) {
+        navigationController?.pushViewController(
+            controller,
+            animated: true
+        )
     }
 
 }

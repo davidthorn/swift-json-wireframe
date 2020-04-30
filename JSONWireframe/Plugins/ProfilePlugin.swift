@@ -43,6 +43,10 @@ extension ProfilePlugin {
 
     public func controller(route: Route) -> UIViewController {
 
+        if route.name != name {
+            assertionFailure("Why is this being called with another route")
+        }
+
         if let stacked = stackedController {
             return stacked
         }
@@ -63,10 +67,8 @@ class ProfileViewController: View {
     var counter: Int = 0
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         title = self.route.name
-        setRightBarButtons()
-        setLeftBarButtons()
-        
     }
 
     override func viewDidAppear(_ animated: Bool) {

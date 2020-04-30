@@ -61,8 +61,8 @@ extension MockPlugin {
 class MockViewCntroller: View {
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         title = self.route.name
-        setRightBarButtons()
     }
 
     override func viewDidAppear(_ animated: Bool) {

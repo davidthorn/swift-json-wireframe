@@ -86,7 +86,17 @@ extension Route: WireframeDatasource {
 
 
     public func controller(with name: RouteName) -> UIViewController? {
-        return plugin(with: name)?.controller(route: self)
+
+        guard let route = wireframe?.route(for: name) else {
+            assertionFailure("Why is a route name being used here that does not exist?")
+            return nil
+        }
+
+        if let plugin = plugin(with: name){
+            return plugin.controller(route: route)
+        }
+
+        return View(route: route)
     }
 
 }

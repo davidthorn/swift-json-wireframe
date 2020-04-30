@@ -51,7 +51,8 @@
         {
             "type": "navigation",
             "name": "logout",
-            "title": "Logout"
+            "title": "Logout",
+            "navigation": "profile"
         }
     ],
     "navigations": [

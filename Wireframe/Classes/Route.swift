@@ -24,7 +24,7 @@ public class Route: Codable {
     public let name: String
     public let title: String
     public var navigation: Navigation?
-    public var navigaionName: String?
+    public var navigationName: String?
 
     enum CodingKeys: CodingKey, CaseIterable {
         case type
@@ -58,9 +58,9 @@ public class Route: Codable {
         title = try container.debugDecode(String.self, forKey: .title, parent: Self.self)
         subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)
         do {
-            navigation = try container.debugDecode(Navigation.self, forKey: .navigation, parent: Self.self)
+            navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
         } catch {
-            navigaionName = try container.debugDecodeIfPresent(String.self, forKey: .navigation, parent: Self.self)
+            navigationName = try container.debugDecodeIfPresent(String.self, forKey: .navigation, parent: Self.self)
         }
 
 
@@ -89,14 +89,7 @@ extension KeyedDecodingContainer where K == Route.CodingKeys {
     }
 
     func debugDecodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T? {
-        do {
-            return try decodeIfPresent(T.self, forKey: key)
-        } catch let error {
-            debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
-            debugPrint(K.allCases)
-            throw error
-        }
-
+        try decodeIfPresent(T.self, forKey: key)
     }
 
 }
@@ -110,7 +103,7 @@ public extension Route {
     }
 
     private func setNavigation() {
-        guard navigation.isNil, let navName = navigaionName else { return }
+        guard navigation.isNil, let navName = navigationName else { return }
 
         navigation = wireframe?.navigation(for: navName)
         

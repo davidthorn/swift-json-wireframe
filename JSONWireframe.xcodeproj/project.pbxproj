@@ -50,6 +50,8 @@
 		9394E338245ACDF7007F2325 /* navigation-right-buttons.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E337245ACDF7007F2325 /* navigation-right-buttons.json */; };
 		9394E33A245ADBD5007F2325 /* navigation-key.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E339245ADBD5007F2325 /* navigation-key.json */; };
 		9394E33D245AE29A007F2325 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E33C245AE29A007F2325 /* TabBarView.swift */; };
+		9394E33F245AED9A007F2325 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E33E245AED9A007F2325 /* NavigationManager.swift */; };
+		9394E341245B01FB007F2325 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E340245B01FB007F2325 /* Icon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +148,8 @@
 		9394E337245ACDF7007F2325 /* navigation-right-buttons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-right-buttons.json"; sourceTree = "<group>"; };
 		9394E339245ADBD5007F2325 /* navigation-key.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-key.json"; sourceTree = "<group>"; };
 		9394E33C245AE29A007F2325 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		9394E33E245AED9A007F2325 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
+		9394E340245B01FB007F2325 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +239,7 @@
 				9394E2D2245A14C3007F2325 /* UIEdgeInsets.swift */,
 				9394E2D0245A1151007F2325 /* Optional.swift */,
 				9394E261245A103C007F2325 /* Constraint.swift */,
+				9394E33E245AED9A007F2325 /* NavigationManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 				9394E2E7245AB188007F2325 /* PluginManager.swift */,
 				9394E2E9245AB1A7007F2325 /* RoutableView.swift */,
 				9394E2EB245AB4B5007F2325 /* WireframeDatasource.swift */,
+				9394E340245B01FB007F2325 /* Icon.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -533,6 +539,8 @@
 				9394E315245AB585007F2325 /* WireframeData.swift in Sources */,
 				9394E310245AB585007F2325 /* Wireframe.swift in Sources */,
 				9394E311245AB585007F2325 /* NavigationButtonType.swift in Sources */,
+				9394E33F245AED9A007F2325 /* NavigationManager.swift in Sources */,
+				9394E341245B01FB007F2325 /* Icon.swift in Sources */,
 				9394E312245AB585007F2325 /* NavigationButton.swift in Sources */,
 				9394E314245AB585007F2325 /* Route.swift in Sources */,
 				9394E313245AB585007F2325 /* Navigation.swift in Sources */,

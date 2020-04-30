@@ -6,11 +6,8 @@
 //  Copyright © 2020 David Thorn. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-public class Icon: Codable {
-    let imageName: String
-}
 
 // MARK: - Implementation -
 

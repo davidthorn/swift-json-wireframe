@@ -59,7 +59,6 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
 
        }
 
-
 }
 
 // MARK: - Extension - WireframeData -
@@ -75,11 +74,9 @@ public extension WireframeData {
 
     /// Sets all routes wireframe property to that of this wireframe data.
     func setRoutes() {
-
         routes.forEach { route in
             route.wireframe = self
         }
-
     }
 
     func navigation(for name: String) -> Navigation? {
