@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Wireframe
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -27,9 +28,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         let nav = UINavigationController()
 
-        wireframe = Wireframe(navigation: nav)
-        wireframe.load()
+        guard let url = Bundle.main.url(forResource: "wireframe", withExtension: "json") else{
+            assertionFailure("could not load wireframe file")
+            return
+        }
 
+        wireframe = Wireframe(navigation: nav, resourceUrl: url)
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }

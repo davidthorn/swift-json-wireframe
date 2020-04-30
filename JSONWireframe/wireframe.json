@@ -29,7 +29,7 @@
             "navigation": {
                 "buttons": [
                     {
-                        "type": "right",
+                    
                         "name": "logout",
                         "target": "logout"
                     },

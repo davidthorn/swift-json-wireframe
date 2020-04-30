@@ -1,0 +1,10 @@
+{
+    "app_name" : "tester",
+    "root": "home",
+    "routes": [
+        {
+            "name" : "home",
+            "title" : "Home"
+        }
+    ]
+}

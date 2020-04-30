@@ -15,19 +15,38 @@
 		9394E247245A0860007F2325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9394E245245A0860007F2325 /* LaunchScreen.storyboard */; };
 		9394E252245A0860007F2325 /* JSONWireframeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E251245A0860007F2325 /* JSONWireframeTests.swift */; };
 		9394E25E245A087A007F2325 /* wireframe.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E25D245A087A007F2325 /* wireframe.json */; };
-		9394E260245A08E9007F2325 /* Wireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E25F245A08E9007F2325 /* Wireframe.swift */; };
-		9394E262245A103D007F2325 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E261245A103C007F2325 /* Constraint.swift */; };
-		9394E2D1245A1151007F2325 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D0245A1151007F2325 /* Optional.swift */; };
-		9394E2D3245A14C3007F2325 /* UIEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D2245A14C3007F2325 /* UIEdgeInsets.swift */; };
-		9394E2D6245A21A3007F2325 /* NavigationButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D5245A21A3007F2325 /* NavigationButtonType.swift */; };
-		9394E2D8245A21B8007F2325 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D7245A21B8007F2325 /* NavigationButton.swift */; };
-		9394E2DA245A21CE007F2325 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D9245A21CE007F2325 /* Navigation.swift */; };
-		9394E2DC245A21E1007F2325 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DB245A21E1007F2325 /* Route.swift */; };
-		9394E2DE245A21F4007F2325 /* WireframeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DD245A21F4007F2325 /* WireframeData.swift */; };
-		9394E2E0245A221C007F2325 /* RouteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DF245A221C007F2325 /* RouteButton.swift */; };
-		9394E2E2245A223B007F2325 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E1245A223B007F2325 /* View.swift */; };
-		9394E2E4245A2C20007F2325 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E3245A2C20007F2325 /* Plugin.swift */; };
 		9394E2E6245A2DF2007F2325 /* ProfilePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E5245A2DF2007F2325 /* ProfilePlugin.swift */; };
+		9394E2FC245AB551007F2325 /* Wireframe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9394E2F3245AB551007F2325 /* Wireframe.framework */; };
+		9394E303245AB551007F2325 /* WireframeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E302245AB551007F2325 /* WireframeTests.swift */; };
+		9394E305245AB551007F2325 /* Wireframe.h in Headers */ = {isa = PBXBuildFile; fileRef = 9394E2F5245AB551007F2325 /* Wireframe.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9394E308245AB551007F2325 /* Wireframe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9394E2F3245AB551007F2325 /* Wireframe.framework */; };
+		9394E309245AB551007F2325 /* Wireframe.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9394E2F3245AB551007F2325 /* Wireframe.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9394E310245AB585007F2325 /* Wireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E25F245A08E9007F2325 /* Wireframe.swift */; };
+		9394E311245AB585007F2325 /* NavigationButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D5245A21A3007F2325 /* NavigationButtonType.swift */; };
+		9394E312245AB585007F2325 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D7245A21B8007F2325 /* NavigationButton.swift */; };
+		9394E313245AB585007F2325 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D9245A21CE007F2325 /* Navigation.swift */; };
+		9394E314245AB585007F2325 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DB245A21E1007F2325 /* Route.swift */; };
+		9394E315245AB585007F2325 /* WireframeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DD245A21F4007F2325 /* WireframeData.swift */; };
+		9394E316245AB585007F2325 /* RouteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2DF245A221C007F2325 /* RouteButton.swift */; };
+		9394E317245AB585007F2325 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E1245A223B007F2325 /* View.swift */; };
+		9394E318245AB585007F2325 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E3245A2C20007F2325 /* Plugin.swift */; };
+		9394E319245AB585007F2325 /* PluginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E7245AB188007F2325 /* PluginManager.swift */; };
+		9394E31A245AB585007F2325 /* RoutableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2E9245AB1A7007F2325 /* RoutableView.swift */; };
+		9394E31B245AB585007F2325 /* WireframeDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2EB245AB4B5007F2325 /* WireframeDatasource.swift */; };
+		9394E31C245AB58B007F2325 /* UIEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D2245A14C3007F2325 /* UIEdgeInsets.swift */; };
+		9394E31D245AB58B007F2325 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E2D0245A1151007F2325 /* Optional.swift */; };
+		9394E31E245AB58B007F2325 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E261245A103C007F2325 /* Constraint.swift */; };
+		9394E320245AB6D9007F2325 /* NavigationButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E31F245AB6D9007F2325 /* NavigationButtonTests.swift */; };
+		9394E322245AB722007F2325 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E321245AB722007F2325 /* NavigationTests.swift */; };
+		9394E324245AB72C007F2325 /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E323245AB72C007F2325 /* RouteTests.swift */; };
+		9394E326245AB73A007F2325 /* WireframeDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E325245AB73A007F2325 /* WireframeDataTests.swift */; };
+		9394E328245AB746007F2325 /* RouteButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E327245AB746007F2325 /* RouteButtonTests.swift */; };
+		9394E32A245AB753007F2325 /* ViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E329245AB753007F2325 /* ViewTests.swift */; };
+		9394E32D245AB77D007F2325 /* MockRouteButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E32C245AB77D007F2325 /* MockRouteButtonDelegate.swift */; };
+		9394E32F245AB7C4007F2325 /* MockPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E32E245AB7C4007F2325 /* MockPlugin.swift */; };
+		9394E331245AB875007F2325 /* MockWireframeDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E330245AB875007F2325 /* MockWireframeDatasource.swift */; };
+		9394E334245AB926007F2325 /* root.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E333245AB926007F2325 /* root.json */; };
+		9394E336245AC985007F2325 /* subroutes.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E335245AC985007F2325 /* subroutes.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +57,27 @@
 			remoteGlobalIDString = 9394E236245A085F007F2325;
 			remoteInfo = JSONWireframe;
 		};
+		9394E2FD245AB551007F2325 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9394E22F245A085F007F2325 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9394E2F2245AB551007F2325;
+			remoteInfo = Wireframe;
+		};
+		9394E2FF245AB551007F2325 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9394E22F245A085F007F2325 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9394E236245A085F007F2325;
+			remoteInfo = JSONWireframe;
+		};
+		9394E306245AB551007F2325 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9394E22F245A085F007F2325 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9394E2F2245AB551007F2325;
+			remoteInfo = Wireframe;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,6 +87,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9394E309245AB551007F2325 /* Wireframe.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +120,26 @@
 		9394E2E1245A223B007F2325 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		9394E2E3245A2C20007F2325 /* Plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
 		9394E2E5245A2DF2007F2325 /* ProfilePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePlugin.swift; sourceTree = "<group>"; };
+		9394E2E7245AB188007F2325 /* PluginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginManager.swift; sourceTree = "<group>"; };
+		9394E2E9245AB1A7007F2325 /* RoutableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutableView.swift; sourceTree = "<group>"; };
+		9394E2EB245AB4B5007F2325 /* WireframeDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireframeDatasource.swift; sourceTree = "<group>"; };
+		9394E2F3245AB551007F2325 /* Wireframe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Wireframe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9394E2F5245AB551007F2325 /* Wireframe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wireframe.h; sourceTree = "<group>"; };
+		9394E2F6245AB551007F2325 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9394E2FB245AB551007F2325 /* WireframeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WireframeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9394E302245AB551007F2325 /* WireframeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireframeTests.swift; sourceTree = "<group>"; };
+		9394E304245AB551007F2325 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9394E31F245AB6D9007F2325 /* NavigationButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButtonTests.swift; sourceTree = "<group>"; };
+		9394E321245AB722007F2325 /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
+		9394E323245AB72C007F2325 /* RouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTests.swift; sourceTree = "<group>"; };
+		9394E325245AB73A007F2325 /* WireframeDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireframeDataTests.swift; sourceTree = "<group>"; };
+		9394E327245AB746007F2325 /* RouteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteButtonTests.swift; sourceTree = "<group>"; };
+		9394E329245AB753007F2325 /* ViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTests.swift; sourceTree = "<group>"; };
+		9394E32C245AB77D007F2325 /* MockRouteButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRouteButtonDelegate.swift; sourceTree = "<group>"; };
+		9394E32E245AB7C4007F2325 /* MockPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPlugin.swift; sourceTree = "<group>"; };
+		9394E330245AB875007F2325 /* MockWireframeDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWireframeDatasource.swift; sourceTree = "<group>"; };
+		9394E333245AB926007F2325 /* root.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = root.json; sourceTree = "<group>"; };
+		9394E335245AC985007F2325 /* subroutes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = subroutes.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9394E308245AB551007F2325 /* Wireframe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +155,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9394E2F0245AB551007F2325 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9394E2F8245AB551007F2325 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9394E2FC245AB551007F2325 /* Wireframe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +181,8 @@
 			children = (
 				9394E239245A085F007F2325 /* JSONWireframe */,
 				9394E250245A0860007F2325 /* JSONWireframeTests */,
+				9394E2F4245AB551007F2325 /* Wireframe */,
+				9394E301245AB551007F2325 /* WireframeTests */,
 				9394E238245A085F007F2325 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,6 +192,8 @@
 			children = (
 				9394E237245A085F007F2325 /* JSONWireframe.app */,
 				9394E24D245A0860007F2325 /* JSONWireframeTests.xctest */,
+				9394E2F3245AB551007F2325 /* Wireframe.framework */,
+				9394E2FB245AB551007F2325 /* WireframeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,16 +201,15 @@
 		9394E239245A085F007F2325 /* JSONWireframe */ = {
 			isa = PBXGroup;
 			children = (
-				9394E2D4245A2193007F2325 /* Classes */,
-				9394E25C245A0869007F2325 /* Resource */,
+				9394E2ED245AB539007F2325 /* Plugins */,
 				9394E23A245A085F007F2325 /* AppDelegate.swift */,
 				9394E23C245A085F007F2325 /* SceneDelegate.swift */,
+				9394E25D245A087A007F2325 /* wireframe.json */,
 				9394E23E245A085F007F2325 /* ViewController.swift */,
 				9394E240245A085F007F2325 /* Main.storyboard */,
 				9394E243245A0860007F2325 /* Assets.xcassets */,
 				9394E245245A0860007F2325 /* LaunchScreen.storyboard */,
 				9394E248245A0860007F2325 /* Info.plist */,
-				9394E2E5245A2DF2007F2325 /* ProfilePlugin.swift */,
 			);
 			path = JSONWireframe;
 			sourceTree = "<group>";
@@ -143,15 +223,14 @@
 			path = JSONWireframeTests;
 			sourceTree = "<group>";
 		};
-		9394E25C245A0869007F2325 /* Resource */ = {
+		9394E25C245A0869007F2325 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				9394E2D2245A14C3007F2325 /* UIEdgeInsets.swift */,
 				9394E2D0245A1151007F2325 /* Optional.swift */,
 				9394E261245A103C007F2325 /* Constraint.swift */,
-				9394E25D245A087A007F2325 /* wireframe.json */,
 			);
-			path = Resource;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		9394E2D4245A2193007F2325 /* Classes */ = {
@@ -166,11 +245,80 @@
 				9394E2DF245A221C007F2325 /* RouteButton.swift */,
 				9394E2E1245A223B007F2325 /* View.swift */,
 				9394E2E3245A2C20007F2325 /* Plugin.swift */,
+				9394E2E7245AB188007F2325 /* PluginManager.swift */,
+				9394E2E9245AB1A7007F2325 /* RoutableView.swift */,
+				9394E2EB245AB4B5007F2325 /* WireframeDatasource.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		9394E2ED245AB539007F2325 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				9394E2E5245A2DF2007F2325 /* ProfilePlugin.swift */,
+			);
+			path = Plugins;
+			sourceTree = "<group>";
+		};
+		9394E2F4245AB551007F2325 /* Wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				9394E2D4245A2193007F2325 /* Classes */,
+				9394E25C245A0869007F2325 /* Resources */,
+				9394E2F5245AB551007F2325 /* Wireframe.h */,
+				9394E2F6245AB551007F2325 /* Info.plist */,
+			);
+			path = Wireframe;
+			sourceTree = "<group>";
+		};
+		9394E301245AB551007F2325 /* WireframeTests */ = {
+			isa = PBXGroup;
+			children = (
+				9394E332245AB911007F2325 /* Resources */,
+				9394E32B245AB764007F2325 /* Mocks */,
+				9394E302245AB551007F2325 /* WireframeTests.swift */,
+				9394E304245AB551007F2325 /* Info.plist */,
+				9394E31F245AB6D9007F2325 /* NavigationButtonTests.swift */,
+				9394E321245AB722007F2325 /* NavigationTests.swift */,
+				9394E323245AB72C007F2325 /* RouteTests.swift */,
+				9394E325245AB73A007F2325 /* WireframeDataTests.swift */,
+				9394E327245AB746007F2325 /* RouteButtonTests.swift */,
+				9394E329245AB753007F2325 /* ViewTests.swift */,
+			);
+			path = WireframeTests;
+			sourceTree = "<group>";
+		};
+		9394E32B245AB764007F2325 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				9394E32C245AB77D007F2325 /* MockRouteButtonDelegate.swift */,
+				9394E32E245AB7C4007F2325 /* MockPlugin.swift */,
+				9394E330245AB875007F2325 /* MockWireframeDatasource.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		9394E332245AB911007F2325 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9394E333245AB926007F2325 /* root.json */,
+				9394E335245AC985007F2325 /* subroutes.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9394E2EE245AB551007F2325 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9394E305245AB551007F2325 /* Wireframe.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		9394E236245A085F007F2325 /* JSONWireframe */ = {
@@ -185,6 +333,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9394E307245AB551007F2325 /* PBXTargetDependency */,
 			);
 			name = JSONWireframe;
 			productName = JSONWireframe;
@@ -209,6 +358,43 @@
 			productReference = 9394E24D245A0860007F2325 /* JSONWireframeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		9394E2F2245AB551007F2325 /* Wireframe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9394E30A245AB551007F2325 /* Build configuration list for PBXNativeTarget "Wireframe" */;
+			buildPhases = (
+				9394E2EE245AB551007F2325 /* Headers */,
+				9394E2EF245AB551007F2325 /* Sources */,
+				9394E2F0245AB551007F2325 /* Frameworks */,
+				9394E2F1245AB551007F2325 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Wireframe;
+			productName = Wireframe;
+			productReference = 9394E2F3245AB551007F2325 /* Wireframe.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9394E2FA245AB551007F2325 /* WireframeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9394E30D245AB551007F2325 /* Build configuration list for PBXNativeTarget "WireframeTests" */;
+			buildPhases = (
+				9394E2F7245AB551007F2325 /* Sources */,
+				9394E2F8245AB551007F2325 /* Frameworks */,
+				9394E2F9245AB551007F2325 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9394E2FE245AB551007F2325 /* PBXTargetDependency */,
+				9394E300245AB551007F2325 /* PBXTargetDependency */,
+			);
+			name = WireframeTests;
+			productName = WireframeTests;
+			productReference = 9394E2FB245AB551007F2325 /* WireframeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -223,6 +409,13 @@
 						CreatedOnToolsVersion = 11.4.1;
 					};
 					9394E24C245A0860007F2325 = {
+						CreatedOnToolsVersion = 11.4.1;
+						TestTargetID = 9394E236245A085F007F2325;
+					};
+					9394E2F2245AB551007F2325 = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+					9394E2FA245AB551007F2325 = {
 						CreatedOnToolsVersion = 11.4.1;
 						TestTargetID = 9394E236245A085F007F2325;
 					};
@@ -243,6 +436,8 @@
 			targets = (
 				9394E236245A085F007F2325 /* JSONWireframe */,
 				9394E24C245A0860007F2325 /* JSONWireframeTests */,
+				9394E2F2245AB551007F2325 /* Wireframe */,
+				9394E2FA245AB551007F2325 /* WireframeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -266,6 +461,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9394E2F1245AB551007F2325 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9394E2F9245AB551007F2325 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9394E336245AC985007F2325 /* subroutes.json in Resources */,
+				9394E334245AB926007F2325 /* root.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -273,22 +484,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9394E260245A08E9007F2325 /* Wireframe.swift in Sources */,
-				9394E2D3245A14C3007F2325 /* UIEdgeInsets.swift in Sources */,
-				9394E2DC245A21E1007F2325 /* Route.swift in Sources */,
-				9394E2E4245A2C20007F2325 /* Plugin.swift in Sources */,
-				9394E2D8245A21B8007F2325 /* NavigationButton.swift in Sources */,
 				9394E23F245A085F007F2325 /* ViewController.swift in Sources */,
-				9394E2E0245A221C007F2325 /* RouteButton.swift in Sources */,
-				9394E2D6245A21A3007F2325 /* NavigationButtonType.swift in Sources */,
-				9394E2DE245A21F4007F2325 /* WireframeData.swift in Sources */,
 				9394E23B245A085F007F2325 /* AppDelegate.swift in Sources */,
-				9394E262245A103D007F2325 /* Constraint.swift in Sources */,
-				9394E2DA245A21CE007F2325 /* Navigation.swift in Sources */,
 				9394E23D245A085F007F2325 /* SceneDelegate.swift in Sources */,
-				9394E2E2245A223B007F2325 /* View.swift in Sources */,
 				9394E2E6245A2DF2007F2325 /* ProfilePlugin.swift in Sources */,
-				9394E2D1245A1151007F2325 /* Optional.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +499,45 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9394E2EF245AB551007F2325 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9394E318245AB585007F2325 /* Plugin.swift in Sources */,
+				9394E31B245AB585007F2325 /* WireframeDatasource.swift in Sources */,
+				9394E31A245AB585007F2325 /* RoutableView.swift in Sources */,
+				9394E31E245AB58B007F2325 /* Constraint.swift in Sources */,
+				9394E31D245AB58B007F2325 /* Optional.swift in Sources */,
+				9394E31C245AB58B007F2325 /* UIEdgeInsets.swift in Sources */,
+				9394E317245AB585007F2325 /* View.swift in Sources */,
+				9394E315245AB585007F2325 /* WireframeData.swift in Sources */,
+				9394E310245AB585007F2325 /* Wireframe.swift in Sources */,
+				9394E311245AB585007F2325 /* NavigationButtonType.swift in Sources */,
+				9394E312245AB585007F2325 /* NavigationButton.swift in Sources */,
+				9394E314245AB585007F2325 /* Route.swift in Sources */,
+				9394E313245AB585007F2325 /* Navigation.swift in Sources */,
+				9394E319245AB585007F2325 /* PluginManager.swift in Sources */,
+				9394E316245AB585007F2325 /* RouteButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9394E2F7245AB551007F2325 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9394E32D245AB77D007F2325 /* MockRouteButtonDelegate.swift in Sources */,
+				9394E331245AB875007F2325 /* MockWireframeDatasource.swift in Sources */,
+				9394E303245AB551007F2325 /* WireframeTests.swift in Sources */,
+				9394E328245AB746007F2325 /* RouteButtonTests.swift in Sources */,
+				9394E324245AB72C007F2325 /* RouteTests.swift in Sources */,
+				9394E322245AB722007F2325 /* NavigationTests.swift in Sources */,
+				9394E326245AB73A007F2325 /* WireframeDataTests.swift in Sources */,
+				9394E320245AB6D9007F2325 /* NavigationButtonTests.swift in Sources */,
+				9394E32F245AB7C4007F2325 /* MockPlugin.swift in Sources */,
+				9394E32A245AB753007F2325 /* ViewTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -307,6 +545,21 @@
 			isa = PBXTargetDependency;
 			target = 9394E236245A085F007F2325 /* JSONWireframe */;
 			targetProxy = 9394E24E245A0860007F2325 /* PBXContainerItemProxy */;
+		};
+		9394E2FE245AB551007F2325 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9394E2F2245AB551007F2325 /* Wireframe */;
+			targetProxy = 9394E2FD245AB551007F2325 /* PBXContainerItemProxy */;
+		};
+		9394E300245AB551007F2325 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9394E236245A085F007F2325 /* JSONWireframe */;
+			targetProxy = 9394E2FF245AB551007F2325 /* PBXContainerItemProxy */;
+		};
+		9394E307245AB551007F2325 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9394E2F2245AB551007F2325 /* Wireframe */;
+			targetProxy = 9394E306245AB551007F2325 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -447,6 +700,7 @@
 		9394E257245A0860007F2325 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5L45HU7SA;
@@ -465,6 +719,7 @@
 		9394E258245A0860007F2325 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5L45HU7SA;
@@ -524,6 +779,100 @@
 			};
 			name = Release;
 		};
+		9394E30B245AB551007F2325 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = Z5L45HU7SA;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Wireframe/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thorn.james.david.Wireframe;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9394E30C245AB551007F2325 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = Z5L45HU7SA;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Wireframe/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thorn.james.david.Wireframe;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		9394E30E245AB551007F2325 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z5L45HU7SA;
+				INFOPLIST_FILE = WireframeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thorn.james.david.WireframeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JSONWireframe.app/JSONWireframe";
+			};
+			name = Debug;
+		};
+		9394E30F245AB551007F2325 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z5L45HU7SA;
+				INFOPLIST_FILE = WireframeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thorn.james.david.WireframeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JSONWireframe.app/JSONWireframe";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -550,6 +899,24 @@
 			buildConfigurations = (
 				9394E25A245A0860007F2325 /* Debug */,
 				9394E25B245A0860007F2325 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9394E30A245AB551007F2325 /* Build configuration list for PBXNativeTarget "Wireframe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9394E30B245AB551007F2325 /* Debug */,
+				9394E30C245AB551007F2325 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9394E30D245AB551007F2325 /* Build configuration list for PBXNativeTarget "WireframeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9394E30E245AB551007F2325 /* Debug */,
+				9394E30F245AB551007F2325 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

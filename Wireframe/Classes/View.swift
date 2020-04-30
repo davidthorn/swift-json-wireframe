@@ -8,22 +8,32 @@
 
 import UIKit
 
-public class View: UIViewController {
+// MARK: - Implementation -
+
+open class View: UIViewController {
+
+     // MARK: - Public Properties -
 
     public let route: Route!
 
+    // MARK: - Private UI Properties -
+
     private let stackView = UIStackView()
+
+    // MARK: - Constructors -
 
     public init(route: Route) {
         self.route = route
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    // MARK: - ViewController Lifecycle -
+
+    open override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = []
         title = route.title
@@ -37,10 +47,9 @@ public class View: UIViewController {
         stackView.pinHorizontal(insets: .init(value: 20))
         stackView.pinBottom(lessThanOrEqualTo: 10)
 
-        route.routes?.forEach { subroute in
-            let button = RouteButton(route: subroute, controller: self)
-            stackView.addArrangedSubview(button)
-            button.height(constant: 50)
+        route.buttons.forEach {
+            $0.delegate = self
+            stackView.addArrangedSubview($0)
         }
 
         if let navigation = route.navigation {
@@ -53,7 +62,7 @@ public class View: UIViewController {
                                                 target: self,
                                                 action: #selector(barButtonTapped))
                 barButton.tag = info.offset
-                switch info.element.type {
+                switch info.element.buttonType {
                 case .left:
                     navigationItem.leftItemsSupplementBackButton = true
                     leftButtons.append(barButton)
@@ -80,13 +89,12 @@ public class View: UIViewController {
         }
     }
 
-    func setRightBarButtons() {
-        guard let navigation = route.navigation,
-            let buttons = navigation.buttons?.filter({ $0.type == .right }) else { return }
+    public func setRightBarButtons() {
+        let buttons = route.navigationBar.rightBarButtonItems
 
         var rightButtons = navigationItem.rightBarButtonItems ?? []
 
-       buttons.enumerated().forEach { info in
+        buttons.enumerated().forEach { info in
             let barButton = UIBarButtonItem(title: info.element.name,
                                             style: .plain,
                                             target: self,
@@ -103,3 +111,17 @@ public class View: UIViewController {
     }
 }
 
+
+// MARK: - Extension - RouteButtonDelegate -
+
+extension View: RouteButtonDelegate {
+
+    public func buttonTapped(tag: Int) {
+        guard let route = route.routes?[tag] else { return }
+
+        let commonView = View(route: route)
+        let view = route.controller(with: route.name) ?? commonView
+        navigationController?.pushViewController(view, animated: true)
+    }
+
+}
