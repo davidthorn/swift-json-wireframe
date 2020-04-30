@@ -47,8 +47,10 @@ public final class Wireframe {
                 switch root.type {
                 case .tabbar:
                     rootViewController = TabBarView(route: root)
-                case .view, .navigation:
-                    let view = View(route: root)
+                case .view:
+                    rootViewController =  View(route: root)
+                case .navigation:
+                    let view =  View(route: root)
                     navigation.setViewControllers([view], animated: true)
                     view.didMove(toParent: navigation)
                     rootViewController = navigation
@@ -96,7 +98,20 @@ extension Route: WireframeDatasource {
             return plugin.controller(route: route)
         }
 
-        return View(route: route)
+        switch route.type {
+        case .navigation:
+            let nav = UINavigationController()
+            let view = View(route: route)
+            nav.setViewControllers([view], animated: true)
+            view.didMove(toParent: nav)
+            return nav
+        case .tabbar:
+            return TabBarView(route: route)
+        case .view:
+            return View(route: route)
+        }
+
+
     }
 
 }

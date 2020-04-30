@@ -3,75 +3,46 @@
     "root": "home",
     "routes": [
         {
-            "type": "tabbar",
-            "name": "home",
+            "name" : "home",
             "title" : "Home",
-            "tabItems": [
-                "profile",
-                "logout",
-                "categories"
-            ]
-        },
-        {
-            "name": "categories",
-            "title": "Categories",
+            "type" : "view",
             "subroutes": [
-                "logout"
+                "register",
+                "login",
+                "impressum",
+                "profile"
             ]
         },
         {
-            "type": "navigation",
+            "name" : "register",
+            "title": "Registration"
+        },
+        {
+            "name": "login",
+            "title": "Login"
+        },
+        {
             "name": "profile",
-            "title": "Profile",
-            "subroutes": [
-                "password_reset",
-                "change-email"
-            ],
-            "navigation": "profile"
-        },
-        {
-            "type": "tabbar",
-            "tabItems": [
-                "profile",
-                "change-email"
-            ],
-            "name": "address",
-            "title": "Address",
-            "navigation": "profile"
-        },
-        {
-            "name": "password_reset",
-            "title": "Password Reset"
-        },
-        {
-            "name": "change-email",
-            "title": "Change Mail",
-            "subroutes": [ "categories" ]
+            "title": "a title that wont be shown"
         },
         {
             "type": "navigation",
-            "name": "logout",
-            "title": "Logout",
-            "navigation": "profile"
-        }
-    ],
-    "navigations": [
-        {
-            "name" : "profile",
-            "buttons": [
-                {
-                    "name": "logout",
-                    "target": "logout"
-                },
-                {
-                    "type": "left",
-                    "name": "change-email",
-                    "target": "change-email",
-                    "icon": {
-                        "imageName": "profile_icon"
+            "presentationType" : "present",
+            "name": "impressum",
+            "title": "Legal Information",
+            "navigation": {
+                "buttons": [
+                    {
+                        "type" : "left",
+                        "target": "dismiss",
+                        "name" : "dismiss",
+                        "icon": {
+                            "imageName": "profile_icon"
+                        }
                     }
-                }
-            ]
+                ]
+            }
         }
     ]
+
 }

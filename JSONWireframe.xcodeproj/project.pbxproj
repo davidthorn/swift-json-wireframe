@@ -52,6 +52,8 @@
 		9394E33D245AE29A007F2325 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E33C245AE29A007F2325 /* TabBarView.swift */; };
 		9394E33F245AED9A007F2325 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E33E245AED9A007F2325 /* NavigationManager.swift */; };
 		9394E341245B01FB007F2325 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E340245B01FB007F2325 /* Icon.swift */; };
+		9394E344245B11B4007F2325 /* Dismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E343245B11B4007F2325 /* Dismiss.swift */; };
+		9394E346245B16B2007F2325 /* DefaultRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E345245B16B2007F2325 /* DefaultRoute.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +152,8 @@
 		9394E33C245AE29A007F2325 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		9394E33E245AED9A007F2325 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		9394E340245B01FB007F2325 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
+		9394E343245B11B4007F2325 /* Dismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dismiss.swift; sourceTree = "<group>"; };
+		9394E345245B16B2007F2325 /* DefaultRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRoute.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +251,7 @@
 		9394E2D4245A2193007F2325 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9394E342245B11A3007F2325 /* DefaultItems */,
 				9394E33B245AE27A007F2325 /* ViewTypes */,
 				9394E25F245A08E9007F2325 /* Wireframe.swift */,
 				9394E2D5245A21A3007F2325 /* NavigationButtonType.swift */,
@@ -328,6 +333,15 @@
 				9394E33C245AE29A007F2325 /* TabBarView.swift */,
 			);
 			path = ViewTypes;
+			sourceTree = "<group>";
+		};
+		9394E342245B11A3007F2325 /* DefaultItems */ = {
+			isa = PBXGroup;
+			children = (
+				9394E343245B11B4007F2325 /* Dismiss.swift */,
+				9394E345245B16B2007F2325 /* DefaultRoute.swift */,
+			);
+			path = DefaultItems;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -533,6 +547,7 @@
 				9394E33D245AE29A007F2325 /* TabBarView.swift in Sources */,
 				9394E31A245AB585007F2325 /* RoutableView.swift in Sources */,
 				9394E31E245AB58B007F2325 /* Constraint.swift in Sources */,
+				9394E344245B11B4007F2325 /* Dismiss.swift in Sources */,
 				9394E31D245AB58B007F2325 /* Optional.swift in Sources */,
 				9394E31C245AB58B007F2325 /* UIEdgeInsets.swift in Sources */,
 				9394E317245AB585007F2325 /* View.swift in Sources */,
@@ -540,6 +555,7 @@
 				9394E310245AB585007F2325 /* Wireframe.swift in Sources */,
 				9394E311245AB585007F2325 /* NavigationButtonType.swift in Sources */,
 				9394E33F245AED9A007F2325 /* NavigationManager.swift in Sources */,
+				9394E346245B16B2007F2325 /* DefaultRoute.swift in Sources */,
 				9394E341245B01FB007F2325 /* Icon.swift in Sources */,
 				9394E312245AB585007F2325 /* NavigationButton.swift in Sources */,
 				9394E314245AB585007F2325 /* Route.swift in Sources */,

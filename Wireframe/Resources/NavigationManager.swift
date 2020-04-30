@@ -36,6 +36,10 @@ extension NavigationManager {
 
         navigation.barButtonsItems.enumerated().forEach { info in
 
+            if let wireframe = route.wireframe, wireframe.route(for: info.element.name).isNil {
+                assertionFailure("This navigation button \(info.element.name) does not have a target route that it can open!")
+            }
+
             let barButton: UIBarButtonItem
             if let icon = info.element.icon {
                 barButton = icon.barButtonItem(selector: selector, target: self)

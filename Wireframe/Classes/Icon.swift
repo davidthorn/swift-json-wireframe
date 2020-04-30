@@ -19,9 +19,16 @@ public class Icon: Codable {
 public extension Icon {
 
     var image: UIImage? {
-        UIImage(named: imageName,
+
+       let loadedImage = UIImage(named: imageName,
                 in: .main,
                 compatibleWith: nil)
+
+        if loadedImage.isNil {
+            assertionFailure("The image resource with imagename: \(imageName) does not exist in the main bundle")
+        }
+
+        return loadedImage
     }
 
     func barButtonItem(selector: Selector, target: Any) -> UIBarButtonItem {

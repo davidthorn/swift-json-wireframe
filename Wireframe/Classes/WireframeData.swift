@@ -74,8 +74,16 @@ public extension WireframeData {
 
     /// Sets all routes wireframe property to that of this wireframe data.
     func setRoutes() {
+
+        Route.defaultRoutes.forEach { defaultRoute in
+            if !routes.contains(where: { $0 == defaultRoute }) {
+                routes.append(defaultRoute)
+            }
+        }
+
         routes.forEach { route in
             route.wireframe = self
+            debugPrint("Route name: \(route.name)")
         }
     }
 

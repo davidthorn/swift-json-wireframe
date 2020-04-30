@@ -47,12 +47,18 @@ open class View: UIViewController, NavigationManager {
         stackView.pinHorizontal(insets: .init(value: 20))
         stackView.pinBottom(lessThanOrEqualTo: 10)
 
-        route.buttons.forEach {
-            $0.delegate = self
-            stackView.addArrangedSubview($0)
+        route.buttons.enumerated().forEach {
+            $0.element.delegate = self
+            $0.element.tag = $0.offset
+            stackView.addArrangedSubview($0.element)
         }
 
         configureNavigationBarItem(selector: #selector(barButtonTapped))
+
+        if route.presentationType == .push, route.type == .view, navigationController.isNil {
+            route.presentationType = .present
+            assert(route.presentationType == .present)
+        }
 
     }
 
@@ -63,8 +69,24 @@ open class View: UIViewController, NavigationManager {
         }
 
         if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
+
             let view = View(route: targetRoute)
-            navigationController?.pushViewController(view, animated: true)
+            switch targetRoute.presentationType {
+            case .push:
+                navigationController?.pushViewController(view, animated: true)
+            case .present:
+                let presentor = navigationController?.topViewController ?? self
+                presentor.present(view, animated: true)
+            case .pop:
+                navigationController?.popViewController(animated: true)
+            case .popToRoot:
+                navigationController?.popToRootViewController(animated: true)
+            case .popToView:
+                navigationController?.popToViewController(view, animated: true)
+            case .dismiss:
+                let presentor = navigationController ?? self
+                presentor.dismiss(animated: true)
+            }
         }
     }
 
@@ -80,22 +102,48 @@ extension View: RouteButtonDelegate {
 
     public func buttonTapped(tag: Int) {
         guard let route = route.routes?[tag] else { return }
+
+        if route.presentationType == .push, navigationController.isNil {
+            route.presentationType = .present
+            route.type = .navigation
+            assert(route.presentationType == .present)
+        }
+
         let commonView: UIViewController
         switch route.type {
         case .view:
-            commonView = View(route: route)
+            commonView = route.controller(with: route.name) ?? View(route: route)
         case .tabbar:
             commonView = TabBarView(route: route)
         case .navigation:
             let navigation = UINavigationController()
-            let view = View(route: route)
+            let view = route.controller(with: route.name) ??  View(route: route)
             navigation.setViewControllers([view], animated: true)
             view.didMove(toParent: navigation)
             commonView = navigation
         }
 
-        let view = route.controller(with: route.name) ?? commonView
-        navigationController?.pushViewController(view, animated: true)
+        let view = commonView
+        switch route.presentationType {
+        case .push:
+            if route.type == .view {
+                assertionFailure("The routes type is view and the presentation style is push still")
+            }
+            navigationController?.pushViewController(view, animated: true)
+        case .present:
+            let presentor = navigationController?.topViewController ?? self
+            presentor.present(view, animated: true)
+        case .pop:
+            navigationController?.popViewController(animated: true)
+        case .popToRoot:
+            navigationController?.popToRootViewController(animated: true)
+        case .popToView:
+            navigationController?.popToViewController(view, animated: true)
+        case .dismiss:
+            let presentor = navigationController ?? self
+            presentor.dismiss(animated: true)
+        }
+
     }
 
 }

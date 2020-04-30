@@ -43,6 +43,12 @@ extension ProfilePlugin {
 
     public func controller(route: Route) -> UIViewController {
 
+        route.type = .navigation
+        route.presentationType = .present
+
+        route.navigation = Navigation(name: "profile")
+        route.navigation?.add(button: DismissButton.navigationButton)
+
         if route.name != name {
             assertionFailure("Why is this being called with another route")
         }

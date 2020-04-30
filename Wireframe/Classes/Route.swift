@@ -14,11 +14,34 @@ public enum RouteType: String, Codable, Hashable {
     case navigation
 }
 
+public enum PresentationType: String, Codable, Hashable {
+
+    /// view will be pushed using its own navigation controller
+    case push
+
+    /// view will be presented using either top view controller of the controller itself.
+    case present
+
+    /// will call the navigation controllers popToViewController method.
+    case popToView
+
+    /// will call the navigation controllers popToRootViewController method.
+    case popToRoot
+
+    /// will call the navigation controllers  popViewController method
+    case pop
+
+    /// will call the controllers dismiss method if its navigation controller is nil, else will call the naviigation controllers dismiss method.
+    case dismiss
+
+}
+
 // MARK: - Implementation -
 
 public class Route: Codable {
 
      // MARK: - Public Properties -
+    public var presentationType: PresentationType = .push
     public var type: RouteType = .view
     public var tabItems: [String]?
     public let name: String
@@ -33,6 +56,7 @@ public class Route: Codable {
         case title
         case navigation
         case subroutes
+        case presentationType
     }
 
     // MARK: - Private Properties -
@@ -52,6 +76,7 @@ public class Route: Codable {
 
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        presentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self) ?? .push
         type = try container.debugDecodeIfPresent(RouteType.self, forKey: .type, parent: Self.self) ?? .view
         tabItems = try container.debugDecodeIfPresent([RouteName].self, forKey: .tabItems, parent: Self.self)
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
@@ -115,6 +140,8 @@ public extension Route {
             if let subRoute = wireframe?.route(for: subrouteName) {
                 subRoute.parent = self
                 routes?.append(subRoute)
+            } else {
+                assertionFailure("Subroute: \(subrouteName) not found")
             }
         }
     }

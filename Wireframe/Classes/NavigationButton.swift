@@ -26,9 +26,15 @@ public class NavigationButton: Codable {
     public let icon: Icon?
 
     enum CodingKeys: CodingKey, CaseIterable {
+
+        // MARK: - Required -
+        
         case name
-        case type
         case target
+
+        // MARK: - Optonal -
+
+        case type
         case icon
     }
 
@@ -40,7 +46,6 @@ public class NavigationButton: Codable {
         target = try container.debugDecode(RouteName.self, forKey: .target, parent: Self.self)
     }
     
-
 }
 
 // MARK: - Extension - KeyedDecodingContainer -

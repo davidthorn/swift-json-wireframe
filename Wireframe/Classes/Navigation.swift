@@ -21,6 +21,11 @@ public class Navigation: Codable {
         self.name = name
         self.buttons = []
     }
+
+    public func add(button: NavigationButton) {
+        buttons?.append(button)
+    }
+
 }
 
 // MARK: - Extension - Navigation -
