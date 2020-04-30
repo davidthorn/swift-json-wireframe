@@ -1,24 +1,20 @@
 //
-//  View.swift
-//  JSONWireframe
+//  TabBarView.swift
+//  Wireframe
 //
-//  Created by Thorn, David on 29.04.20.
+//  Created by Thorn, David on 30.04.20.
 //  Copyright © 2020 David Thorn. All rights reserved.
 //
 
 import UIKit
 
-// MARK: - Implementation -
+public final class TabBarView: UITabBarController {
 
-open class View: UIViewController {
-
-     // MARK: - Public Properties -
+    // MARK: - Public Properties -
 
     public let route: Route!
 
     // MARK: - Private UI Properties -
-
-    private let stackView = UIStackView()
 
     // MARK: - Constructors -
 
@@ -31,26 +27,11 @@ open class View: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - ViewController Lifecycle -
-
-    open override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = []
         title = route.title
         view.backgroundColor = .white
-        view.addSubview(stackView)
-        stackView.axis = .vertical
-        stackView.spacing = 30
-        stackView.distribution = .equalSpacing
-
-        stackView.pinTop(constant: 20)
-        stackView.pinHorizontal(insets: .init(value: 20))
-        stackView.pinBottom(lessThanOrEqualTo: 10)
-
-        route.buttons.forEach {
-            $0.delegate = self
-            stackView.addArrangedSubview($0)
-        }
 
         if let navigation = route.navigation {
             var leftButtons = navigationItem.leftBarButtonItems ?? []
@@ -74,6 +55,35 @@ open class View: UIViewController {
             navigationItem.setRightBarButtonItems(rightButtons, animated: true)
             navigationItem.setLeftBarButtonItems(leftButtons, animated: true)
         }
+
+        let subItems = route.tabItems?
+            .compactMap({ route.wireframe?.route(for: $0) })
+
+        var tabController = [UIViewController]()
+
+        subItems?.enumerated().forEach { item in
+            let subItemRoute = item.element
+            let commonView: UIViewController
+            switch subItemRoute.type {
+            case .navigation:
+                let navigation = UINavigationController()
+                let view = View(route: subItemRoute)
+                navigation.setViewControllers([view], animated: true)
+                view.didMove(toParent: navigation)
+                navigation.tabBarItem = view.tabBarItem
+                commonView = navigation
+            case .view:
+                let view = View(route: subItemRoute)
+                commonView = view
+            case .tabbar:
+                fatalError("A tab bar cannot sit within a tab bar!")
+            }
+
+            commonView.tabBarItem = .init(title: subItemRoute.name, image: nil, tag: item.offset)
+            tabController.append(commonView)
+        }
+
+        viewControllers = tabController
 
     }
 
@@ -145,7 +155,7 @@ open class View: UIViewController {
 
 // MARK: - Extension - RouteButtonDelegate -
 
-extension View: RouteButtonDelegate {
+extension TabBarView: RouteButtonDelegate {
 
     public func buttonTapped(tag: Int) {
         guard let route = route.routes?[tag] else { return }

@@ -3,9 +3,10 @@
     "root": "home",
     "routes": [
         {
+            "type": "tabbar",
             "name": "home",
             "title" : "Home",
-            "subroutes": [
+            "tabItems": [
                 "profile",
                 "logout",
                 "categories"
@@ -15,22 +16,28 @@
             "name": "categories",
             "title": "Categories",
             "subroutes": [
-                "address"
+                "logout"
             ]
         },
         {
+            "type": "navigation",
             "name": "profile",
             "title": "Profile",
             "subroutes": [
-                "address",
                 "password_reset",
                 "change-email"
             ],
             "navigation": "profile"
         },
         {
+            "type": "tabbar",
+            "tabItems": [
+                "profile",
+                "change-email"
+            ],
             "name": "address",
-            "title": "Address"
+            "title": "Address",
+            "navigation": "profile"
         },
         {
             "name": "password_reset",
@@ -42,6 +49,7 @@
             "subroutes": [ "categories" ]
         },
         {
+            "type": "navigation",
             "name": "logout",
             "title": "Logout"
         }

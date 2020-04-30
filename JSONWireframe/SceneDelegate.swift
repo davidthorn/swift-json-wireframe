@@ -34,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         wireframe = Wireframe(navigation: nav, resourceUrl: url)
-        window?.rootViewController = nav
+        window?.rootViewController = wireframe.rootViewController
         window?.makeKeyAndVisible()
     }
 

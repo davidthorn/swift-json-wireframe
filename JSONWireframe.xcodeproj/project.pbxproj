@@ -49,6 +49,7 @@
 		9394E336245AC985007F2325 /* subroutes.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E335245AC985007F2325 /* subroutes.json */; };
 		9394E338245ACDF7007F2325 /* navigation-right-buttons.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E337245ACDF7007F2325 /* navigation-right-buttons.json */; };
 		9394E33A245ADBD5007F2325 /* navigation-key.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E339245ADBD5007F2325 /* navigation-key.json */; };
+		9394E33D245AE29A007F2325 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E33C245AE29A007F2325 /* TabBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +145,7 @@
 		9394E335245AC985007F2325 /* subroutes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = subroutes.json; sourceTree = "<group>"; };
 		9394E337245ACDF7007F2325 /* navigation-right-buttons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-right-buttons.json"; sourceTree = "<group>"; };
 		9394E339245ADBD5007F2325 /* navigation-key.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-key.json"; sourceTree = "<group>"; };
+		9394E33C245AE29A007F2325 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 		9394E2D4245A2193007F2325 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9394E33B245AE27A007F2325 /* ViewTypes */,
 				9394E25F245A08E9007F2325 /* Wireframe.swift */,
 				9394E2D5245A21A3007F2325 /* NavigationButtonType.swift */,
 				9394E2D7245A21B8007F2325 /* NavigationButton.swift */,
@@ -311,6 +314,14 @@
 				9394E339245ADBD5007F2325 /* navigation-key.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		9394E33B245AE27A007F2325 /* ViewTypes */ = {
+			isa = PBXGroup;
+			children = (
+				9394E33C245AE29A007F2325 /* TabBarView.swift */,
+			);
+			path = ViewTypes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -513,6 +524,7 @@
 			files = (
 				9394E318245AB585007F2325 /* Plugin.swift in Sources */,
 				9394E31B245AB585007F2325 /* WireframeDatasource.swift in Sources */,
+				9394E33D245AE29A007F2325 /* TabBarView.swift in Sources */,
 				9394E31A245AB585007F2325 /* RoutableView.swift in Sources */,
 				9394E31E245AB58B007F2325 /* Constraint.swift in Sources */,
 				9394E31D245AB58B007F2325 /* Optional.swift in Sources */,

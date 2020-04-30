@@ -8,18 +8,27 @@
 
 import Foundation
 
+public enum RouteType: String, Codable, Hashable {
+    case view
+    case tabbar
+    case navigation
+}
+
 // MARK: - Implementation -
 
 public class Route: Codable {
 
      // MARK: - Public Properties -
-
+    public var type: RouteType = .view
+    public var tabItems: [String]?
     public let name: String
     public let title: String
     public var navigation: Navigation?
     public var navigaionName: String?
 
     enum CodingKeys: CodingKey, CaseIterable {
+        case type
+        case tabItems
         case name
         case title
         case navigation
@@ -43,6 +52,8 @@ public class Route: Codable {
 
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        type = try container.debugDecodeIfPresent(RouteType.self, forKey: .type, parent: Self.self) ?? .view
+        tabItems = try container.debugDecodeIfPresent([RouteName].self, forKey: .tabItems, parent: Self.self)
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
         title = try container.debugDecode(String.self, forKey: .title, parent: Self.self)
         subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)

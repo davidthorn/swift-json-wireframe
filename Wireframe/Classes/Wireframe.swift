@@ -17,6 +17,7 @@ public final class Wireframe {
      // MARK: - Public Properties -
 
     public static var plugins = [Plugin.Type]()
+    public var rootViewController: UIViewController?
 
     // MARK: - Private Properties -
 
@@ -43,9 +44,16 @@ public final class Wireframe {
             wireframe = try decoder.decode(WireframeData.self, from: data)
             wireframe.setRoutes()
             if let root = wireframe.route(for: wireframe.root) {
-                let view = View(route: root)
-                navigation.setViewControllers([view], animated: true)
-                view.didMove(toParent: navigation)
+                switch root.type {
+                case .tabbar:
+                    rootViewController = TabBarView(route: root)
+                case .view, .navigation:
+                    let view = View(route: root)
+                    navigation.setViewControllers([view], animated: true)
+                    view.didMove(toParent: navigation)
+                    rootViewController = navigation
+                }
+
             }
         } catch let error {
             debugPrint(error.localizedDescription)
