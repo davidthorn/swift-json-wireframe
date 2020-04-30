@@ -65,6 +65,8 @@ class ProfileViewController: View {
     override func viewDidLoad() {
         title = self.route.name
         setRightBarButtons()
+        setLeftBarButtons()
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {

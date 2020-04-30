@@ -30,8 +30,16 @@ public extension Navigation {
         buttons ?? []
     }
 
+    var leftBarButtonItems: [NavigationButton] {
+        barButtonsItems.filter { $0.buttonType == .left }
+    }
+
     var rightBarButtonItems: [NavigationButton] {
         barButtonsItems.filter { $0.buttonType == .right }
+    }
+
+    func button(for name: String) -> NavigationButton? {
+        barButtonsItems.first { $0.name == name }
     }
 
 }

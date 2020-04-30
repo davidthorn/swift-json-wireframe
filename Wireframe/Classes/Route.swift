@@ -98,7 +98,6 @@ public extension Route {
                 routes?.append(subRoute)
             }
         }
-        let mmm = true
     }
 
 }
@@ -108,7 +107,12 @@ public extension Route {
 public extension Route {
 
     var childRoutes: [Route] {
-        routes ?? []
+        guard let setRoutes = routes else {
+            assertionFailure("Why are the routes not been set to a default value?")
+            return []
+        }
+
+        return setRoutes
     }
 
     var buttons: [RouteButton] {

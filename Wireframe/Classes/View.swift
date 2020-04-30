@@ -95,15 +95,46 @@ open class View: UIViewController {
         var rightButtons = navigationItem.rightBarButtonItems ?? []
 
         buttons.enumerated().forEach { info in
-            let barButton = UIBarButtonItem(title: info.element.name,
+            let barButton: UIBarButtonItem
+            if let icon = info.element.icon {
+                let image = UIImage(named: icon.imageName, in: .main, compatibleWith: nil)
+                barButton = .init(image: image, style: .plain, target: self, action: #selector(barButtonTapped))
+            } else {
+                barButton = UIBarButtonItem(title: info.element.name,
                                             style: .plain,
                                             target: self,
                                             action: #selector(barButtonTapped))
+            }
             barButton.tag = info.offset
             rightButtons.append(barButton)
         }
 
         navigationItem.setRightBarButtonItems(rightButtons, animated: true)
+    }
+
+    public func setLeftBarButtons() {
+        let buttons = route.navigationBar.leftBarButtonItems
+
+        var leftButtons = navigationItem.leftBarButtonItems ?? []
+        navigationItem.leftItemsSupplementBackButton = true
+
+        buttons.enumerated().forEach { info in
+            let barButton: UIBarButtonItem
+            if let icon = info.element.icon {
+                let image = UIImage(named: icon.imageName, in: .main, compatibleWith: nil)
+                barButton = .init(image: image, style: .plain, target: self, action: #selector(barButtonTapped))
+            } else {
+                barButton = UIBarButtonItem(title: info.element.name,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(barButtonTapped))
+            }
+
+            barButton.tag = info.offset
+            leftButtons.append(barButton)
+        }
+
+        navigationItem.setLeftBarButtonItems(leftButtons, animated: true)
     }
 
     deinit {

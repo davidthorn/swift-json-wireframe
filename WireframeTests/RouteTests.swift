@@ -7,27 +7,39 @@
 //
 
 import XCTest
+@testable import Wireframe
 
 class RouteTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    func test_navigation() {
+        let url = Bundle(for: WireframeTests.self).url(forResource: "navigation-right-buttons", withExtension: "json")!
+        let navigationController = UINavigationController()
+        let testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
+        XCTAssertEqual(testSubject.wireframe.appName, "tester")
+        XCTAssertEqual(testSubject.wireframe.root, "home")
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+        let home = testSubject.wireframe.route(for: "home")
+        let account = testSubject.wireframe.route(for: "account")
+        XCTAssertEqual(home?.childRoutes.isEmpty, true)
+        XCTAssertNotNil(account)
+        XCTAssertNotNil(account?.navigation?.buttons)
+        XCTAssertEqual(account?.navigation?.buttons?.count, 2)
+        XCTAssertEqual(account?.navigationBar.rightBarButtonItems.count, 2)
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+        let logoutButton = account?.navigation?.button(for: "logout")
+        XCTAssertNotNil(logoutButton)
+        XCTAssertEqual(logoutButton?.target, home?.name)
+        XCTAssertEqual(logoutButton?.icon?.imageName, "profile_icon")
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        let notificationsButton = account?.navigation?.button(for: "notifications")
+        XCTAssertNotNil(notificationsButton)
+        XCTAssertEqual(notificationsButton?.target, "notifications")
+        XCTAssertNil(notificationsButton?.icon)
+
+        let dashboard = testSubject.wireframe.route(for: "dashboard")
+        XCTAssertNotNil(dashboard)
+        XCTAssertNil(dashboard?.navigation?.buttons)
+        XCTAssertEqual(dashboard?.navigationBar.rightBarButtonItems.count, 0)
     }
 
 }

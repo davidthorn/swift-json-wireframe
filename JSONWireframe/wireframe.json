@@ -29,14 +29,16 @@
             "navigation": {
                 "buttons": [
                     {
-                    
                         "name": "logout",
                         "target": "logout"
                     },
                     {
                         "type": "left",
                         "name": "change-email",
-                        "target": "change-email"
+                        "target": "change-email",
+                        "icon": {
+                            "imageName": "profile_icon"
+                        }
                     }
                 ]
             }

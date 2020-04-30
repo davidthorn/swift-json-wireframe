@@ -8,6 +8,10 @@
 
 import Foundation
 
+public class Icon: Codable {
+    let imageName: String
+}
+
 // MARK: - Implementation -
 
 public class NavigationButton: Codable {
@@ -21,6 +25,52 @@ public class NavigationButton: Codable {
     public let name: String
 
     public let target: RouteName
+
+    public let icon: Icon?
+
+    enum CodingKeys: CodingKey, CaseIterable {
+        case name
+        case type
+        case target
+        case icon
+    }
+
+    required public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
+        type = try container.debugDecodeIfPresent(NavigationButtonType.self, forKey: .type, parent: Self.self)
+        icon = try container.debugDecodeIfPresent(Icon.self, forKey: .icon, parent: Self.self)
+        target = try container.debugDecode(RouteName.self, forKey: .target, parent: Self.self)
+    }
+    
+
+}
+
+// MARK: - Extension - KeyedDecodingContainer -
+
+extension KeyedDecodingContainer where K == NavigationButton.CodingKeys {
+
+    func debugDecode<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T {
+        do {
+            return try decode(T.self, forKey: key)
+        } catch let error {
+            debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint(K.allCases)
+            throw error
+        }
+
+    }
+
+    func debugDecodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T? {
+        do {
+            return try decodeIfPresent(T.self, forKey: key)
+        } catch let error {
+            debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint(K.allCases)
+            throw error
+        }
+
+    }
 
 }
 

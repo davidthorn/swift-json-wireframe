@@ -62,5 +62,4 @@ class WireframeTests: XCTestCase {
         XCTAssertEqual(subroute?.parent, dashboardRoute)
     }
 
-
 }
