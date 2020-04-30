@@ -13,13 +13,14 @@ import Foundation
 public class Navigation: Codable {
 
     // MARK: - Private Properties -
-
+    public var name: String?
     private(set) var buttons: [NavigationButton]?
 
     // MARK: - Constructors -
-
-    public init() { }
-
+    public init(name: String) {
+        self.name = name
+        self.buttons = []
+    }
 }
 
 // MARK: - Extension - Navigation -

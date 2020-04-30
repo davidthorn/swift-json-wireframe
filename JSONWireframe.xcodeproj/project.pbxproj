@@ -48,6 +48,7 @@
 		9394E334245AB926007F2325 /* root.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E333245AB926007F2325 /* root.json */; };
 		9394E336245AC985007F2325 /* subroutes.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E335245AC985007F2325 /* subroutes.json */; };
 		9394E338245ACDF7007F2325 /* navigation-right-buttons.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E337245ACDF7007F2325 /* navigation-right-buttons.json */; };
+		9394E33A245ADBD5007F2325 /* navigation-key.json in Resources */ = {isa = PBXBuildFile; fileRef = 9394E339245ADBD5007F2325 /* navigation-key.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,7 @@
 		9394E333245AB926007F2325 /* root.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = root.json; sourceTree = "<group>"; };
 		9394E335245AC985007F2325 /* subroutes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = subroutes.json; sourceTree = "<group>"; };
 		9394E337245ACDF7007F2325 /* navigation-right-buttons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-right-buttons.json"; sourceTree = "<group>"; };
+		9394E339245ADBD5007F2325 /* navigation-key.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-key.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,6 +308,7 @@
 				9394E333245AB926007F2325 /* root.json */,
 				9394E335245AC985007F2325 /* subroutes.json */,
 				9394E337245ACDF7007F2325 /* navigation-right-buttons.json */,
+				9394E339245ADBD5007F2325 /* navigation-key.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9394E33A245ADBD5007F2325 /* navigation-key.json in Resources */,
 				9394E336245AC985007F2325 /* subroutes.json in Resources */,
 				9394E334245AB926007F2325 /* root.json in Resources */,
 				9394E338245ACDF7007F2325 /* navigation-right-buttons.json in Resources */,

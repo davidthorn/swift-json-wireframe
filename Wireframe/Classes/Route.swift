@@ -16,7 +16,8 @@ public class Route: Codable {
 
     public let name: String
     public let title: String
-    public let navigation: Navigation?
+    public var navigation: Navigation?
+    public var navigaionName: String?
 
     enum CodingKeys: CodingKey, CaseIterable {
         case name
@@ -35,6 +36,7 @@ public class Route: Codable {
     weak var parent: Route?
     weak var wireframe: WireframeData? {
         didSet {
+            setNavigation()
             setSubRoutes()
         }
     }
@@ -43,8 +45,14 @@ public class Route: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
         title = try container.debugDecode(String.self, forKey: .title, parent: Self.self)
-        navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
         subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)
+        do {
+            navigation = try container.debugDecode(Navigation.self, forKey: .navigation, parent: Self.self)
+        } catch {
+            navigaionName = try container.debugDecodeIfPresent(String.self, forKey: .navigation, parent: Self.self)
+        }
+
+
     }
 
     // MARK: - Deinitialisation -
@@ -87,7 +95,14 @@ extension KeyedDecodingContainer where K == Route.CodingKeys {
 public extension Route {
 
     var navigationBar: Navigation {
-        return navigation ?? Navigation()
+        return navigation ?? Navigation(name: name)
+    }
+
+    private func setNavigation() {
+        guard navigation.isNil, let navName = navigaionName else { return }
+
+        navigation = wireframe?.navigation(for: navName)
+        
     }
 
     private func setSubRoutes() {

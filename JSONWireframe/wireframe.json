@@ -26,22 +26,7 @@
                 "password_reset",
                 "change-email"
             ],
-            "navigation": {
-                "buttons": [
-                    {
-                        "name": "logout",
-                        "target": "logout"
-                    },
-                    {
-                        "type": "left",
-                        "name": "change-email",
-                        "target": "change-email",
-                        "icon": {
-                            "imageName": "profile_icon"
-                        }
-                    }
-                ]
-            }
+            "navigation": "profile"
         },
         {
             "name": "address",
@@ -59,6 +44,25 @@
         {
             "name": "logout",
             "title": "Logout"
+        }
+    ],
+    "navigations": [
+        {
+            "name" : "profile",
+            "buttons": [
+                {
+                    "name": "logout",
+                    "target": "logout"
+                },
+                {
+                    "type": "left",
+                    "name": "change-email",
+                    "target": "change-email",
+                    "icon": {
+                        "imageName": "profile_icon"
+                    }
+                }
+            ]
         }
     ]
 }

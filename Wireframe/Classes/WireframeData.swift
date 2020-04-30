@@ -14,11 +14,13 @@ public class WireframeData: Codable {
     public let appName: String
     public var routes: [Route]
     public let root: RouteName
+    public var navigations: [Navigation]?
 
     enum CodingKeys: CodingKey, CaseIterable {
         case appName
         case routes
         case root
+        case navigations
     }
 
     required public init(from decoder: Decoder) throws {
@@ -26,6 +28,7 @@ public class WireframeData: Codable {
         appName = try container.debugDecode(String.self, forKey: .appName, parent: Self.self)
         routes = try container.debugDecode([Route].self, forKey: .routes, parent: Self.self)
         root = try container.debugDecode(String.self, forKey: .root, parent: Self.self)
+        navigations = try container.debugDecodeIfPresent([Navigation].self, forKey: .navigations, parent: Self.self)
     }
 
 }
@@ -44,6 +47,18 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
         }
 
     }
+
+    func debugDecodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T? {
+           do {
+               return try decodeIfPresent(T.self, forKey: key)
+           } catch let error {
+               debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+               debugPrint(K.allCases)
+               throw error
+           }
+
+       }
+
 
 }
 
@@ -65,6 +80,10 @@ public extension WireframeData {
             route.wireframe = self
         }
 
+    }
+
+    func navigation(for name: String) -> Navigation? {
+        navigations?.first(where: { $0.name == name })
     }
 
 }

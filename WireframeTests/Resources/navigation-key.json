@@ -1,0 +1,40 @@
+{
+    "app_name" : "tester",
+    "root": "home",
+    "routes": [
+        {
+            "name" : "home",
+            "title" : "Home"
+        },
+        {
+            "name" : "dashboard",
+            "title": "Dashboard",
+            "subroutes": [ "account" ]
+        },
+        {
+            "name" : "account",
+            "title": "Account",
+            "navigation": "account"
+        }
+    ],
+    "navigations": [
+        {
+            "name" : "account",
+            "buttons": [
+                {
+                    "name": "logout",
+                    "icon": {
+                        "imageName" : "profile_icon"
+                    },
+                    "target": "home"
+                },
+                {
+                    "name": "notifications",
+                    "target": "notifications"
+                }
+            ]
+        }
+    ]
+}
+
+
