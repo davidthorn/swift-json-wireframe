@@ -18,13 +18,53 @@ class WireframeTests: XCTestCase {
         count + defaultRoutesCount
     }
 
-    static func resource(name: String, navigationController: MockNavigation = MockNavigation()) -> Wireframe {
+    static func resource(
+        name: String,
+        navigationController: UINavigationController = MockBaseNavigation(),
+        autoload: Bool = true
+    ) -> Wireframe {
         let url = Bundle(for: WireframeTests.self).url(forResource: name, withExtension: "json")!
-        return Wireframe(navigation: navigationController, resourceUrl: url)
+        return Wireframe(
+            navigation: navigationController,
+            resourceUrl: url,
+            autoload: autoload
+        )
     }
 
-    func resource(name: String, navigationController: MockNavigation = MockNavigation()) -> Wireframe {
-        WireframeTests.resource(name: name, navigationController: navigationController)
+    func resource(
+        _ name: String,
+        navigationController: MockBaseNavigation = MockBaseNavigation(),
+        autoload: Bool = true
+    ) -> Wireframe {
+        WireframeTests.resource(
+            name: name,
+            navigationController: navigationController,
+            autoload: autoload
+        )
+    }
+
+    func resource(
+        name: String,
+        navigationController: MockNavigation = MockNavigation(),
+        autoload: Bool = true
+    ) -> Wireframe {
+        WireframeTests.resource(
+            name: name,
+            navigationController: navigationController,
+            autoload: autoload
+        )
+    }
+
+    func resource(
+        name: String,
+        navigationController: MockNavigationIntransient = MockNavigationIntransient(),
+        autoload: Bool = true
+    ) -> Wireframe {
+        WireframeTests.resource(
+            name: name,
+            navigationController: navigationController,
+            autoload: autoload
+        )
     }
 
     override func setUp() {
@@ -35,7 +75,7 @@ class WireframeTests: XCTestCase {
     }
 
     func test_root() {
-        testSubject = resource(name: "root")
+        testSubject = resource("root")
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
 
@@ -52,7 +92,7 @@ class WireframeTests: XCTestCase {
     }
 
     func test_subroutes() {
-        testSubject = resource(name: "subroutes")
+        testSubject = resource("subroutes")
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
         XCTAssertEqual(testSubject.wireframe.routes.count, 3 + defaultRoutesCount)

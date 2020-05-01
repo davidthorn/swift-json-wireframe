@@ -119,6 +119,9 @@ extension WireframeDatasourceImpl: WireframeDatasource {
         if let name = navigation?.name {
 
             if let cachedPlugin = PluginManager.navigationPlugins[name] {
+                if let customNavigation = cachedPlugin.navigation {
+                    route.navigation = customNavigation
+                }
                 return cachedPlugin.navigationController(for: route)
             }
 

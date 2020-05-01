@@ -11,6 +11,7 @@ import Foundation
 // MARK: - Implementation -
 
 public class WireframeData: Codable {
+    var isCalled: Bool = false
     public let appName: String
     public var routes: [RouteImpl]
     public let root: RouteName
@@ -72,29 +73,60 @@ public extension WireframeData {
         routes.first { $0.name == name }
     }
 
-    /// Sets all routes wireframe property to that of this wireframe data.
-    func setRoutes() {
 
+    func setDefaultRoutes() {
         RouteImpl.defaultRoutes.forEach { defaultRoute in
-            if !routes.contains(where: { $0 == defaultRoute }) {
+
+            if !routes.contains(where: { $0.name == defaultRoute.name }) {
                 routes.append(defaultRoute)
             }
         }
+    }
+
+
+    /// Sets all routes wireframe property to that of this wireframe data.
+    func setRoutes() throws {
+        assert(isCalled == false)
+        isCalled = true
 
         routes.forEach { route in
-            route.wireframe = self
+            route.datasource = nil
+            route.wireframe = nil
+            debugPrint(route.name)
+        }
+
+        let wireframe = self
+        try routes.forEach { route in
+            try route.set(wireframeData: wireframe)
             debugPrint("Route name: \(route.name)")
         }
+
+        try routes.forEach { route in
+            try route.setNavigation()
+            route.setSubRoutes()
+        }
+
+
     }
 
     func navigation(for name: String) -> Navigation? {
+
+        do {
+            return try tryNavigation(for: name)
+        } catch {
+            assertionFailure("The navigation should not throw an error")
+            return nil
+        }
+
+    }
+
+    func tryNavigation(for name: String) throws -> Navigation {
 
         if let navigation = navigations?.first(where: { $0.name == name }) {
             return navigation
         }
 
-        assertionFailure("A navigation has not been registered with the name of: \(name)")
-        return nil
+        throw WireframeError.navigationDoesNotExist
     }
 
 }

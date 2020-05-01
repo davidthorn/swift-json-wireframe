@@ -26,7 +26,8 @@ class RouteTests: XCTestCase {
         XCTAssertNotNil(account)
         XCTAssertNotNil(account?.navigation?.buttons)
         XCTAssertEqual(account?.navigation?.buttons?.count, 2)
-        XCTAssertEqual(account?.navigation?.rightBarButtonItems.count, 2)
+        XCTAssertEqual(account?.navigation?.buttons?.map { $0.type }, [.left, .left])
+        XCTAssertEqual(account?.navigation?.leftBarButtonItems.count, 2)
 
         let logoutButton = account?.navigation?.button(for: "logout")
         XCTAssertNotNil(logoutButton)

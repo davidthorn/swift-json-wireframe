@@ -65,23 +65,13 @@ public class RouteImpl: Route {
     public var navigationName: String?
     public var routes: [Route]?
     public weak var parent: Route?
-    public weak var wireframe: WireframeData? {
+    public weak var wireframe: WireframeData?
 
-        willSet {
-            /// Remove current datasource to have the newest version of the wireframe.
-            datasource = nil
-        }
-
-        didSet {
-
-            if let wireframe = wireframe, datasource.isNil {
-                datasource = WireframeDatasourceImpl(wireframe: wireframe)
-            } else {
-                assertionFailure("Datasource has not been set, because the wireframe is nil")
-            }
-
-            setNavigation()
-            setSubRoutes()
+    public func set(wireframeData: WireframeData?) throws {
+        assert(wireframe.isNil && datasource.isNil)
+        wireframe = wireframeData
+        if let wireframe = wireframe {
+            datasource = WireframeDatasourceImpl(wireframe: wireframe)
         }
     }
 
@@ -153,10 +143,10 @@ extension RouteImpl {
         return navigation ?? Navigation(name: name)
     }
 
-    private func setNavigation() {
+    func setNavigation() throws {
         guard navigation.isNil, let navName = navigationName else { return }
 
-        navigation = wireframe?.navigation(for: navName)
+        navigation = try wireframe?.tryNavigation(for: navName)
         
     }
 

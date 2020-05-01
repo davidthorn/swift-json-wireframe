@@ -6,7 +6,7 @@
             "type": "navigation",
             "name" : "home",
             "title" : "Home",
-            "navigation": "account"
+            "navigation": "accounts"
         },
         {
             "name" : "account",
@@ -25,4 +25,5 @@
         }
     ]
 }
+
 

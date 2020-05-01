@@ -9,9 +9,32 @@
 import UIKit
 import Wireframe
 
+public class MockBaseNavigation: UINavigationController { }
 public final class MockNavigation: UINavigationController { }
+public final class MockNavigationIntransient: MockBaseNavigation { }
 
 public final class MockNavigationPlugin: NavigationPlugin {
+
+    public var navigation: Navigation?
+
+    public var isTransient: Bool = true
+
+    public var name: String = "account"
+
+    private(set) var wireframe: WireframeData
+
+    public func navigationController(for route: Route) -> UINavigationController {
+        MockNavigation()
+    }
+
+    public init(wireframe: WireframeData) {
+        self.wireframe = wireframe
+    }
+
+}
+
+
+public final class MockNavigationIntransientPlugin: NavigationPlugin {
 
     public var navigation: Navigation?
 
@@ -22,7 +45,7 @@ public final class MockNavigationPlugin: NavigationPlugin {
     private(set) var wireframe: WireframeData
 
     public func navigationController(for route: Route) -> UINavigationController {
-        MockNavigation()
+        MockNavigationIntransient()
     }
 
     public init(wireframe: WireframeData) {
