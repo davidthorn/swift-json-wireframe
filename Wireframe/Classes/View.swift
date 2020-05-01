@@ -109,26 +109,9 @@ extension View: RouteButtonDelegate {
             assert(route.presentationType == .present)
         }
 
-        let commonView: UIViewController
-        switch route.type {
-        case .view:
-            commonView = route.datasource.controller(with: route.name) ?? View(route: route)
-        case .tabbar:
-            commonView = TabBarView(route: route)
-        case .navigation:
-            let navigation = UINavigationController()
-            let view = route.datasource.controller(with: route.name) ??  View(route: route)
-            navigation.setViewControllers([view], animated: true)
-            view.didMove(toParent: navigation)
-            commonView = navigation
-        }
-
-        let view = commonView
+        let view = route.datasource.controller(for: route)
         switch route.presentationType {
         case .push:
-//            if route.type == .view {
-//                assertionFailure("The routes type is view and the presentation style is push still")
-//            }
             navigationController?.pushViewController(view, animated: true)
         case .present:
             let presentor = navigationController?.topViewController ?? self
