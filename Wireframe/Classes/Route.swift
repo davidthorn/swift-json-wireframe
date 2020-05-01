@@ -36,10 +36,25 @@ public enum PresentationType: String, Codable, Hashable {
 
 }
 
+public protocol Route: AnyObject, Codable {
+    var presentationType: PresentationType { get set }
+    var type: RouteType  { get set }
+    var tabItems: [String]?  { get }
+    var name: String  { get }
+    var title: String { get }
+    var navigation: Navigation?  { get set }
+    var navigationName: String?  { get }
+    var wireframe: WireframeData? { get }
+    var parent: Route? { get set }
+    var routes: [Route]? { get }
+    var datasource: WireframeDatasource { get }
+}
+
 // MARK: - Implementation -
 
-public class Route: Codable {
+public class RouteImpl: Route, WireframeDatasource {
 
+    public var datasource: WireframeDatasource { self }
      // MARK: - Public Properties -
     public var presentationType: PresentationType = .push
     public var type: RouteType = .view
@@ -48,6 +63,14 @@ public class Route: Codable {
     public let title: String
     public var navigation: Navigation?
     public var navigationName: String?
+    public var routes: [Route]?
+    public weak var parent: Route?
+    public weak var wireframe: WireframeData? {
+        didSet {
+            setNavigation()
+            setSubRoutes()
+        }
+    }
 
     enum CodingKeys: CodingKey, CaseIterable {
         case type
@@ -62,17 +85,11 @@ public class Route: Codable {
     // MARK: - Private Properties -
 
     private(set) var subroutes: [RouteName]?
-    private(set) var routes: [Route]?
-
+   
     // MARK: - Private Resources -
 
-    weak var parent: Route?
-    weak var wireframe: WireframeData? {
-        didSet {
-            setNavigation()
-            setSubRoutes()
-        }
-    }
+
+
 
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -100,7 +117,7 @@ public class Route: Codable {
 
 // MARK: - Extension - KeyedDecodingContainer -
 
-extension KeyedDecodingContainer where K == Route.CodingKeys {
+extension KeyedDecodingContainer where K == RouteImpl.CodingKeys {
 
     func debugDecode<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T {
         do {
@@ -121,7 +138,7 @@ extension KeyedDecodingContainer where K == Route.CodingKeys {
 
 // MARK: - Extension - Route -
 
-public extension Route {
+extension RouteImpl {
 
     var navigationBar: Navigation {
         return navigation ?? Navigation(name: name)
@@ -134,7 +151,7 @@ public extension Route {
         
     }
 
-    private func setSubRoutes() {
+    func setSubRoutes() {
         routes = routes ?? []
         subroutes?.forEach { subrouteName in
             if let subRoute = wireframe?.route(for: subrouteName) {
@@ -171,9 +188,9 @@ public extension Route {
 
 }
 
-extension Route: Hashable {
+extension RouteImpl: Hashable {
 
-    public static func == (lhs: Route, rhs: Route) -> Bool {
+    public static func == (lhs: RouteImpl, rhs: RouteImpl) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
 

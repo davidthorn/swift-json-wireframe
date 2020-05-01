@@ -12,7 +12,7 @@ import Foundation
 
 public class WireframeData: Codable {
     public let appName: String
-    public var routes: [Route]
+    public var routes: [RouteImpl]
     public let root: RouteName
     public var navigations: [Navigation]?
 
@@ -26,7 +26,7 @@ public class WireframeData: Codable {
     required public init(from decoder: Decoder) throws {
        let container = try decoder.container(keyedBy: CodingKeys.self)
         appName = try container.debugDecode(String.self, forKey: .appName, parent: Self.self)
-        routes = try container.debugDecode([Route].self, forKey: .routes, parent: Self.self)
+        routes = try container.debugDecode([RouteImpl].self, forKey: .routes, parent: Self.self)
         root = try container.debugDecode(String.self, forKey: .root, parent: Self.self)
         navigations = try container.debugDecodeIfPresent([Navigation].self, forKey: .navigations, parent: Self.self)
     }
@@ -75,7 +75,7 @@ public extension WireframeData {
     /// Sets all routes wireframe property to that of this wireframe data.
     func setRoutes() {
 
-        Route.defaultRoutes.forEach { defaultRoute in
+        RouteImpl.defaultRoutes.forEach { defaultRoute in
             if !routes.contains(where: { $0 == defaultRoute }) {
                 routes.append(defaultRoute)
             }
@@ -104,7 +104,5 @@ extension WireframeData: Hashable {
         hasher.combine(routes)
         hasher.combine(root)
     }
-
-
 
 }

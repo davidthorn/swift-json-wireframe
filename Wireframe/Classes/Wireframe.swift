@@ -66,7 +66,7 @@ public final class Wireframe {
 
 // MARK: - Extension - Route -
 
-extension Route: WireframeDatasource {
+extension Route {
 
     public func plugin(with name: RouteName) -> Plugin? {
 

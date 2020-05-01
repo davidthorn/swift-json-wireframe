@@ -70,7 +70,7 @@ open class View: UIViewController, NavigationManager {
 
         if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
 
-            let view = View(route: targetRoute)
+            let view = targetRoute.controller(with: targetRoute.name) ?? View(route: targetRoute)
             switch targetRoute.presentationType {
             case .push:
                 navigationController?.pushViewController(view, animated: true)
@@ -126,9 +126,9 @@ extension View: RouteButtonDelegate {
         let view = commonView
         switch route.presentationType {
         case .push:
-            if route.type == .view {
-                assertionFailure("The routes type is view and the presentation style is push still")
-            }
+//            if route.type == .view {
+//                assertionFailure("The routes type is view and the presentation style is push still")
+//            }
             navigationController?.pushViewController(view, animated: true)
         case .present:
             let presentor = navigationController?.topViewController ?? self

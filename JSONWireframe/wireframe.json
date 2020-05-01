@@ -3,46 +3,31 @@
     "root": "home",
     "routes": [
         {
-            "name" : "home",
-            "title" : "Home",
-            "type" : "view",
-            "subroutes": [
-                "register",
-                "login",
-                "impressum",
-                "profile"
-            ]
-        },
-        {
-            "name" : "register",
-            "title": "Registration"
-        },
-        {
-            "name": "login",
-            "title": "Login"
-        },
-        {
-            "name": "profile",
-            "title": "a title that wont be shown"
-        },
-        {
             "type": "navigation",
-            "presentationType" : "present",
-            "name": "impressum",
-            "title": "Legal Information",
+            "name" : "home",
+            "title": "Home",
             "navigation": {
                 "buttons": [
                     {
-                        "type" : "left",
-                        "target": "dismiss",
-                        "name" : "dismiss",
+                        "type": "left",
+                        "name" : "profile",
+                        "target": "profile",
                         "icon": {
-                            "imageName": "profile_icon"
+                            "imageName" : "profile_icon"
                         }
                     }
                 ]
             }
+        },
+        {
+            "name" : "profile",
+            "title" : "Profile Page",
+            "subroutes": [ "account" ]
+        },
+        {
+            "type": "view",
+            "name" : "account",
+            "title" : "Acconut Page"
         }
     ]
-
 }

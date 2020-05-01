@@ -13,13 +13,13 @@ struct DefaultRoute: Codable {
     let title: String
     let presentationType: PresentationType
 
-    var route: Route {
+    var route: RouteImpl {
         do {
             let encoder = JSONEncoder()
             let decoder = JSONDecoder()
 
             let encodedValue = try encoder.encode(self)
-            let route = try decoder.decode(Route.self, from: encodedValue)
+            let route = try decoder.decode(RouteImpl.self, from: encodedValue)
             return route
         } catch {
             assertionFailure("encoding of the dismiss button did not work")
