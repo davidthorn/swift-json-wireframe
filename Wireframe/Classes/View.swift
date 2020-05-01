@@ -70,7 +70,7 @@ open class View: UIViewController, NavigationManager {
 
         if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
 
-            let view = targetRoute.controller(with: targetRoute.name) ?? View(route: targetRoute)
+            let view = targetRoute.datasource.controller(with: targetRoute.name) ?? View(route: targetRoute)
             switch targetRoute.presentationType {
             case .push:
                 navigationController?.pushViewController(view, animated: true)
@@ -112,12 +112,12 @@ extension View: RouteButtonDelegate {
         let commonView: UIViewController
         switch route.type {
         case .view:
-            commonView = route.controller(with: route.name) ?? View(route: route)
+            commonView = route.datasource.controller(with: route.name) ?? View(route: route)
         case .tabbar:
             commonView = TabBarView(route: route)
         case .navigation:
             let navigation = UINavigationController()
-            let view = route.controller(with: route.name) ??  View(route: route)
+            let view = route.datasource.controller(with: route.name) ??  View(route: route)
             navigation.setViewControllers([view], animated: true)
             view.didMove(toParent: navigation)
             commonView = navigation

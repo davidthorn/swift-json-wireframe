@@ -71,14 +71,14 @@ extension TabBarView: RouteButtonDelegate {
         let commonView: UIViewController
         switch route.type {
         case .view:
-            commonView = route.controller(with: route.name) ?? View(route: route)
+            commonView = route.datasource.controller(with: route.name) ?? View(route: route)
         case .tabbar:
-            commonView = route.controller(with: route.name) ?? TabBarView(route: route)
+            commonView = route.datasource.controller(with: route.name) ?? TabBarView(route: route)
         case .navigation:
             commonView = navigationController(containing: route)
         }
 
-        show(controller: route.controller(with: route.name) ?? commonView, route: route)
+        show(controller: route.datasource.controller(with: route.name) ?? commonView, route: route)
 
     }
 
@@ -95,7 +95,7 @@ extension TabBarView: RouteButtonDelegate {
             case .navigation:
                 commonView = navigationController(containing: subItemRoute)
             case .view:
-                commonView = route.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
+                commonView = route.datasource.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
             case .tabbar:
                 fatalError("A tab bar cannot sit within a tab bar!")
             }
@@ -109,7 +109,7 @@ extension TabBarView: RouteButtonDelegate {
 
     func navigationController(containing subItemRoute: Route) -> UIViewController {
         let navigation = UINavigationController()
-        let view = route.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
+        let view = route.datasource.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
         navigation.setViewControllers([view], animated: true)
         view.didMove(toParent: navigation)
         return navigation

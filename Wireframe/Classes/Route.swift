@@ -47,14 +47,14 @@ public protocol Route: AnyObject, Codable {
     var wireframe: WireframeData? { get }
     var parent: Route? { get set }
     var routes: [Route]? { get }
-    var datasource: WireframeDatasource { get }
+    var datasource: WireframeDatasource! { get }
 }
 
 // MARK: - Implementation -
 
-public class RouteImpl: Route, WireframeDatasource {
+public class RouteImpl: Route {
 
-    public var datasource: WireframeDatasource { self }
+    public var datasource: WireframeDatasource!
      // MARK: - Public Properties -
     public var presentationType: PresentationType = .push
     public var type: RouteType = .view
@@ -67,6 +67,13 @@ public class RouteImpl: Route, WireframeDatasource {
     public weak var parent: Route?
     public weak var wireframe: WireframeData? {
         didSet {
+
+            if let wireframe = wireframe, datasource.isNil {
+                datasource = WireframeDatasourceImpl(wireframe: wireframe)
+            } else {
+                assertionFailure("Datasource has not been set, because the wireframe is nil")
+            }
+
             setNavigation()
             setSubRoutes()
         }
@@ -88,9 +95,6 @@ public class RouteImpl: Route, WireframeDatasource {
    
     // MARK: - Private Resources -
 
-
-
-
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         presentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self) ?? .push
@@ -104,7 +108,6 @@ public class RouteImpl: Route, WireframeDatasource {
         } catch {
             navigationName = try container.debugDecodeIfPresent(String.self, forKey: .navigation, parent: Self.self)
         }
-
 
     }
 
