@@ -106,30 +106,11 @@ public extension WireframeData {
             route.setSubRoutes()
         }
 
-
-    }
-
-    func navigation(for name: String) -> Navigation? {
-
-        do {
-            return try tryNavigation(for: name)
-        } catch {
-            assertionFailure("The navigation should not throw an error")
-            return nil
-        }
-
-    }
-
-    func tryNavigation(for name: String) throws -> Navigation {
-
-        if let navigation = navigations?.first(where: { $0.name == name }) {
-            return navigation
-        }
-
-        throw WireframeError.navigationDoesNotExist
     }
 
 }
+
+// MARK: - Extension - Hashable -
 
 extension WireframeData: Hashable {
 
@@ -145,10 +126,33 @@ extension WireframeData: Hashable {
 
 }
 
+// MARK: - Extension - Navigation -
+
 extension WireframeData {
 
-    func navigation(with name: String) -> Navigation? {
-        navigations?.first(where: { $0.name == name })
+    public func navigation(for name: String) -> Navigation? {
+        
+        do {
+            return try tryNavigation(for: name)
+        } catch {
+            assertionFailure("The navigation should not throw an error")
+            return nil
+        }
+
+    }
+
+    func tryNavigation(for name: String) throws -> Navigation {
+
+        if let navigation = navigations?.first(where: { $0.name == name }) {
+            return navigation
+        }
+
+        if let plugin = plugin(with: name, wireframe: self),
+            let navigation = plugin.navigation {
+            return navigation
+        }
+
+        throw WireframeError.navigationDoesNotExist
     }
 
 }

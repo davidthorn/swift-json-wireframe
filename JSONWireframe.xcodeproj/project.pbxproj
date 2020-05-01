@@ -10,6 +10,7 @@
 		9346CBB1245C427C008D54E5 /* navigation-plugin-invalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 9346CBB0245C427C008D54E5 /* navigation-plugin-invalid.json */; };
 		9346CBB3245C436B008D54E5 /* WireframeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9346CBB2245C436B008D54E5 /* WireframeError.swift */; };
 		9346CBB5245C4558008D54E5 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9346CBB4245C4558008D54E5 /* ErrorViewController.swift */; };
+		9346CBB7245C8C32008D54E5 /* NavigationPluginDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9346CBB6245C8C32008D54E5 /* NavigationPluginDatasource.swift */; };
 		93687771245C33E80077E79A /* navigation-plugin.json in Resources */ = {isa = PBXBuildFile; fileRef = 93687770245C33E80077E79A /* navigation-plugin.json */; };
 		93687773245C34510077E79A /* NavigationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93687772245C34510077E79A /* NavigationPluginTests.swift */; };
 		93687776245C34690077E79A /* MockNavigationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93687775245C34690077E79A /* MockNavigationPlugin.swift */; };
@@ -111,6 +112,7 @@
 		9346CBB0245C427C008D54E5 /* navigation-plugin-invalid.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-plugin-invalid.json"; sourceTree = "<group>"; };
 		9346CBB2245C436B008D54E5 /* WireframeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireframeError.swift; sourceTree = "<group>"; };
 		9346CBB4245C4558008D54E5 /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
+		9346CBB6245C8C32008D54E5 /* NavigationPluginDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPluginDatasource.swift; sourceTree = "<group>"; };
 		93687770245C33E80077E79A /* navigation-plugin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-plugin.json"; sourceTree = "<group>"; };
 		93687772245C34510077E79A /* NavigationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPluginTests.swift; sourceTree = "<group>"; };
 		93687775245C34690077E79A /* MockNavigationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNavigationPlugin.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				9394E2E9245AB1A7007F2325 /* RoutableView.swift */,
 				9394E2EB245AB4B5007F2325 /* WireframeDatasource.swift */,
 				9394E340245B01FB007F2325 /* Icon.swift */,
+				9346CBB6245C8C32008D54E5 /* NavigationPluginDatasource.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -586,6 +589,7 @@
 				9394E31C245AB58B007F2325 /* UIEdgeInsets.swift in Sources */,
 				9394E317245AB585007F2325 /* View.swift in Sources */,
 				9394E315245AB585007F2325 /* WireframeData.swift in Sources */,
+				9346CBB7245C8C32008D54E5 /* NavigationPluginDatasource.swift in Sources */,
 				9394E310245AB585007F2325 /* Wireframe.swift in Sources */,
 				9394E311245AB585007F2325 /* NavigationButtonType.swift in Sources */,
 				9394E33F245AED9A007F2325 /* NavigationManager.swift in Sources */,

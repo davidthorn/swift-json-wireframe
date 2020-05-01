@@ -10,24 +10,29 @@ import UIKit
 import Wireframe
 
 public final class MockWireframeDatasource: WireframeDatasource {
-
+    
     public var wireframe: WireframeData?
-
+    
     public init() { }
-
+    
     public func plugin(with name: RouteName) -> Plugin? {
         assertionFailure("Not yet implemented")
         return nil
     }
-
+    
     public func controller(with name: RouteName) -> UIViewController? {
-         assertionFailure("Not yet implemented")
+        assertionFailure("Not yet implemented")
         return nil
     }
-
+    
     public func controller(for route: Route) -> UIViewController {
         assertionFailure("Not yet implemented")
         fatalError()
     }
-
+    
+    public func plugin(with name: RouteName) -> NavigationPlugin? {
+        assertionFailure("Not yet implemented")
+        return nil
+    }
+    
 }

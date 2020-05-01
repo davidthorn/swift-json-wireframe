@@ -16,7 +16,6 @@ class NavigationPluginTests: WireframeTests {
     var navigationController: MockNavigation!
 
     override func setUp() {
-
         navigationController = MockNavigation()
         PluginManager.purge()
     }
@@ -116,5 +115,34 @@ class NavigationPluginTests: WireframeTests {
         XCTAssertEqual(PluginManager.navigationPlugins.keys.count, 0)
     }
 
+    func test_transient_navigationcontroller() {
+        Wireframe.navigationPlugins.append(MockNavigationPlugin.self)
+        wireframe = resource("navigation-plugin")
+        testSubject = wireframe.wireframe
+        let route = testSubject.route(for: "home")
+        XCTAssertNotNil(route)
+        XCTAssertEqual(route?.type, .navigation)
+        let datasource = testSubject.route(for: "home")?.datasource as? WireframeDatasourceImpl
+        let controller = datasource?.controller(with: "home")
+        let controller1 = datasource?.controller(with: "home")
+        XCTAssertEqual(controller1, controller)
+    }
+
+    func test_intransient_navigationcontroller() {
+        Wireframe.navigationPlugins.append(MockNavigationIntransientPlugin.self)
+        wireframe = resource("navigation-plugin")
+        testSubject = wireframe.wireframe
+        let route = testSubject.route(for: "home")
+        
+        XCTAssertNotNil(route)
+        XCTAssertEqual(route?.type, .navigation)
+        let datasource = testSubject.route(for: "home")?.datasource as? WireframeDatasourceImpl
+        let controller = datasource?.controller(with: "home")
+        let controller1 = datasource?.controller(with: "home")
+        let ts = controller1 as? MockNavigationIntransient
+        _ = ts?.topViewController?.view
+        XCTAssertEqual(ts?.topViewController?.navigationItem.leftBarButtonItems?.count, 1)
+        XCTAssertNotEqual(controller1, controller)
+    }
 
 }

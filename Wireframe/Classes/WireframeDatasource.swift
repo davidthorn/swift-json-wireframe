@@ -19,6 +19,10 @@ public protocol WireframeDatasource: AnyObject {
     /// - Parameter name: The name of the plugin.
     func plugin(with name: RouteName) -> Plugin?
 
+    /// Returns a Plugin that matches this name.
+    /// - Parameter name: The name of the plugin.
+    func plugin(with name: RouteName) -> NavigationPlugin?
+
     /// Returns the view controller from the plugin that has the matching name.
     /// - Parameter name: The name of the route for which this controller should be loaded.
     func controller(with name: RouteName) -> UIViewController?
@@ -38,7 +42,6 @@ public final class WireframeDatasourceImpl {
     }
 
 }
-
 
 // MARK: - Extension - Route -
 
@@ -83,6 +86,9 @@ extension WireframeDatasourceImpl: WireframeDatasource {
         return plugin
     }
 
+    public func plugin(with name: RouteName) -> NavigationPlugin? {
+        plugin(with: name, wireframe: wireframe)
+    }
 
     public func controller(with name: RouteName) -> UIViewController? {
         if let route = wireframe?.route(for: name) {
@@ -96,7 +102,7 @@ extension WireframeDatasourceImpl: WireframeDatasource {
     }
 
     private func builder(route: Route, handler: (Route, UIViewController) -> UIViewController) -> UIViewController {
-        if let plugin = plugin(with: route.name) {
+        if let plugin: Plugin = plugin(with: route.name) {
             let  view = plugin.controller(route: route)
             return handler(route, view)
         } else {
@@ -116,45 +122,26 @@ extension WireframeDatasourceImpl: WireframeDatasource {
     }
 
     func navigationController(for navigation: Navigation?, route: Route) -> UINavigationController {
-        if let name = navigation?.name {
+        guard let name = navigation?.name else { return UINavigationController() }
 
-            if let cachedPlugin = PluginManager.navigationPlugins[name] {
-                if let customNavigation = cachedPlugin.navigation {
-                    route.navigation = customNavigation
-                }
-                return cachedPlugin.navigationController(for: route)
-            }
-
-            guard let wireframe = wireframe else {
-                assertionFailure("The datasources wireframe is nil, why has that happened?")
-                return navigationController(for: nil, route: route)
-            }
-
-            let plugin =  Wireframe.navigationPlugins
-                .first(where: { $0.init(wireframe: wireframe).name == name })?
-                .init(wireframe: wireframe)
-
-            if plugin.isNil {
-                assertionFailure("The navigation plugin with name: \(name) is not registered")
-            }
-
-            if let plugin = plugin, plugin.isTransient {
-                PluginManager.navigationPlugins[name] = plugin
-            }
-
-            if let customNavigation = plugin?.navigation {
+        if let cachedPlugin = PluginManager.navigationPlugins[name] {
+            if let customNavigation = cachedPlugin.navigation {
                 route.navigation = customNavigation
             }
-
-            if let plugin = plugin {
-                 return plugin.navigationController(for: route)
-            }
-
-            return navigationController(for: nil, route: route)
-
+            return cachedPlugin.navigationController(for: route)
         }
 
-        return UINavigationController()
+        let navigationPlugin: NavigationPlugin? = plugin(with: name)
+
+        if let customNavigation = navigationPlugin?.navigation {
+            route.navigation = customNavigation
+        }
+
+        if let plugin = navigationPlugin  {
+            return plugin.navigationController(for: route)
+        }
+
+        return navigationController(for: nil, route: route)
     }
 
 }

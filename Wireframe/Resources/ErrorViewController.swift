@@ -27,10 +27,16 @@ class ErrorViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(.init(title: "OK", style: .destructive, handler: { _ in
+
+        let okAction = UIAlertAction(title: "OK", style: .destructive) { _ in
             fatalError()
-        }))
+        }
+
+        let alert = UIAlertController(
+            title: "Error",
+            message: error.localizedDescription,
+            preferredStyle: .alert)
+        alert.addAction(okAction)
 
         present(alert, animated: true)
     }

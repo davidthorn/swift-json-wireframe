@@ -15,16 +15,33 @@ public final class MockNavigationIntransient: MockBaseNavigation { }
 
 public final class MockNavigationPlugin: NavigationPlugin {
 
-    public var navigation: Navigation?
+    public var navigation: Navigation? {
+        let navigation = Navigation(name: "account")
+        navigation.add(button: DismissButton.navigationButton)
+        return navigation
+    }
 
     public var isTransient: Bool = true
 
     public var name: String = "account"
 
     private(set) var wireframe: WireframeData
+    private(set) var stackedViewController: MockNavigation?
+
 
     public func navigationController(for route: Route) -> UINavigationController {
-        MockNavigation()
+
+        if isTransient, let controller = stackedViewController {
+            return controller
+        }
+
+        let navigation = MockNavigation()
+
+        if isTransient {
+            stackedViewController = navigation
+        }
+
+        return navigation
     }
 
     public init(wireframe: WireframeData) {
@@ -33,10 +50,13 @@ public final class MockNavigationPlugin: NavigationPlugin {
 
 }
 
-
 public final class MockNavigationIntransientPlugin: NavigationPlugin {
 
-    public var navigation: Navigation?
+    public var navigation: Navigation?{
+        let navigation = Navigation(name: "account")
+        navigation.add(button: DismissButton.navigationButton)
+        return navigation
+    }
 
     public var isTransient: Bool = false
 

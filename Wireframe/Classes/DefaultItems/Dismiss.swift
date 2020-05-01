@@ -34,3 +34,24 @@ public struct DismissButton: Codable {
         }
     }
 }
+
+public struct PopButton: Codable {
+    private let type: NavigationButtonType = .right
+    private let name: String = "pop"
+    private let target: RouteName = "pop"
+
+    public static var navigationButton: NavigationButton {
+        do {
+            let encoder = JSONEncoder()
+            let decoder = JSONDecoder()
+
+            let button = PopButton()
+            let encodedValue = try encoder.encode(button)
+            let route = try decoder.decode(NavigationButton.self, from: encodedValue)
+            return route
+        } catch {
+            assertionFailure("encoding of the dismiss button did not work")
+            fatalError()
+        }
+    }
+}
