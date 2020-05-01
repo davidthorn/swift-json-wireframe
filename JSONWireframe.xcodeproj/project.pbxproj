@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93687771245C33E80077E79A /* navigation-plugin.json in Resources */ = {isa = PBXBuildFile; fileRef = 93687770245C33E80077E79A /* navigation-plugin.json */; };
+		93687773245C34510077E79A /* NavigationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93687772245C34510077E79A /* NavigationPluginTests.swift */; };
+		93687776245C34690077E79A /* MockNavigationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93687775245C34690077E79A /* MockNavigationPlugin.swift */; };
 		938069EA245BCBBC00B051AD /* NavigationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938069E9245BCBBC00B051AD /* NavigationPlugin.swift */; };
 		9394E23B245A085F007F2325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E23A245A085F007F2325 /* AppDelegate.swift */; };
 		9394E23F245A085F007F2325 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9394E23E245A085F007F2325 /* ViewController.swift */; };
@@ -102,6 +105,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		93687770245C33E80077E79A /* navigation-plugin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-plugin.json"; sourceTree = "<group>"; };
+		93687772245C34510077E79A /* NavigationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPluginTests.swift; sourceTree = "<group>"; };
+		93687775245C34690077E79A /* MockNavigationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNavigationPlugin.swift; sourceTree = "<group>"; };
 		938069E9245BCBBC00B051AD /* NavigationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPlugin.swift; sourceTree = "<group>"; };
 		9394E237245A085F007F2325 /* JSONWireframe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSONWireframe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9394E23A245A085F007F2325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -190,6 +196,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		93687774245C34540077E79A /* NavigationPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				93687772245C34510077E79A /* NavigationPluginTests.swift */,
+				93687775245C34690077E79A /* MockNavigationPlugin.swift */,
+			);
+			path = NavigationPlugin;
+			sourceTree = "<group>";
+		};
 		938069E8245BCBA600B051AD /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
@@ -300,6 +315,7 @@
 		9394E301245AB551007F2325 /* WireframeTests */ = {
 			isa = PBXGroup;
 			children = (
+				93687774245C34540077E79A /* NavigationPlugin */,
 				9394E332245AB911007F2325 /* Resources */,
 				9394E32B245AB764007F2325 /* Mocks */,
 				9394E302245AB551007F2325 /* WireframeTests.swift */,
@@ -331,6 +347,7 @@
 				9394E335245AC985007F2325 /* subroutes.json */,
 				9394E337245ACDF7007F2325 /* navigation-right-buttons.json */,
 				9394E339245ADBD5007F2325 /* navigation-key.json */,
+				93687770245C33E80077E79A /* navigation-plugin.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -521,6 +538,7 @@
 				9394E336245AC985007F2325 /* subroutes.json in Resources */,
 				9394E334245AB926007F2325 /* root.json in Resources */,
 				9394E338245ACDF7007F2325 /* navigation-right-buttons.json in Resources */,
+				93687771245C33E80077E79A /* navigation-plugin.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,8 +602,10 @@
 				9394E324245AB72C007F2325 /* RouteTests.swift in Sources */,
 				9394E322245AB722007F2325 /* NavigationTests.swift in Sources */,
 				9394E326245AB73A007F2325 /* WireframeDataTests.swift in Sources */,
+				93687773245C34510077E79A /* NavigationPluginTests.swift in Sources */,
 				9394E320245AB6D9007F2325 /* NavigationButtonTests.swift in Sources */,
 				9394E32F245AB7C4007F2325 /* MockPlugin.swift in Sources */,
+				93687776245C34690077E79A /* MockNavigationPlugin.swift in Sources */,
 				9394E32A245AB753007F2325 /* ViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,21 +12,30 @@ import XCTest
 class WireframeTests: XCTestCase {
 
     let defaultRoutesCount = RouteImpl.defaultRoutes.count
-    var navigationController: UINavigationController!
-    var testSubject: Wireframe!
-    
+    private var testSubject: Wireframe!
+
+    func routeCount(_ count: Int) -> Int {
+        count + defaultRoutesCount
+    }
+
+    static func resource(name: String, navigationController: MockNavigation = MockNavigation()) -> Wireframe {
+        let url = Bundle(for: WireframeTests.self).url(forResource: name, withExtension: "json")!
+        return Wireframe(navigation: navigationController, resourceUrl: url)
+    }
+
+    func resource(name: String, navigationController: MockNavigation = MockNavigation()) -> Wireframe {
+        WireframeTests.resource(name: name, navigationController: navigationController)
+    }
+
     override func setUp() {
-        navigationController = UINavigationController()
     }
 
     override func tearDown() {
         testSubject = nil
-        navigationController = nil
     }
 
     func test_root() {
-        let url = Bundle(for: WireframeTests.self).url(forResource: "root", withExtension: "json")!
-        testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
+        testSubject = resource(name: "root")
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
 
@@ -43,8 +52,7 @@ class WireframeTests: XCTestCase {
     }
 
     func test_subroutes() {
-        let url = Bundle(for: WireframeTests.self).url(forResource: "subroutes", withExtension: "json")!
-        testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
+        testSubject = resource(name: "subroutes")
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
         XCTAssertEqual(testSubject.wireframe.routes.count, 3 + defaultRoutesCount)

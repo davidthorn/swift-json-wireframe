@@ -7,27 +7,44 @@
 //
 
 import XCTest
+@testable import Wireframe
 
-class NavigationPluginTests: XCTestCase {
+class NavigationPluginTests: WireframeTests {
+
+    var testSubject: WireframeData!
+    var navigationController: MockNavigation!
+    
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        navigationController = MockNavigation()
+        PluginManager.purge()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        navigationController = nil
+        Wireframe.navigationPlugins.removeAll()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+    func test_navigationPlugin() {
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        testSubject = resource(name: "navigation-plugin", navigationController: navigationController).wireframe
+        XCTAssertEqual(testSubject.routes.count, routeCount(2))
+        XCTAssertNotNil(testSubject.navigations)
+        XCTAssertEqual(testSubject.navigations?.count, 1)
+        let navigation = testSubject.navigation(for: "account")
+        XCTAssertNotNil(navigation)
+        XCTAssertEqual(navigation?.buttons?.count, 1)
+        let logout = navigation?.button(for: "logout")
+        XCTAssertNotNil(logout)
+        XCTAssertEqual(logout?.name, "logout")
+        XCTAssertEqual(logout?.target, "logout")
+        XCTAssertEqual(logout?.type, .left)
+
+        XCTAssertEqual(Wireframe.navigationPlugins.count, 0)
+        XCTAssertEqual(Wireframe.plugins.count, 0)
+        XCTAssertEqual(PluginManager.navigationPlugins.keys.count, 0)
+        XCTAssertEqual(PluginManager.plugins.keys.count, 0)
+
     }
 
 }

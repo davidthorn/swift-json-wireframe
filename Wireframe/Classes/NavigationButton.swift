@@ -41,7 +41,7 @@ public class NavigationButton: Codable {
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
-        type = try container.debugDecodeIfPresent(NavigationButtonType.self, forKey: .type, parent: Self.self)
+        type = try container.debugDecodeIfPresent(NavigationButtonType.self, forKey: .type, parent: Self.self) ?? .left
         icon = try container.debugDecodeIfPresent(Icon.self, forKey: .icon, parent: Self.self)
         target = try container.debugDecode(RouteName.self, forKey: .target, parent: Self.self)
     }

@@ -1,0 +1,27 @@
+{
+    "app_name" : "tester",
+    "root": "home",
+    "routes": [
+        {
+            "name" : "home",
+            "title" : "Home",
+            "navigation": "account"
+        },
+        {
+            "name" : "account",
+            "title": "Account"
+        }
+    ],
+    "navigations": [
+        {
+            "name" : "account",
+            "buttons": [
+                {
+                    "name": "logout",
+                    "target": "logout"
+                }
+            ]
+        }
+    ]
+}
+
