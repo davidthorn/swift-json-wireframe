@@ -11,15 +11,15 @@ import XCTest
 
 class WireframeTests: XCTestCase {
 
+    let defaultRoutesCount = RouteImpl.defaultRoutes.count
     var navigationController: UINavigationController!
     var testSubject: Wireframe!
-
-    override func setUpWithError() throws {
+    
+    override func setUp() {
         navigationController = UINavigationController()
-
     }
 
-    override func tearDownWithError() throws {
+    override func tearDown() {
         testSubject = nil
         navigationController = nil
     }
@@ -29,7 +29,9 @@ class WireframeTests: XCTestCase {
         testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
-        XCTAssertEqual(testSubject.wireframe.routes.count, 1)
+
+
+        XCTAssertEqual(testSubject.wireframe.routes.count, 1 + defaultRoutesCount)
         XCTAssertEqual(testSubject.wireframe.routes.first?.name, "home")
         XCTAssertEqual(testSubject.wireframe.routes.first?.title, "Home")
         XCTAssertNil(testSubject.wireframe.routes.first?.subroutes)
@@ -45,7 +47,7 @@ class WireframeTests: XCTestCase {
         testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
-        XCTAssertEqual(testSubject.wireframe.routes.count, 3)
+        XCTAssertEqual(testSubject.wireframe.routes.count, 3 + defaultRoutesCount)
         XCTAssertEqual(testSubject.wireframe.routes.first?.name, "home")
         XCTAssertEqual(testSubject.wireframe.routes.first?.title, "Home")
         XCTAssertNil(testSubject.wireframe.routes.first?.subroutes)
@@ -59,7 +61,7 @@ class WireframeTests: XCTestCase {
         XCTAssertEqual(subroute?.title, "Account")
         XCTAssertEqual(subroute?.name, "account")
         XCTAssertEqual(subroute?.wireframe, testSubject.wireframe)
-        XCTAssertEqual(subroute?.parent, dashboardRoute)
+        XCTAssertEqual(subroute?.parent as? RouteImpl, dashboardRoute as? RouteImpl)
     }
 
 }

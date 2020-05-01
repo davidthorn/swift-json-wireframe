@@ -11,10 +11,12 @@ import XCTest
 
 class RouteTests: XCTestCase {
 
+    var testSubject: Wireframe!
+
     func test_navigation() {
         let url = Bundle(for: WireframeTests.self).url(forResource: "navigation-right-buttons", withExtension: "json")!
         let navigationController = UINavigationController()
-        let testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
+        testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
 
@@ -24,7 +26,7 @@ class RouteTests: XCTestCase {
         XCTAssertNotNil(account)
         XCTAssertNotNil(account?.navigation?.buttons)
         XCTAssertEqual(account?.navigation?.buttons?.count, 2)
-        XCTAssertEqual(account?.navigationBar.rightBarButtonItems.count, 2)
+        XCTAssertEqual(account?.navigation?.rightBarButtonItems.count, 2)
 
         let logoutButton = account?.navigation?.button(for: "logout")
         XCTAssertNotNil(logoutButton)
@@ -38,8 +40,9 @@ class RouteTests: XCTestCase {
 
         let dashboard = testSubject.wireframe.route(for: "dashboard")
         XCTAssertNotNil(dashboard)
+        XCTAssertNil(dashboard?.navigation)
         XCTAssertNil(dashboard?.navigation?.buttons)
-        XCTAssertEqual(dashboard?.navigationBar.rightBarButtonItems.count, 0)
+        XCTAssertEqual(dashboard?.navigation?.rightBarButtonItems.count, nil)
     }
 
 }

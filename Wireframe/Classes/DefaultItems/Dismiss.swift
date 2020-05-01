@@ -34,27 +34,3 @@ public struct DismissButton: Codable {
         }
     }
 }
-
-public extension RouteImpl {
-
-    static var dismiss: RouteImpl {
-        DefaultRoute(name: "dismiss", title: "dismiss", presentationType: .dismiss).route
-    }
-
-    static var pop: RouteImpl {
-        DefaultRoute(name: "pop", title: "pop", presentationType: .pop).route
-    }
-
-    static var popToRoot: RouteImpl {
-        DefaultRoute(name: "popToRoot", title: "popToRoot", presentationType: .popToRoot).route
-    }
-
-    static var popToView: RouteImpl {
-        DefaultRoute(name: "popToView", title: "popToView", presentationType: .popToView).route
-    }
-
-    static let defaultRoutes: [RouteImpl] = [
-        .dismiss, .pop, .popToRoot, .popToView
-    ]
-
-}

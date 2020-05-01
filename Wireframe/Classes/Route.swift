@@ -66,6 +66,12 @@ public class RouteImpl: Route {
     public var routes: [Route]?
     public weak var parent: Route?
     public weak var wireframe: WireframeData? {
+
+        willSet {
+            /// Remove current datasource to have the newest version of the wireframe.
+            datasource = nil
+        }
+
         didSet {
 
             if let wireframe = wireframe, datasource.isNil {
@@ -203,7 +209,5 @@ extension RouteImpl: Hashable {
         hasher.combine(navigation)
         hasher.combine(subroutes)
     }
-
-
 
 }

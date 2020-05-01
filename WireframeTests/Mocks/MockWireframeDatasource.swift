@@ -11,6 +11,8 @@ import Wireframe
 
 public final class MockWireframeDatasource: WireframeDatasource {
 
+    public var wireframe: WireframeData?
+
     public init() { }
 
     public func plugin(with name: RouteName) -> Plugin? {
@@ -21,6 +23,11 @@ public final class MockWireframeDatasource: WireframeDatasource {
     public func controller(with name: RouteName) -> UIViewController? {
          assertionFailure("Not yet implemented")
         return nil
+    }
+
+    public func controller(for route: Route) -> UIViewController {
+        assertionFailure("Not yet implemented")
+        fatalError()
     }
 
 }
