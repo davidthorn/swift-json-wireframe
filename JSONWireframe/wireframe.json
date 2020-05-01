@@ -1,6 +1,12 @@
 {
     "app_name" : "tester",
     "root": "home",
+    "navigations": [
+        {
+            "name": "profile",
+            "buttons": []
+        }
+    ],
     "routes": [
         {
             "type": "navigation",
@@ -20,9 +26,11 @@
             }
         },
         {
+            "type": "navigation",
             "name" : "profile",
             "title" : "Profile Page",
-            "subroutes": [ "account" ]
+            "subroutes": [ "account" ],
+            "navigation": "profile"
         },
         {
             "type": "view",

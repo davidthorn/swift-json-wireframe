@@ -17,4 +17,8 @@ public class PluginManager {
     /// Store all plugins that are transient
     public static var plugins: [String: Plugin] = [:]
 
+    /// Store all plugins that are transient
+    public static var navigationPlugins: [String: NavigationPlugin] = [:]
+
+
 }

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         Wireframe.plugins.append(ProfilePlugin.self)
+        Wireframe.navigationPlugins.append(ProfilePlugin.self)
 
         let nav = UINavigationController()
 

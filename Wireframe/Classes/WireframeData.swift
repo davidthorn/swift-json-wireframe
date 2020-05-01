@@ -88,7 +88,13 @@ public extension WireframeData {
     }
 
     func navigation(for name: String) -> Navigation? {
-        navigations?.first(where: { $0.name == name })
+
+        if let navigation = navigations?.first(where: { $0.name == name }) {
+            return navigation
+        }
+
+        assertionFailure("A navigation has not been registered with the name of: \(name)")
+        return nil
     }
 
 }
@@ -103,6 +109,14 @@ extension WireframeData: Hashable {
         hasher.combine(appName)
         hasher.combine(routes)
         hasher.combine(root)
+    }
+
+}
+
+extension WireframeData {
+
+    func navigation(with name: String) -> Navigation? {
+        navigations?.first(where: { $0.name == name })
     }
 
 }

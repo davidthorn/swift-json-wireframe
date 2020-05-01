@@ -70,7 +70,7 @@ open class View: UIViewController, NavigationManager {
 
         if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
 
-            let view = targetRoute.datasource.controller(with: targetRoute.name) ?? View(route: targetRoute)
+            let view = targetRoute.datasource.controller(for: targetRoute)
             switch targetRoute.presentationType {
             case .push:
                 navigationController?.pushViewController(view, animated: true)

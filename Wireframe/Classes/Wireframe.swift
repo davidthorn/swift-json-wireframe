@@ -17,6 +17,7 @@ public final class Wireframe {
      // MARK: - Public Properties -
 
     public static var plugins = [Plugin.Type]()
+    public static var navigationPlugins = [NavigationPlugin.Type]()
     public var rootViewController: UIViewController?
 
     // MARK: - Private Properties -
