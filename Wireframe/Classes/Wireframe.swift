@@ -22,43 +22,74 @@ public final class Wireframe {
 
     // MARK: - Private Properties -
 
-    private(set) var wireframe: WireframeData!
+    private(set) var wireframeData: WireframeData?
+    private(set) var wireframe: WireframeData {
+        get {
+            if let data = wireframeData {
+                return data
+            }
+
+            fatalError("Accessing the wireframe data prior to it being loaded is not permitted")
+
+        }
+        set {
+            wireframeData = newValue
+        }
+    }
+    private(set) var datasourceHandler: (WireframeData) -> WireframeDatasource
+    internal var datasource: WireframeDatasource {
+        if wireframeData.isNil {
+            assertionFailure("The wireframe data has not bee set, meaning that the load method has not been called")
+        }
+
+        return datasourceHandler(wireframe)
+    }
+
     private(set) var navigation: UINavigationController
     private(set) var resourceUrl: URL
 
     // MARK: - Constructors -
 
-    public init(navigation: UINavigationController, resourceUrl: URL, autoload: Bool = true) {
+    public init(navigation: UINavigationController, resourceUrl: URL, datasourceHandler: @escaping (WireframeData) -> WireframeDatasource, autoload: Bool = true) throws {
         self.navigation = navigation
         self.resourceUrl = resourceUrl
-        if autoload {
-            do {
-                try load()
-                wireframe.setDefaultRoutes()
-                try setup()
-            } catch let error {
-                rootViewController = ErrorViewController(error: error as! WireframeError)
-            }
+        self.datasourceHandler = datasourceHandler
 
+        if autoload {
+            try configure()
+        }
+    }
+
+    func configure() throws {
+        do {
+            wireframe = try load()
+            wireframe.setDefaultRoutes()
+            try setup()
+        } catch let error {
+            rootViewController = ErrorViewController(error: error as! WireframeError)
         }
     }
 
      // MARK: - Public Methods -
-    func load() throws {
+    func load() throws -> WireframeData {
         do {
             let data = try Data.init(contentsOf: resourceUrl)
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            wireframe = try decoder.decode(WireframeData.self, from: data)
+            let decodedwireframeData = try decoder.decode(WireframeData.self, from: data)
+            decodedwireframeData.datasource = datasourceHandler(decodedwireframeData)
+            return decodedwireframeData
         } catch let error {
             debugPrint(error)
-            throw WireframeError.wireframeDataDecoding
+            throw error
         }
     }
 
     func setup() throws {
         try wireframe.setRoutes()
-        guard let root = wireframe.route(for: wireframe.root) else { return }
+        guard let root = wireframe.route(for: wireframe.root) else {
+            throw WireframeError.rootRouteNotExists(wireframe.root)
+        }
         
         switch root.type {
         case .tabbar:
@@ -71,6 +102,16 @@ public final class Wireframe {
             view.didMove(toParent: navigation)
             rootViewController = navigation
         }
+    }
+
+}
+
+// MARK: - Extension - Wireframe -
+
+extension Wireframe {
+
+    func set(wireframe: WireframeData) {
+        self.wireframeData = wireframe
     }
 
 }

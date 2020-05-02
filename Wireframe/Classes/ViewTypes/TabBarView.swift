@@ -36,7 +36,15 @@ public final class TabBarView: UITabBarController, NavigationManager {
         edgesForExtendedLayout = []
         title = route.title
         view.backgroundColor = .white
-        configureNavigationBarItem(selector: #selector(barButtonTapped))
+        do {
+            try configureNavigationBarItem(selector: #selector(barButtonTapped))
+        } catch let error {
+            let debugError = error as! WireframeError
+            debugPrint(debugError.localizedDescription)
+            debugPrint("Error in file: \(#file) Line: \(#line)")
+            ErrorView.message(controller: self, error: debugError).show()
+        }
+
         viewControllers = tabBarControllers()
 
     }
@@ -66,8 +74,17 @@ public final class TabBarView: UITabBarController, NavigationManager {
 
 extension TabBarView: RouteButtonDelegate {
 
-    public func buttonTapped(tag: Int) {
-        guard let route = route.routes?[tag] else { return }
+    public func handleError(error: WireframeError) {
+        debugPrint("\(error.title)")
+        debugPrint("Error: \(error.localizedDescription)")
+        debugPrint("FIle: \(#file) Line: \(#line)")
+        ErrorView.message(controller: self, error: error).show()
+    }
+
+    public func buttonTapped(tag: Int) throws {
+        guard let route = route.routes?[tag] else {
+            throw WireframeError.buttonNotExist(tag)
+        }
         let commonView: UIViewController
         switch route.type {
         case .view:

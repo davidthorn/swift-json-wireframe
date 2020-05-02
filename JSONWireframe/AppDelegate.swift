@@ -28,7 +28,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        wireframe = Wireframe(navigation: nav, resourceUrl: url)
+        do {
+            wireframe = try Wireframe(navigation: nav, resourceUrl: url) {
+                WireframeDatasourceImpl(wireframe: $0)
+            }
+        } catch {
+            debugPrint("wireframe could not be loaded")
+        }
+
         window?.rootViewController = wireframe.rootViewController
         window?.makeKeyAndVisible()
         return true

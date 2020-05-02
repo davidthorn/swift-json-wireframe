@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum RouteType: String, Codable, Hashable {
+public enum RouteType: String, Codable, Hashable, CaseIterable {
     case view
     case tabbar
     case navigation
@@ -93,16 +93,41 @@ public class RouteImpl: Route {
 
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+
         presentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self) ?? .push
-        type = try container.debugDecodeIfPresent(RouteType.self, forKey: .type, parent: Self.self) ?? .view
-        tabItems = try container.debugDecodeIfPresent([RouteName].self, forKey: .tabItems, parent: Self.self)
+
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
         title = try container.debugDecode(String.self, forKey: .title, parent: Self.self)
+
+        do {
+            type = try container.debugDecode(RouteType.self, forKey: .type, parent: Self.self)
+        } catch {
+            let decodedString = try container.debugDecodeIfPresent(String.self, forKey: .type, parent: Self.self)
+            if let routeType = decodedString {
+                throw WireframeError.invalidRouteType(routeType)
+            }
+
+            type = .view
+
+        }
+
         subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)
+
         do {
             navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
         } catch {
             navigationName = try container.debugDecodeIfPresent(String.self, forKey: .navigation, parent: Self.self)
+        }
+
+        switch type {
+        case .tabbar:
+            do {
+                tabItems = try container.debugDecode([RouteName].self, forKey: .tabItems, parent: Self.self)
+            } catch {
+                throw WireframeError.tabItemsKeyNotPresent(name)
+            }
+        default:
+            tabItems = nil
         }
 
     }
@@ -123,6 +148,7 @@ extension KeyedDecodingContainer where K == RouteImpl.CodingKeys {
             return try decode(T.self, forKey: key)
         } catch let error {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
             throw error
         }
@@ -150,14 +176,32 @@ extension RouteImpl {
         
     }
 
-    func setSubRoutes() {
+    func setSubRoutes() throws {
         routes = routes ?? []
-        subroutes?.forEach { subrouteName in
+
+        var subrouteNames = Set<String>()
+
+        try subroutes?.forEach { subrouteName in
+
+            if subrouteName == name {
+                throw WireframeError.subrouteContainsOwnRoute(subrouteName, self)
+            }
+
+            if subrouteNames.contains(subrouteName) {
+                throw WireframeError.duplicateSubroute(subrouteName, self)
+            }
+
+            subrouteNames.insert(subrouteName)
+
             if let subRoute = wireframe?.route(for: subrouteName) {
                 subRoute.parent = self
                 routes?.append(subRoute)
             } else {
-                assertionFailure("Subroute: \(subrouteName) not found")
+                let debugError = WireframeError.subrouteNotExist(subrouteName, self)
+                debugPrint(debugError.title)
+                debugPrint(debugError.localizedDescription)
+                debugPrint("File: \(#file) Line: \(#line)")
+                throw debugError
             }
         }
     }

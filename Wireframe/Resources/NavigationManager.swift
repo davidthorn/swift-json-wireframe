@@ -18,7 +18,7 @@ public protocol NavigationManager: AnyObject {
 
     /// The method that should be called within viewDidLoad for the bar buttons items to be added.
     /// - Parameter selector: The selector used for the var button items.
-    func configureNavigationBarItem(selector: Selector)
+    func configureNavigationBarItem(selector: Selector) throws
 
 }
 
@@ -28,21 +28,24 @@ extension NavigationManager {
 
     /// The method that should be called within viewDidLoad for the bar buttons items to be added.
     /// - Parameter selector: The selector used for the var button items.
-    public func configureNavigationBarItem(selector: Selector) {
+    public func configureNavigationBarItem(selector: Selector) throws {
         guard let navigation = self.route.navigation else { return }
 
         var leftButtons = navigationItem.leftBarButtonItems ?? []
         var rightButtons = navigationItem.rightBarButtonItems ?? []
 
-        navigation.barButtonsItems.enumerated().forEach { info in
+        try navigation.barButtonsItems.enumerated().forEach { info in
 
-            if let wireframe = route.wireframe, wireframe.route(for: info.element.name).isNil {
-                assertionFailure("This navigation button \(info.element.name) does not have a target route that it can open!")
+            if let wireframe = route.wireframe, wireframe.route(for: info.element.target).isNil {
+                let debugError = WireframeError.navigationTargetNotExist(info.element.target)
+                debugPrint(debugError.localizedDescription)
+                debugPrint("Error in file: \(#file) Line: \(#line)")
+                throw debugError
             }
 
             let barButton: UIBarButtonItem
             if let icon = info.element.icon {
-                barButton = icon.barButtonItem(selector: selector, target: self)
+                barButton = try icon.barButtonItem(selector: selector, target: self)
             } else {
                 barButton = UIBarButtonItem(title: info.element.name,
                                             style: .plain,

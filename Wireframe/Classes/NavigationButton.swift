@@ -57,6 +57,7 @@ extension KeyedDecodingContainer where K == NavigationButton.CodingKeys {
             return try decode(T.self, forKey: key)
         } catch let error {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
             throw error
         }
@@ -68,6 +69,7 @@ extension KeyedDecodingContainer where K == NavigationButton.CodingKeys {
             return try decodeIfPresent(T.self, forKey: key)
         } catch let error {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
             throw error
         }

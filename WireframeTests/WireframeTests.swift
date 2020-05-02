@@ -21,12 +21,14 @@ class WireframeTests: XCTestCase {
     static func resource(
         name: String,
         navigationController: UINavigationController = MockBaseNavigation(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
         autoload: Bool = true
     ) -> Wireframe {
         let url = Bundle(for: WireframeTests.self).url(forResource: name, withExtension: "json")!
-        return Wireframe(
+        return try! Wireframe(
             navigation: navigationController,
             resourceUrl: url,
+            datasourceHandler: datasourceHandler,
             autoload: autoload
         )
     }
@@ -34,11 +36,13 @@ class WireframeTests: XCTestCase {
     func resource(
         _ name: String,
         navigationController: MockBaseNavigation = MockBaseNavigation(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
         autoload: Bool = true
     ) -> Wireframe {
         WireframeTests.resource(
             name: name,
             navigationController: navigationController,
+            datasourceHandler: datasourceHandler,
             autoload: autoload
         )
     }
@@ -46,11 +50,13 @@ class WireframeTests: XCTestCase {
     func resource(
         name: String,
         navigationController: MockNavigation = MockNavigation(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
         autoload: Bool = true
     ) -> Wireframe {
         WireframeTests.resource(
             name: name,
             navigationController: navigationController,
+            datasourceHandler: datasourceHandler,
             autoload: autoload
         )
     }
@@ -58,11 +64,13 @@ class WireframeTests: XCTestCase {
     func resource(
         name: String,
         navigationController: MockNavigationIntransient = MockNavigationIntransient(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
         autoload: Bool = true
     ) -> Wireframe {
         WireframeTests.resource(
             name: name,
             navigationController: navigationController,
+            datasourceHandler: datasourceHandler,
             autoload: autoload
         )
     }
@@ -75,7 +83,7 @@ class WireframeTests: XCTestCase {
     }
 
     func test_root() {
-        testSubject = resource("root")
+        testSubject = resource("root", datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
 
@@ -92,7 +100,7 @@ class WireframeTests: XCTestCase {
     }
 
     func test_subroutes() {
-        testSubject = resource("subroutes")
+        testSubject = resource("subroutes", datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
         XCTAssertEqual(testSubject.wireframe.routes.count, 3 + defaultRoutesCount)

@@ -9,9 +9,13 @@
     ],
     "routes": [
         {
-            "type": "navigation",
+            "type": "tabbar",
             "name" : "home",
             "title": "Home",
+            "tabItems": [
+                "profile",
+                "account"
+            ],
             "navigation": {
                 "buttons": [
                     {

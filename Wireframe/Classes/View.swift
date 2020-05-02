@@ -53,7 +53,14 @@ open class View: UIViewController, NavigationManager {
             stackView.addArrangedSubview($0.element)
         }
 
-        configureNavigationBarItem(selector: #selector(barButtonTapped))
+        do {
+            try configureNavigationBarItem(selector: #selector(barButtonTapped))
+        } catch let error {
+            let debugError = error as! WireframeError
+            debugPrint(debugError.localizedDescription)
+            debugPrint("Error in file: \(#file) Line: \(#line)")
+            ErrorView.message(controller: self, error: debugError).show()
+        }
 
         if route.presentationType == .push, route.type == .view, navigationController.isNil {
             route.presentationType = .present
@@ -99,6 +106,13 @@ open class View: UIViewController, NavigationManager {
 // MARK: - Extension - RouteButtonDelegate -
 
 extension View: RouteButtonDelegate {
+
+    public func handleError(error: WireframeError) {
+        debugPrint("\(error.title)")
+        debugPrint("Error: \(error.localizedDescription)")
+        debugPrint("FIle: \(#file) Line: \(#line)")
+        ErrorView.message(controller: self, error: error).show()
+    }
 
     public func buttonTapped(tag: Int) {
         guard let route = route.routes?[tag] else { return }

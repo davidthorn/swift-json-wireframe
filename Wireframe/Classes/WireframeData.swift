@@ -17,6 +17,8 @@ public class WireframeData: Codable {
     public let root: RouteName
     public var navigations: [Navigation]?
 
+    public var datasource: WireframeDatasource?
+
     enum CodingKeys: CodingKey, CaseIterable {
         case appName
         case routes
@@ -43,6 +45,7 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
             return try decode(T.self, forKey: key)
         } catch let error {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
             throw error
         }
@@ -54,6 +57,7 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
                return try decodeIfPresent(T.self, forKey: key)
            } catch let error {
                debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+                debugPrint("File: \(#file) Line: \(#line)")
                debugPrint(K.allCases)
                throw error
            }
@@ -89,6 +93,15 @@ public extension WireframeData {
         assert(isCalled == false)
         isCalled = true
 
+        var routeNames = Set<String>()
+        try routes.forEach { route in
+            if routeNames.contains(route.name) {
+                throw WireframeError.routeNameAlreadyExist(route.name)
+            }
+
+            routeNames.insert(route.name)
+        }
+
         routes.forEach { route in
             route.datasource = nil
             route.wireframe = nil
@@ -103,7 +116,7 @@ public extension WireframeData {
 
         try routes.forEach { route in
             try route.setNavigation()
-            route.setSubRoutes()
+            try route.setSubRoutes()
         }
 
     }
@@ -152,7 +165,7 @@ extension WireframeData {
             return navigation
         }
 
-        throw WireframeError.navigationDoesNotExist
+        throw WireframeError.navigationDoesNotExist(name)
     }
 
 }

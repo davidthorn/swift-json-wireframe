@@ -33,12 +33,26 @@ class ErrorViewController: UIViewController {
         }
 
         let alert = UIAlertController(
-            title: "Error",
+            title: error.title,
             message: error.localizedDescription,
             preferredStyle: .alert)
         alert.addAction(okAction)
 
         present(alert, animated: true)
+    }
+
+}
+
+public enum ErrorView {
+    
+    case message(controller: UIViewController, error: WireframeError)
+
+    func show() {
+        switch self {
+        case .message(let controller, let error):
+            let alertController = ErrorViewController(error: error)
+            controller.present(alertController, animated: true)
+        }
     }
 
 }

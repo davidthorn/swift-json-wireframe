@@ -27,7 +27,9 @@ class NavigationPluginTests: WireframeTests {
     }
 
     func test__control_navigationPlugin() {
-        wireframe = resource(name: "navigation-plugin", navigationController: navigationController)
+        wireframe = resource(name: "navigation-plugin",
+                             navigationController: navigationController,
+                             datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         testSubject = wireframe.wireframe
         XCTAssertEqual(testSubject.routes.count, routeCount(2))
         XCTAssertNotNil(testSubject.navigations)
@@ -50,7 +52,7 @@ class NavigationPluginTests: WireframeTests {
 
     func test_transient_navigation_plugin() {
         Wireframe.navigationPlugins.append(MockNavigationPlugin.self)
-        wireframe = resource("navigation-plugin")
+        wireframe = resource("navigation-plugin", datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         testSubject = wireframe.wireframe
         let route = testSubject.route(for: "home")
         XCTAssertNotNil(route)
@@ -70,7 +72,9 @@ class NavigationPluginTests: WireframeTests {
     func test_intransient_navigation_plugin() {
         let nav = MockNavigationIntransient()
         Wireframe.navigationPlugins.append(MockNavigationIntransientPlugin.self)
-        wireframe = resource(name: "navigation-plugin", navigationController: nav)
+        wireframe = resource(name: "navigation-plugin",
+                             navigationController: nav,
+                             datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         testSubject = wireframe.wireframe
         let route = testSubject.route(for: "home")
         XCTAssertNotNil(route)
@@ -91,10 +95,19 @@ class NavigationPluginTests: WireframeTests {
         wireframe = resource(
             name: "navigation-plugin-invalid",
             navigationController: nav,
+            datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) },
             autoload: false
         )
 
-        XCTAssertNoThrow(try wireframe.load())
+        let loadWireframe: () throws -> Void = {
+            do {
+                self.wireframe.set(wireframe: try self.wireframe.load())
+            } catch {
+                throw error
+            }
+        }
+
+        XCTAssertNoThrow(try loadWireframe())
         testSubject = wireframe.wireframe
         testSubject.setDefaultRoutes()
         XCTAssertThrowsError(try wireframe.setup())
@@ -117,7 +130,7 @@ class NavigationPluginTests: WireframeTests {
 
     func test_transient_navigationcontroller() {
         Wireframe.navigationPlugins.append(MockNavigationPlugin.self)
-        wireframe = resource("navigation-plugin")
+        wireframe = resource("navigation-plugin", datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         testSubject = wireframe.wireframe
         let route = testSubject.route(for: "home")
         XCTAssertNotNil(route)
@@ -130,7 +143,7 @@ class NavigationPluginTests: WireframeTests {
 
     func test_intransient_navigationcontroller() {
         Wireframe.navigationPlugins.append(MockNavigationIntransientPlugin.self)
-        wireframe = resource("navigation-plugin")
+        wireframe = resource("navigation-plugin", datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         testSubject = wireframe.wireframe
         let route = testSubject.route(for: "home")
         

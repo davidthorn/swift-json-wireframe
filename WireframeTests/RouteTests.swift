@@ -16,7 +16,9 @@ class RouteTests: XCTestCase {
     func test_navigation() {
         let url = Bundle(for: WireframeTests.self).url(forResource: "navigation-right-buttons", withExtension: "json")!
         let navigationController = UINavigationController()
-        testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
+        testSubject = try! Wireframe(navigation: navigationController, resourceUrl: url) {
+            WireframeDatasourceImpl(wireframe: $0)
+        }
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
 

@@ -17,10 +17,17 @@ public final class MockRouteButtonDelegate: RouteButtonDelegate {
 
     var buttonTappedCalled: Int = 0
     var buttonTappedTag: Int?
-    public func buttonTapped(tag: Int) {
+    public func buttonTapped(tag: Int) throws {
         buttonTappedCalled += 1
         buttonTappedTag = tag
 
+    }
+
+    var handleErrorCalled: Int = 0
+    var handleErrorError: WireframeError?
+    public func handleError(error: WireframeError) {
+        handleErrorError = error
+        handleErrorCalled += 1
     }
 
 }
