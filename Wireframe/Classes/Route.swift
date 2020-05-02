@@ -121,6 +121,11 @@ public class RouteImpl: Route {
 
         switch type {
         case .tabbar:
+
+            if subroutes.isNotNil {
+                throw WireframeError.subroutesRedundant(name)
+            }
+
             do {
                 tabItems = try container.debugDecode([RouteName].self, forKey: .tabItems, parent: Self.self)
             } catch {

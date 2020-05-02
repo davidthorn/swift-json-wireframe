@@ -50,39 +50,34 @@ public final class Wireframe {
 
     // MARK: - Constructors -
 
-    public init(navigation: UINavigationController, resourceUrl: URL, datasourceHandler: @escaping (WireframeData) -> WireframeDatasource, autoload: Bool = true) throws {
+    public init(navigation: UINavigationController, resourceUrl: URL, datasourceHandler: @escaping (WireframeData) -> WireframeDatasource, autoload: Bool = true) {
         self.navigation = navigation
         self.resourceUrl = resourceUrl
         self.datasourceHandler = datasourceHandler
 
-        if autoload {
-            try configure()
-        }
-    }
-
-    func configure() throws {
+        guard autoload else { return }
+        
         do {
-            wireframe = try load()
-            wireframe.setDefaultRoutes()
-            try setup()
+            try configure()
         } catch let error {
             rootViewController = ErrorViewController(error: error as! WireframeError)
         }
     }
 
+    func configure() throws {
+        wireframe = try load()
+        wireframe.setDefaultRoutes()
+        try setup()
+    }
+
      // MARK: - Public Methods -
     func load() throws -> WireframeData {
-        do {
-            let data = try Data.init(contentsOf: resourceUrl)
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let decodedwireframeData = try decoder.decode(WireframeData.self, from: data)
-            decodedwireframeData.datasource = datasourceHandler(decodedwireframeData)
-            return decodedwireframeData
-        } catch let error {
-            debugPrint(error)
-            throw error
-        }
+        let data = try Data.init(contentsOf: resourceUrl)
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        let decodedwireframeData = try decoder.decode(WireframeData.self, from: data)
+        decodedwireframeData.datasource = datasourceHandler(decodedwireframeData)
+        return decodedwireframeData
     }
 
     func setup() throws {
@@ -90,7 +85,7 @@ public final class Wireframe {
         guard let root = wireframe.route(for: wireframe.root) else {
             throw WireframeError.rootRouteNotExists(wireframe.root)
         }
-        
+
         switch root.type {
         case .tabbar:
             rootViewController = TabBarView(route: root)
@@ -111,7 +106,7 @@ public final class Wireframe {
 extension Wireframe {
 
     func set(wireframe: WireframeData) {
-        self.wireframeData = wireframe
+        wireframeData = wireframe
     }
 
 }

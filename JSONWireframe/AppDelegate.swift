@@ -26,18 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             assertionFailure("could not load wireframe file")
             return true
         }
-
+        var rootViewController: UIViewController = ErrorViewController(error: .rootViewControllerNil)
         window = UIWindow(frame: UIScreen.main.bounds)
-        do {
-            wireframe = try Wireframe(navigation: nav, resourceUrl: url) {
-                WireframeDatasourceImpl(wireframe: $0)
-            }
-        } catch {
-            debugPrint("wireframe could not be loaded")
+        wireframe = Wireframe(navigation: nav, resourceUrl: url) {
+            WireframeDatasourceImpl(wireframe: $0)
         }
 
-        window?.rootViewController = wireframe.rootViewController
+        rootViewController = wireframe.rootViewController ?? ErrorViewController(error: .rootViewControllerNil)
+
+        window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
+
         return true
     }
 

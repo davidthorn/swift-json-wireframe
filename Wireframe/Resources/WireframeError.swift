@@ -9,6 +9,8 @@
 import Foundation
 
 public enum WireframeError: Error {
+    case rootViewControllerNil
+    case subroutesRedundant(RouteName)
     case tabItemsKeyNotPresent(RouteName)
     case invalidRouteType(String)
     case subrouteContainsOwnRoute(RouteName, Route)
@@ -32,6 +34,10 @@ public enum WireframeError: Error {
 
     public var title: String {
         switch self {
+        case .rootViewControllerNil:
+            return "Fatal Wireframe Data Error"
+        case .subroutesRedundant:
+            return "TabView Route Decoding Error"
         case .tabItemsKeyNotPresent:
             return "TabView Route Decoding Error"
         case .routeDecoding:
@@ -67,6 +73,10 @@ public enum WireframeError: Error {
 
     public var localizedDescription: String {
         switch self {
+        case .rootViewControllerNil:
+            return "The root view controller has not been set within the constructor or in the app delegate."
+        case .subroutesRedundant(let route):
+            return "Route: \(route)'s view type is tabbar, the subroutes property will never be used."
         case .tabItemsKeyNotPresent(let routeName):
             return "The route `\(routeName)` must supply an array of `NavigationButton`'s when `type` is `tabbar`"
         case .routeDecoding:

@@ -107,16 +107,7 @@ extension TabBarView: RouteButtonDelegate {
 
         subItems?.enumerated().forEach { item in
             let subItemRoute = item.element
-            let commonView: UIViewController
-            switch subItemRoute.type {
-            case .navigation:
-                commonView = navigationController(containing: subItemRoute)
-            case .view:
-                commonView = route.datasource.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
-            case .tabbar:
-                fatalError("A tab bar cannot sit within a tab bar!")
-            }
-
+            let commonView: UIViewController = route.datasource.controller(for: subItemRoute)
             commonView.tabBarItem = .init(title: subItemRoute.name, image: nil, tag: item.offset)
             tabController.append(commonView)
         }

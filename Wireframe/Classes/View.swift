@@ -126,6 +126,9 @@ extension View: RouteButtonDelegate {
         let view = route.datasource.controller(for: route)
         switch route.presentationType {
         case .push:
+            if route.type == .navigation {
+                assertionFailure("Its gonna crash here, the presentType requires to be present")
+            }
             navigationController?.pushViewController(view, animated: true)
         case .present:
             let presentor = navigationController?.topViewController ?? self

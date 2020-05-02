@@ -50,18 +50,7 @@ extension WireframeDatasourceImpl: WireframeDatasource {
     /// This method must return a view and is responsible for checking if a plugin controls this route.
     /// - Parameter route: The route used for the view
     public func controller(for route: Route) -> UIViewController {
-        return builder(route: route) { (route, controller) -> UIViewController in
-            if route.type == .navigation, !(controller is UINavigationController) {
-                let view = View(route: route)
-                let nav = navigationController(for: route.navigation, route: route)
-                nav.setViewControllers([view], animated: true)
-                view.didMove(toParent: nav)
-                return nav
-            } else {
-                return controller
-            }
-        }
-
+        return builder(route: route) { $1 }
     }
 
     public func plugin(with name: RouteName) -> Plugin? {
