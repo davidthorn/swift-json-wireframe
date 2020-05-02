@@ -12,10 +12,6 @@
             "subroutes": [ "account" ]
         },
         {
-            "name": "notifications",
-            "title": "Notifications"
-        },
-        {
             "name" : "account",
             "title": "Account",
             "navigation": {

@@ -3,6 +3,7 @@
     "root": "home",
     "routes": [
         {
+            "presentationType": "present",
             "type": "navigation",
             "name" : "home",
             "title" : "Home",

@@ -25,7 +25,7 @@ class WireframeTests: XCTestCase {
         autoload: Bool = true
     ) -> Wireframe {
         let url = Bundle(for: WireframeTests.self).url(forResource: name, withExtension: "json")!
-        return try! Wireframe(
+        return Wireframe(
             navigation: navigationController,
             resourceUrl: url,
             datasourceHandler: datasourceHandler,

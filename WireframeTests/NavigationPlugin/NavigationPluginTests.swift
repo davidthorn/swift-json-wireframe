@@ -30,13 +30,14 @@ class NavigationPluginTests: WireframeTests {
         wireframe = resource(name: "navigation-plugin",
                              navigationController: navigationController,
                              datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
+        XCTAssertFalse(wireframe.rootViewController is ErrorViewController)
         testSubject = wireframe.wireframe
-        XCTAssertEqual(testSubject.routes.count, routeCount(2))
+        XCTAssertEqual(testSubject.routes.count, routeCount(3))
         XCTAssertNotNil(testSubject.navigations)
         XCTAssertEqual(testSubject.navigations?.count, 1)
         let navigation = testSubject.navigation(for: "account")
         XCTAssertNotNil(navigation)
-        XCTAssertEqual(navigation?.buttons?.count, 1)
+        XCTAssertEqual(navigation?.buttons.count, 1)
         let logout = navigation?.button(for: "logout")
         XCTAssertNotNil(logout)
         XCTAssertEqual(logout?.name, "logout")

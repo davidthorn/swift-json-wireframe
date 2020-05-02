@@ -115,7 +115,11 @@ public class RouteImpl: Route {
 
         do {
             navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
-        } catch {
+        } catch let error {
+            if let wireframeError = error as? WireframeError {
+                throw wireframeError
+            }
+
             navigationName = try container.decodeIfPresent(String.self, forKey: .navigation)
         }
 

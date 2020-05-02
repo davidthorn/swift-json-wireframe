@@ -9,6 +9,7 @@
 import Foundation
 
 public enum WireframeError: Error {
+    case unknownError(Error)
     case navigationButtonTargetNotExists(RouteName)
     case navigationDecoding(Navigation.CodingKeys)
     case tabItemNotExist(Route, RouteName)
@@ -38,6 +39,8 @@ public enum WireframeError: Error {
 
     public var title: String {
         switch self {
+        case .unknownError:
+            return "Unknown error"
         case .navigationButtonTargetNotExists:
             return "Navigaton Button Error"
         case .navigationDecoding:
@@ -85,6 +88,8 @@ public enum WireframeError: Error {
 
     public var localizedDescription: String {
         switch self {
+        case .unknownError(let error):
+            return "Error: \(error.localizedDescription)"
         case .navigationButtonTargetNotExists(let target):
             return "The navigation button target: \(target) does not match a registerd route."
         case .navigationDecoding(let key):

@@ -27,7 +27,7 @@ public class WireframeData: Codable {
     }
 
     required public init(from decoder: Decoder) throws {
-       let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         appName = try container.debugDecode(String.self, forKey: .appName, parent: Self.self)
         root = try container.debugDecode(String.self, forKey: .root, parent: Self.self)
         routes = try container.debugDecode([RouteImpl].self, forKey: .routes, parent: Self.self)
@@ -108,8 +108,7 @@ public extension WireframeData {
             routeNames.insert(route.name)
         }
 
-        try validateTabBarItems()
-        try validateNavigationButtonTargets()
+        try validateRoutesTabBarItems()
 
         routes.forEach { route in
             route.datasource = nil
@@ -128,23 +127,29 @@ public extension WireframeData {
             try route.setSubRoutes()
         }
 
+        try validateNavigationButtonTargets()
     }
 
 }
 
 extension WireframeData {
 
-    func validateTabBarItems() throws {
+    func validateRoutesTabBarItems() throws {
         try routes
             .filter { $0.type == .tabbar && $0.tabItems.isNotNil }
             .map { (route: $0, tabItems: $0.tabItems ?? []) }
-            .forEach { info in
-                try info.tabItems.forEach { tabItem in
-                    if !routes.contains(where: { $0.name == tabItem }) {
-                        throw WireframeError.tabItemNotExist(info.route, tabItem)
-                    }
-                }
+            .forEach(validateTabBarItems)
+    }
 
+    func validateTabBarItems(info: (route: Route, tabItems: [RouteName])) throws {
+        try info.tabItems.forEach { tabItem in
+            try self.validateTabItemExists(name: tabItem, route: info.route)
+        }
+    }
+
+    func validateTabItemExists(name: RouteName , route: Route) throws {
+        if !routes.contains(where: { $0.name == name }) {
+            throw WireframeError.tabItemNotExist(route, name)
         }
     }
 
@@ -153,14 +158,26 @@ extension WireframeData {
 extension WireframeData {
 
     func validateNavigationButtonTargets() throws {
-        try navigations?.compactMap { $0 }
-            .flatMap { $0.buttons.map { $0.target } }
-            .forEach { target in
-                if !routes.contains(where: { $0.name == target }) {
-                    throw WireframeError.navigationButtonTargetNotExists(target)
-                }
-            }
+        let targets = routes
+            .compactMap({ $0.navigation })
+            .flatMap { $0.buttons }
+            .map { $0.target }
 
+        var navigationTartgets = navigations?
+            .compactMap { $0 }
+            .flatMap {
+                $0.buttons.map { $0.target }
+
+            } ?? []
+
+        navigationTartgets.append(contentsOf: targets)
+
+        try navigationTartgets
+            .forEach { target in
+            if !routes.contains(where: { $0.name == target }) {
+                throw WireframeError.navigationButtonTargetNotExists(target)
+            }
+        }
     }
 
 }

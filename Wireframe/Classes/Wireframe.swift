@@ -60,7 +60,12 @@ public final class Wireframe {
         do {
             try configure()
         } catch let error {
-            rootViewController = ErrorViewController(error: error as! WireframeError)
+            if let debugError = error as? WireframeError {
+                rootViewController = ErrorViewController(error: debugError)
+            } else {
+                rootViewController = ErrorViewController(error: .unknownError(error))
+            }
+
         }
     }
 

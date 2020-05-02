@@ -30,12 +30,8 @@ public class Navigation: Codable {
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        do {
-            name = try container.decode(String.self, forKey: .name)
-        } catch {
-            throw WireframeError.navigationDecoding(.name)
-        }
-
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        
         do {
             buttons = try container.decode([NavigationButton].self, forKey: .buttons)
         } catch {
