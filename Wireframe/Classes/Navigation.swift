@@ -14,7 +14,7 @@ public class Navigation: Codable {
 
     // MARK: - Private Properties -
     public var name: String?
-    private(set) var buttons: [NavigationButton]?
+    private(set) var buttons: [NavigationButton]
 
     // MARK: - Constructors -
     public init(name: String) {
@@ -22,8 +22,30 @@ public class Navigation: Codable {
         self.buttons = []
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case name
+        case buttons
+    }
+
+    required public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        do {
+            name = try container.decode(String.self, forKey: .name)
+        } catch {
+            throw WireframeError.navigationDecoding(.name)
+        }
+
+        do {
+            buttons = try container.decode([NavigationButton].self, forKey: .buttons)
+        } catch {
+            throw WireframeError.navigationDecoding(.buttons)
+        }
+
+    }
+
     public func add(button: NavigationButton) {
-        buttons?.append(button)
+        buttons.append(button)
     }
 
 }
@@ -33,7 +55,7 @@ public class Navigation: Codable {
 public extension Navigation {
 
     var barButtonsItems: [NavigationButton] {
-        buttons ?? []
+        buttons
     }
 
     var leftBarButtonItems: [NavigationButton] {

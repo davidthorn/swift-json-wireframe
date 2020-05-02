@@ -53,11 +53,11 @@ public final class TabBarView: UITabBarController, NavigationManager {
 
     @objc func barButtonTapped(button: UIBarButtonItem) {
 
-        if route.navigation?.buttons?[button.tag] == nil {
+        if route.navigation?.buttons[button.tag] == nil {
             assertionFailure("The button does not exist")
         }
 
-        if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
+        if let name = route.navigation?.buttons[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
             let view = View(route: targetRoute)
             show(controller: view, route: targetRoute)
         }

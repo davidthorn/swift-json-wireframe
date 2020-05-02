@@ -71,11 +71,11 @@ open class View: UIViewController, NavigationManager {
 
     @objc func barButtonTapped(button: UIBarButtonItem) {
 
-        if route.navigation?.buttons?[button.tag] == nil {
+        if route.navigation?.buttons[button.tag] == nil {
             assertionFailure("The button does not exist")
         }
 
-        if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
+        if let name = route.navigation?.buttons[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
 
             let view = targetRoute.datasource.controller(for: targetRoute)
             switch targetRoute.presentationType {

@@ -9,6 +9,8 @@
 import Foundation
 
 public enum WireframeError: Error {
+    case navigationButtonTargetNotExists(RouteName)
+    case navigationDecoding(Navigation.CodingKeys)
     case tabItemNotExist(Route, RouteName)
     case navigationControllerBeingPushed(RouteName)
     case rootViewControllerNil
@@ -31,11 +33,15 @@ public enum WireframeError: Error {
     case navigationPluginNotExists
     case navigationDoesNotExist(String)
 
-    case wireframeDataDecoding
+    case wireframeDataDecoding(WireframeData.CodingKeys)
     case routeDecoding
 
     public var title: String {
         switch self {
+        case .navigationButtonTargetNotExists:
+            return "Navigaton Button Error"
+        case .navigationDecoding:
+            return "Navigation Decoding Error"
         case .tabItemNotExist:
             return "Tab Bar Item Error"
         case .navigationControllerBeingPushed:
@@ -79,6 +85,10 @@ public enum WireframeError: Error {
 
     public var localizedDescription: String {
         switch self {
+        case .navigationButtonTargetNotExists(let target):
+            return "The navigation button target: \(target) does not match a registerd route."
+        case .navigationDecoding(let key):
+            return "The Navigation requires for the key: `\(key.rawValue)` to be provided."
         case .tabItemNotExist(let route, let tabItemName):
             return "The tabBarItem `\(tabItemName)` does not exist as a route for `\(route.name)`'s tabbar."
         case .navigationControllerBeingPushed(let route):
@@ -116,8 +126,8 @@ public enum WireframeError: Error {
             return "The navigation `\(name)` does not exist"
         case .navigationPluginNotExists:
             return "An navigation plugin does not exist"
-        case .wireframeDataDecoding:
-            return "An error occurred during the decoding of the data"
+        case .wireframeDataDecoding(let key):
+            return "WireframeData key: `\(key.rawValue)` missing as a top level key/value pair."
         }
     }
 

@@ -19,7 +19,7 @@ public class WireframeData: Codable {
 
     public var datasource: WireframeDatasource?
 
-    enum CodingKeys: CodingKey, CaseIterable {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case appName
         case routes
         case root
@@ -29,9 +29,15 @@ public class WireframeData: Codable {
     required public init(from decoder: Decoder) throws {
        let container = try decoder.container(keyedBy: CodingKeys.self)
         appName = try container.debugDecode(String.self, forKey: .appName, parent: Self.self)
-        routes = try container.debugDecode([RouteImpl].self, forKey: .routes, parent: Self.self)
         root = try container.debugDecode(String.self, forKey: .root, parent: Self.self)
-        navigations = try container.debugDecodeIfPresent([Navigation].self, forKey: .navigations, parent: Self.self)
+        routes = try container.debugDecode([RouteImpl].self, forKey: .routes, parent: Self.self)
+
+        do {
+            navigations = try container.decodeIfPresent([Navigation].self, forKey: .navigations)
+        } catch let error {
+            throw error
+        }
+
     }
 
 }
@@ -43,11 +49,11 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
     func debugDecode<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T {
         do {
             return try decode(T.self, forKey: key)
-        } catch let error {
+        } catch {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
             debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
-            throw error
+            throw WireframeError.wireframeDataDecoding(key)
         }
 
     }
@@ -55,11 +61,11 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
     func debugDecodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T? {
            do {
                return try decodeIfPresent(T.self, forKey: key)
-           } catch let error {
+           } catch {
                debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
                 debugPrint("File: \(#file) Line: \(#line)")
                debugPrint(K.allCases)
-               throw error
+               throw WireframeError.wireframeDataDecoding(key)
            }
 
        }
@@ -102,17 +108,8 @@ public extension WireframeData {
             routeNames.insert(route.name)
         }
 
-        try routes
-            .filter { $0.type == .tabbar && $0.tabItems.isNotNil }
-            .map { (route: $0, tabItems: $0.tabItems ?? []) }
-            .forEach { info in
-                try info.tabItems.forEach { tabItem in
-                    if !routes.contains(where: { $0.name == tabItem }) {
-                        throw WireframeError.tabItemNotExist(info.route, tabItem)
-                    }
-                }
-
-            }
+        try validateTabBarItems()
+        try validateNavigationButtonTargets()
 
         routes.forEach { route in
             route.datasource = nil
@@ -130,6 +127,39 @@ public extension WireframeData {
             try route.setNavigation()
             try route.setSubRoutes()
         }
+
+    }
+
+}
+
+extension WireframeData {
+
+    func validateTabBarItems() throws {
+        try routes
+            .filter { $0.type == .tabbar && $0.tabItems.isNotNil }
+            .map { (route: $0, tabItems: $0.tabItems ?? []) }
+            .forEach { info in
+                try info.tabItems.forEach { tabItem in
+                    if !routes.contains(where: { $0.name == tabItem }) {
+                        throw WireframeError.tabItemNotExist(info.route, tabItem)
+                    }
+                }
+
+        }
+    }
+
+}
+
+extension WireframeData {
+
+    func validateNavigationButtonTargets() throws {
+        try navigations?.compactMap { $0 }
+            .flatMap { $0.buttons.map { $0.target } }
+            .forEach { target in
+                if !routes.contains(where: { $0.name == target }) {
+                    throw WireframeError.navigationButtonTargetNotExists(target)
+                }
+            }
 
     }
 
