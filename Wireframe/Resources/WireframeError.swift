@@ -19,7 +19,7 @@ public enum WireframeError: Error {
     case rootViewControllerNil
     case subroutesRedundant(RouteName)
     case tabItemsKeyNotPresent(RouteName)
-    case invalidRouteType(String)
+    case invalidRouteType(RouteName, String)
     case subrouteContainsOwnRoute(RouteName, Route)
     case duplicateSubroute(RouteName, Route)
     case routeNameAlreadyExist(RouteName)
@@ -37,7 +37,7 @@ public enum WireframeError: Error {
     case navigationDoesNotExist(String)
 
     case wireframeDataDecoding(WireframeData.CodingKeys)
-    case routeDecoding
+    case routeDecoding(RouteImpl.CodingKeys)
 
     public var title: String {
         switch self {
@@ -63,8 +63,8 @@ public enum WireframeError: Error {
             return "TabView Route Decoding Error"
         case .routeDecoding:
             return "Route Decoding Error"
-        case .invalidRouteType:
-            return WireframeError.routeDecoding.title
+        case .invalidRouteType(let route, let type):
+            return "The type provided for route \(route) is invalid, valid types are: \(RouteType.allCases.map { $0.rawValue })"
         case .subrouteContainsOwnRoute:
             return "Subroute Error"
         case .duplicateSubroute:
@@ -114,9 +114,9 @@ public enum WireframeError: Error {
             return "Route: \(route)'s view type is tabbar, the subroutes property will never be used."
         case .tabItemsKeyNotPresent(let routeName):
             return "The route `\(routeName)` must supply an array of `NavigationButton`'s when `type` is `tabbar`"
-        case .routeDecoding:
-            return "An error occurred during the decoding of the route"
-        case .invalidRouteType(let type):
+        case .routeDecoding(let key):
+             return "The Route requires for the key: `\(key.rawValue)` to be provided."
+            case .invalidRouteType(let type):
             return "Invalid route type: \(type) valid types are : \(RouteType.allCases.map{ $0.rawValue })"
         case .subrouteContainsOwnRoute(let routeName, let route):
             assert(routeName == route.name, "This route: \(routeName) is a valid subroute")

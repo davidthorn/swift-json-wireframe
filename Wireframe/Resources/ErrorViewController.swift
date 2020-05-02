@@ -29,7 +29,7 @@ public final class ErrorViewController: UIViewController {
         super.viewDidAppear(animated)
 
         let okAction = UIAlertAction(title: "OK", style: .destructive) { _ in
-            fatalError()
+//            fatalError()
         }
 
         let alert = UIAlertController(

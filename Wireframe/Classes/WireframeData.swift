@@ -6,6 +6,14 @@
 //  Copyright © 2020 David Thorn. All rights reserved.
 //
 
+/// Things to fix.
+
+/// The routes are not being handled
+/// tabItems warning of zero tabItems
+/// tabItems cannot contain their own name
+/// navigation buttons is not displaying errors
+/// presentationStyle present in a navigation / subroute is not presenting
+
 import Foundation
 
 // MARK: - Implementation -
@@ -30,7 +38,11 @@ public class WireframeData: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         appName = try container.debugDecode(String.self, forKey: .appName, parent: Self.self)
         root = try container.debugDecode(String.self, forKey: .root, parent: Self.self)
-        routes = try container.debugDecode([RouteImpl].self, forKey: .routes, parent: Self.self)
+        do {
+            routes = try container.decode([RouteImpl].self, forKey: .routes)
+        } catch let error {
+            throw error
+        }
 
         do {
             navigations = try container.decodeIfPresent([Navigation].self, forKey: .navigations)

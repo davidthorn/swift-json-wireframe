@@ -57,6 +57,7 @@ public class RouteImpl: Route {
     public var datasource: WireframeDatasource!
      // MARK: - Public Properties -
     public var presentationType: PresentationType = .push
+    private(set) var presentationStyle: PresentationType = .push
     public var type: RouteType = .view
     public var tabItems: [String]?
     public let name: String
@@ -75,7 +76,7 @@ public class RouteImpl: Route {
         }
     }
 
-    enum CodingKeys: CodingKey, CaseIterable {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case tabItems
         case name
@@ -83,6 +84,7 @@ public class RouteImpl: Route {
         case navigation
         case subroutes
         case presentationType
+        case presentationStyle
     }
 
     // MARK: - Private Properties -
@@ -94,17 +96,25 @@ public class RouteImpl: Route {
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        presentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self) ?? .push
+        let presentType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self) ?? .push
+
+        presentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationStyle, parent: Self.self) ?? presentType
 
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
-        title = try container.debugDecode(String.self, forKey: .title, parent: Self.self)
+
+        do {
+            title = try container.decode(String.self, forKey: .title)
+        } catch {
+            throw WireframeError.routeDecoding(.title)
+        }
+
 
         do {
             type = try container.decode(RouteType.self, forKey: .type)
         } catch {
             let decodedString = try container.decodeIfPresent(String.self, forKey: .type)
-            if let routeType = decodedString {
-                throw WireframeError.invalidRouteType(routeType)
+            if let value = decodedString {
+                throw WireframeError.invalidRouteType(name, value)
             }
 
             type = .view
