@@ -11,13 +11,20 @@ import Wireframe
 
 // MARK: - Implementation -
 
-public class ProfilePlugin: Plugin {
+public class ProfilePlugin: Plugin, NavigationPlugin {
 
      // MARK: - Public Properties -
 
     public var name: String = "profile"
+
     public var stackedController: UIViewController? {
         viewController
+    }
+
+    public var navigation: Navigation? {
+        let nav = Navigation(name: "profile")
+        nav.add(button: DismissButton.navigationButton)
+        return nav
     }
 
     // MARK: - Private Properties -
@@ -33,6 +40,11 @@ public class ProfilePlugin: Plugin {
         self.wireframe = wireframe
     }
 
+    public func navigationController(for route: Route) -> UINavigationController {
+        let nav = UINavigationController()
+        return nav
+    }
+
 }
 
 // MARK: - Extension - ProfilePlugin -
@@ -42,6 +54,11 @@ extension ProfilePlugin {
     // MARK: - Public Properties -
 
     public func controller(route: Route) -> UIViewController {
+
+        route.type = .navigation
+        route.presentationType = .present
+
+        route.navigation = route.wireframe?.navigation(for: "profile")
 
         if route.name != name {
             assertionFailure("Why is this being called with another route")

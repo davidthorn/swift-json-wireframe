@@ -8,23 +8,72 @@
 
 import Foundation
 
-public enum RouteType: String, Codable, Hashable {
+public enum RouteType: String, Codable, Hashable, CaseIterable {
     case view
     case tabbar
     case navigation
 }
 
+public enum PresentationType: String, Codable, Hashable {
+
+    /// view will be pushed using its own navigation controller
+    case push
+
+    /// view will be presented using either top view controller of the controller itself.
+    case present
+
+    /// will call the navigation controllers popToViewController method.
+    case popToView
+
+    /// will call the navigation controllers popToRootViewController method.
+    case popToRoot
+
+    /// will call the navigation controllers  popViewController method
+    case pop
+
+    /// will call the controllers dismiss method if its navigation controller is nil, else will call the naviigation controllers dismiss method.
+    case dismiss
+
+}
+
+public protocol Route: AnyObject, Codable {
+    var presentationType: PresentationType { get set }
+    var type: RouteType  { get set }
+    var tabItems: [String]?  { get }
+    var name: String  { get }
+    var title: String { get }
+    var navigation: Navigation?  { get set }
+    var navigationName: String?  { get }
+    var wireframe: WireframeData? { get }
+    var parent: Route? { get set }
+    var routes: [Route]? { get }
+    var datasource: WireframeDatasource! { get }
+}
+
 // MARK: - Implementation -
 
-public class Route: Codable {
+public class RouteImpl: Route {
 
+    public var datasource: WireframeDatasource!
      // MARK: - Public Properties -
+    public var presentationType: PresentationType = .push
     public var type: RouteType = .view
     public var tabItems: [String]?
     public let name: String
     public let title: String
     public var navigation: Navigation?
     public var navigationName: String?
+    public var routes: [Route]?
+    public weak var parent: Route?
+    public weak var wireframe: WireframeData?
+
+    public func set(wireframeData: WireframeData?) throws {
+        assert(wireframe.isNil && datasource.isNil)
+        wireframe = wireframeData
+        if let wireframe = wireframe {
+            datasource = WireframeDatasourceImpl(wireframe: wireframe)
+        }
+    }
 
     enum CodingKeys: CodingKey, CaseIterable {
         case type
@@ -33,36 +82,66 @@ public class Route: Codable {
         case title
         case navigation
         case subroutes
+        case presentationType
     }
 
     // MARK: - Private Properties -
 
     private(set) var subroutes: [RouteName]?
-    private(set) var routes: [Route]?
-
+   
     // MARK: - Private Resources -
-
-    weak var parent: Route?
-    weak var wireframe: WireframeData? {
-        didSet {
-            setNavigation()
-            setSubRoutes()
-        }
-    }
 
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        type = try container.debugDecodeIfPresent(RouteType.self, forKey: .type, parent: Self.self) ?? .view
-        tabItems = try container.debugDecodeIfPresent([RouteName].self, forKey: .tabItems, parent: Self.self)
+
+        presentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self) ?? .push
+
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
         title = try container.debugDecode(String.self, forKey: .title, parent: Self.self)
-        subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)
+
         do {
-            navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
+            type = try container.decode(RouteType.self, forKey: .type)
         } catch {
-            navigationName = try container.debugDecodeIfPresent(String.self, forKey: .navigation, parent: Self.self)
+            let decodedString = try container.decodeIfPresent(String.self, forKey: .type)
+            if let routeType = decodedString {
+                throw WireframeError.invalidRouteType(routeType)
+            }
+
+            type = .view
+
         }
 
+        subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)
+
+        do {
+            navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
+        } catch let error {
+            if let wireframeError = error as? WireframeError {
+                throw wireframeError
+            }
+
+            navigationName = try container.decodeIfPresent(String.self, forKey: .navigation)
+        }
+
+        switch type {
+        case .tabbar:
+
+            if subroutes.isNotNil {
+                throw WireframeError.subroutesRedundant(name)
+            }
+
+            do {
+                tabItems = try container.debugDecode([RouteName].self, forKey: .tabItems, parent: Self.self)
+            } catch {
+                throw WireframeError.tabItemsKeyNotPresent(name)
+            }
+        case .navigation:
+            if presentationType == .push {
+                throw WireframeError.navigationControllerBeingPushed(name)
+            }
+        default:
+            tabItems = nil
+        }
 
     }
 
@@ -75,13 +154,14 @@ public class Route: Codable {
 
 // MARK: - Extension - KeyedDecodingContainer -
 
-extension KeyedDecodingContainer where K == Route.CodingKeys {
+extension KeyedDecodingContainer where K == RouteImpl.CodingKeys {
 
     func debugDecode<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T {
         do {
             return try decode(T.self, forKey: key)
         } catch let error {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
             throw error
         }
@@ -96,25 +176,45 @@ extension KeyedDecodingContainer where K == Route.CodingKeys {
 
 // MARK: - Extension - Route -
 
-public extension Route {
+extension RouteImpl {
 
     var navigationBar: Navigation {
         return navigation ?? Navigation(name: name)
     }
 
-    private func setNavigation() {
+    func setNavigation() throws {
         guard navigation.isNil, let navName = navigationName else { return }
 
-        navigation = wireframe?.navigation(for: navName)
+        navigation = try wireframe?.tryNavigation(for: navName)
         
     }
 
-    private func setSubRoutes() {
+    func setSubRoutes() throws {
         routes = routes ?? []
-        subroutes?.forEach { subrouteName in
+
+        var subrouteNames = Set<String>()
+
+        try subroutes?.forEach { subrouteName in
+
+            if subrouteName == name {
+                throw WireframeError.subrouteContainsOwnRoute(subrouteName, self)
+            }
+
+            if subrouteNames.contains(subrouteName) {
+                throw WireframeError.duplicateSubroute(subrouteName, self)
+            }
+
+            subrouteNames.insert(subrouteName)
+
             if let subRoute = wireframe?.route(for: subrouteName) {
                 subRoute.parent = self
                 routes?.append(subRoute)
+            } else {
+                let debugError = WireframeError.subrouteNotExist(subrouteName, self)
+                debugPrint(debugError.title)
+                debugPrint(debugError.localizedDescription)
+                debugPrint("File: \(#file) Line: \(#line)")
+                throw debugError
             }
         }
     }
@@ -144,9 +244,9 @@ public extension Route {
 
 }
 
-extension Route: Hashable {
+extension RouteImpl: Hashable {
 
-    public static func == (lhs: Route, rhs: Route) -> Bool {
+    public static func == (lhs: RouteImpl, rhs: RouteImpl) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
 
@@ -156,7 +256,5 @@ extension Route: Hashable {
         hasher.combine(navigation)
         hasher.combine(subroutes)
     }
-
-
 
 }

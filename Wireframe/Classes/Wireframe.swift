@@ -17,86 +17,101 @@ public final class Wireframe {
      // MARK: - Public Properties -
 
     public static var plugins = [Plugin.Type]()
+    public static var navigationPlugins = [NavigationPlugin.Type]()
     public var rootViewController: UIViewController?
 
     // MARK: - Private Properties -
 
-    private(set) var wireframe: WireframeData!
+    private(set) var wireframeData: WireframeData?
+    private(set) var wireframe: WireframeData {
+        get {
+            if let data = wireframeData {
+                return data
+            }
+
+            fatalError("Accessing the wireframe data prior to it being loaded is not permitted")
+
+        }
+        set {
+            wireframeData = newValue
+        }
+    }
+    private(set) var datasourceHandler: (WireframeData) -> WireframeDatasource
+    internal var datasource: WireframeDatasource {
+        if wireframeData.isNil {
+            assertionFailure("The wireframe data has not bee set, meaning that the load method has not been called")
+        }
+
+        return datasourceHandler(wireframe)
+    }
+
     private(set) var navigation: UINavigationController
     private(set) var resourceUrl: URL
 
     // MARK: - Constructors -
 
-    public init(navigation: UINavigationController, resourceUrl: URL) {
+    public init(navigation: UINavigationController, resourceUrl: URL, datasourceHandler: @escaping (WireframeData) -> WireframeDatasource, autoload: Bool = true) {
         self.navigation = navigation
         self.resourceUrl = resourceUrl
-        load()
+        self.datasourceHandler = datasourceHandler
+
+        guard autoload else { return }
+        
+        do {
+            try configure()
+        } catch let error {
+            if let debugError = error as? WireframeError {
+                rootViewController = ErrorViewController(error: debugError)
+            } else {
+                rootViewController = ErrorViewController(error: .unknownError(error))
+            }
+
+        }
+    }
+
+    func configure() throws {
+        wireframe = try load()
+        wireframe.setDefaultRoutes()
+        try setup()
     }
 
      // MARK: - Public Methods -
+    func load() throws -> WireframeData {
+        let data = try Data.init(contentsOf: resourceUrl)
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        let decodedwireframeData = try decoder.decode(WireframeData.self, from: data)
+        decodedwireframeData.datasource = datasourceHandler(decodedwireframeData)
+        return decodedwireframeData
+    }
 
-    private func load() {
+    func setup() throws {
+        try wireframe.setRoutes()
+        guard let root = wireframe.route(for: wireframe.root) else {
+            throw WireframeError.rootRouteNotExists(wireframe.root)
+        }
 
-        do {
-            let data = try Data.init(contentsOf: resourceUrl)
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            wireframe = try decoder.decode(WireframeData.self, from: data)
-            wireframe.setRoutes()
-            if let root = wireframe.route(for: wireframe.root) {
-                switch root.type {
-                case .tabbar:
-                    rootViewController = TabBarView(route: root)
-                case .view, .navigation:
-                    let view = View(route: root)
-                    navigation.setViewControllers([view], animated: true)
-                    view.didMove(toParent: navigation)
-                    rootViewController = navigation
-                }
-
-            }
-        } catch let error {
-            debugPrint(error.localizedDescription)
+        switch root.type {
+        case .tabbar:
+            rootViewController = TabBarView(route: root)
+        case .view:
+            rootViewController =  View(route: root)
+        case .navigation:
+            let view =  View(route: root)
+            navigation.setViewControllers([view], animated: true)
+            view.didMove(toParent: navigation)
+            rootViewController = navigation
         }
     }
 
 }
 
-// MARK: - Extension - Route -
+// MARK: - Extension - Wireframe -
 
-extension Route: WireframeDatasource {
+extension Wireframe {
 
-    public func plugin(with name: RouteName) -> Plugin? {
-
-        if let cachedPlugin = PluginManager.plugins[name] {
-            return cachedPlugin
-        }
-
-        guard let wireframe = wireframe else { return nil }
-        let plugin =  Wireframe.plugins
-            .first(where: { $0.init(wireframe: wireframe).name == name })?
-            .init(wireframe: wireframe)
-
-        if let plugin = plugin, plugin.isTransient {
-            PluginManager.plugins[name] = plugin
-        }
-
-        return plugin
-    }
-
-
-    public func controller(with name: RouteName) -> UIViewController? {
-
-        guard let route = wireframe?.route(for: name) else {
-            assertionFailure("Why is a route name being used here that does not exist?")
-            return nil
-        }
-
-        if let plugin = plugin(with: name){
-            return plugin.controller(route: route)
-        }
-
-        return View(route: route)
+    func set(wireframe: WireframeData) {
+        wireframeData = wireframe
     }
 
 }

@@ -11,25 +11,84 @@ import XCTest
 
 class WireframeTests: XCTestCase {
 
-    var navigationController: UINavigationController!
-    var testSubject: Wireframe!
+    let defaultRoutesCount = RouteImpl.defaultRoutes.count
+    private var testSubject: Wireframe!
 
-    override func setUpWithError() throws {
-        navigationController = UINavigationController()
-
+    func routeCount(_ count: Int) -> Int {
+        count + defaultRoutesCount
     }
 
-    override func tearDownWithError() throws {
+    static func resource(
+        name: String,
+        navigationController: UINavigationController = MockBaseNavigation(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
+        autoload: Bool = true
+    ) -> Wireframe {
+        let url = Bundle(for: WireframeTests.self).url(forResource: name, withExtension: "json")!
+        return Wireframe(
+            navigation: navigationController,
+            resourceUrl: url,
+            datasourceHandler: datasourceHandler,
+            autoload: autoload
+        )
+    }
+
+    func resource(
+        _ name: String,
+        navigationController: MockBaseNavigation = MockBaseNavigation(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
+        autoload: Bool = true
+    ) -> Wireframe {
+        WireframeTests.resource(
+            name: name,
+            navigationController: navigationController,
+            datasourceHandler: datasourceHandler,
+            autoload: autoload
+        )
+    }
+
+    func resource(
+        name: String,
+        navigationController: MockNavigation = MockNavigation(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
+        autoload: Bool = true
+    ) -> Wireframe {
+        WireframeTests.resource(
+            name: name,
+            navigationController: navigationController,
+            datasourceHandler: datasourceHandler,
+            autoload: autoload
+        )
+    }
+
+    func resource(
+        name: String,
+        navigationController: MockNavigationIntransient = MockNavigationIntransient(),
+        datasourceHandler: @escaping (WireframeData) -> WireframeDatasourceImpl,
+        autoload: Bool = true
+    ) -> Wireframe {
+        WireframeTests.resource(
+            name: name,
+            navigationController: navigationController,
+            datasourceHandler: datasourceHandler,
+            autoload: autoload
+        )
+    }
+
+    override func setUp() {
+    }
+
+    override func tearDown() {
         testSubject = nil
-        navigationController = nil
     }
 
     func test_root() {
-        let url = Bundle(for: WireframeTests.self).url(forResource: "root", withExtension: "json")!
-        testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
+        testSubject = resource("root", datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
-        XCTAssertEqual(testSubject.wireframe.routes.count, 1)
+
+
+        XCTAssertEqual(testSubject.wireframe.routes.count, 1 + defaultRoutesCount)
         XCTAssertEqual(testSubject.wireframe.routes.first?.name, "home")
         XCTAssertEqual(testSubject.wireframe.routes.first?.title, "Home")
         XCTAssertNil(testSubject.wireframe.routes.first?.subroutes)
@@ -41,11 +100,10 @@ class WireframeTests: XCTestCase {
     }
 
     func test_subroutes() {
-        let url = Bundle(for: WireframeTests.self).url(forResource: "subroutes", withExtension: "json")!
-        testSubject = Wireframe(navigation: navigationController, resourceUrl: url)
+        testSubject = resource("subroutes", datasourceHandler: { WireframeDatasourceImpl(wireframe: $0) })
         XCTAssertEqual(testSubject.wireframe.appName, "tester")
         XCTAssertEqual(testSubject.wireframe.root, "home")
-        XCTAssertEqual(testSubject.wireframe.routes.count, 3)
+        XCTAssertEqual(testSubject.wireframe.routes.count, 3 + defaultRoutesCount)
         XCTAssertEqual(testSubject.wireframe.routes.first?.name, "home")
         XCTAssertEqual(testSubject.wireframe.routes.first?.title, "Home")
         XCTAssertNil(testSubject.wireframe.routes.first?.subroutes)
@@ -59,7 +117,7 @@ class WireframeTests: XCTestCase {
         XCTAssertEqual(subroute?.title, "Account")
         XCTAssertEqual(subroute?.name, "account")
         XCTAssertEqual(subroute?.wireframe, testSubject.wireframe)
-        XCTAssertEqual(subroute?.parent, dashboardRoute)
+        XCTAssertEqual(subroute?.parent as? RouteImpl, dashboardRoute as? RouteImpl)
     }
 
 }

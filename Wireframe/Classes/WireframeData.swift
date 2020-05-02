@@ -11,12 +11,15 @@ import Foundation
 // MARK: - Implementation -
 
 public class WireframeData: Codable {
+    var isCalled: Bool = false
     public let appName: String
-    public var routes: [Route]
+    public var routes: [RouteImpl]
     public let root: RouteName
     public var navigations: [Navigation]?
 
-    enum CodingKeys: CodingKey, CaseIterable {
+    public var datasource: WireframeDatasource?
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case appName
         case routes
         case root
@@ -24,11 +27,17 @@ public class WireframeData: Codable {
     }
 
     required public init(from decoder: Decoder) throws {
-       let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         appName = try container.debugDecode(String.self, forKey: .appName, parent: Self.self)
-        routes = try container.debugDecode([Route].self, forKey: .routes, parent: Self.self)
         root = try container.debugDecode(String.self, forKey: .root, parent: Self.self)
-        navigations = try container.debugDecodeIfPresent([Navigation].self, forKey: .navigations, parent: Self.self)
+        routes = try container.debugDecode([RouteImpl].self, forKey: .routes, parent: Self.self)
+
+        do {
+            navigations = try container.decodeIfPresent([Navigation].self, forKey: .navigations)
+        } catch let error {
+            throw error
+        }
+
     }
 
 }
@@ -40,10 +49,11 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
     func debugDecode<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T {
         do {
             return try decode(T.self, forKey: key)
-        } catch let error {
+        } catch {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
-            throw error
+            throw WireframeError.wireframeDataDecoding(key)
         }
 
     }
@@ -51,10 +61,11 @@ extension KeyedDecodingContainer where K == WireframeData.CodingKeys {
     func debugDecodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T? {
            do {
                return try decodeIfPresent(T.self, forKey: key)
-           } catch let error {
+           } catch {
                debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+                debugPrint("File: \(#file) Line: \(#line)")
                debugPrint(K.allCases)
-               throw error
+               throw WireframeError.wireframeDataDecoding(key)
            }
 
        }
@@ -72,18 +83,106 @@ public extension WireframeData {
         routes.first { $0.name == name }
     }
 
-    /// Sets all routes wireframe property to that of this wireframe data.
-    func setRoutes() {
-        routes.forEach { route in
-            route.wireframe = self
+
+    func setDefaultRoutes() {
+        RouteImpl.defaultRoutes.forEach { defaultRoute in
+
+            if !routes.contains(where: { $0.name == defaultRoute.name }) {
+                routes.append(defaultRoute)
+            }
         }
     }
 
-    func navigation(for name: String) -> Navigation? {
-        navigations?.first(where: { $0.name == name })
+
+    /// Sets all routes wireframe property to that of this wireframe data.
+    func setRoutes() throws {
+        assert(isCalled == false)
+        isCalled = true
+
+        var routeNames = Set<String>()
+        try routes.forEach { route in
+            if routeNames.contains(route.name) {
+                throw WireframeError.routeNameAlreadyExist(route.name)
+            }
+
+            routeNames.insert(route.name)
+        }
+
+        try validateRoutesTabBarItems()
+
+        routes.forEach { route in
+            route.datasource = nil
+            route.wireframe = nil
+            debugPrint(route.name)
+        }
+
+        let wireframe = self
+        try routes.forEach { route in
+            try route.set(wireframeData: wireframe)
+            debugPrint("Route name: \(route.name)")
+        }
+
+        try routes.forEach { route in
+            try route.setNavigation()
+            try route.setSubRoutes()
+        }
+
+        try validateNavigationButtonTargets()
     }
 
 }
+
+extension WireframeData {
+
+    func validateRoutesTabBarItems() throws {
+        try routes
+            .filter { $0.type == .tabbar && $0.tabItems.isNotNil }
+            .map { (route: $0, tabItems: $0.tabItems ?? []) }
+            .forEach(validateTabBarItems)
+    }
+
+    func validateTabBarItems(info: (route: Route, tabItems: [RouteName])) throws {
+        try info.tabItems.forEach { tabItem in
+            try self.validateTabItemExists(name: tabItem, route: info.route)
+        }
+    }
+
+    func validateTabItemExists(name: RouteName , route: Route) throws {
+        if !routes.contains(where: { $0.name == name }) {
+            throw WireframeError.tabItemNotExist(route, name)
+        }
+    }
+
+}
+
+extension WireframeData {
+
+    func validateNavigationButtonTargets() throws {
+        let targets = routes
+            .compactMap({ $0.navigation })
+            .flatMap { $0.buttons }
+            .map { $0.target }
+
+        var navigationTartgets = navigations?
+            .compactMap { $0 }
+            .flatMap {
+                $0.buttons.map { $0.target }
+
+            } ?? []
+
+        navigationTartgets.append(contentsOf: targets)
+
+        try navigationTartgets
+            .forEach { target in
+            if !routes.contains(where: { $0.name == target }) {
+                throw WireframeError.navigationButtonTargetNotExists(target)
+            }
+        }
+    }
+
+}
+
+// MARK: - Extension - Hashable -
 
 extension WireframeData: Hashable {
 
@@ -97,6 +196,35 @@ extension WireframeData: Hashable {
         hasher.combine(root)
     }
 
+}
 
+// MARK: - Extension - Navigation -
+
+extension WireframeData {
+
+    public func navigation(for name: String) -> Navigation? {
+        
+        do {
+            return try tryNavigation(for: name)
+        } catch {
+            assertionFailure("The navigation should not throw an error")
+            return nil
+        }
+
+    }
+
+    func tryNavigation(for name: String) throws -> Navigation {
+
+        if let navigation = navigations?.first(where: { $0.name == name }) {
+            return navigation
+        }
+
+        if let plugin = plugin(with: name, wireframe: self),
+            let navigation = plugin.navigation {
+            return navigation
+        }
+
+        throw WireframeError.navigationDoesNotExist(name)
+    }
 
 }

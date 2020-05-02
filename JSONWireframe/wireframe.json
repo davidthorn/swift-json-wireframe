@@ -1,77 +1,45 @@
 {
     "app_name" : "tester",
     "root": "home",
+    "navigations": [
+        {
+            "name": "profile",
+            "buttons": []
+        }
+    ],
     "routes": [
         {
             "type": "tabbar",
-            "name": "home",
-            "title" : "Home",
+            "name" : "home",
+            "title": "Home",
             "tabItems": [
                 "profile",
-                "logout",
-                "categories"
-            ]
-        },
-        {
-            "name": "categories",
-            "title": "Categories",
-            "subroutes": [
-                "logout"
-            ]
-        },
-        {
-            "type": "navigation",
-            "name": "profile",
-            "title": "Profile",
-            "subroutes": [
-                "password_reset",
-                "change-email"
+                "account"
             ],
-            "navigation": "profile"
-        },
-        {
-            "type": "tabbar",
-            "tabItems": [
-                "profile",
-                "change-email"
-            ],
-            "name": "address",
-            "title": "Address",
-            "navigation": "profile"
-        },
-        {
-            "name": "password_reset",
-            "title": "Password Reset"
-        },
-        {
-            "name": "change-email",
-            "title": "Change Mail",
-            "subroutes": [ "categories" ]
-        },
-        {
-            "type": "navigation",
-            "name": "logout",
-            "title": "Logout",
-            "navigation": "profile"
-        }
-    ],
-    "navigations": [
-        {
-            "name" : "profile",
-            "buttons": [
-                {
-                    "name": "logout",
-                    "target": "logout"
-                },
-                {
-                    "type": "left",
-                    "name": "change-email",
-                    "target": "change-email",
-                    "icon": {
-                        "imageName": "profile_icon"
+            "navigation": {
+                "buttons": [
+                    {
+                        "type": "left",
+                        "name" : "profile",
+                        "target": "profile",
+                        "icon": {
+                            "imageName" : "profile_icon"
+                        }
                     }
-                }
-            ]
+                ]
+            }
+        },
+        {
+            "type": "navigation",
+            "name" : "profile",
+            "title" : "Profile Page",
+            "subroutes": [ "account" ],
+            "navigation": "profile"
+        },
+        {
+            "type": "view",
+            "name" : "account",
+            "title" : "Acconut Page"
         }
     ]
 }

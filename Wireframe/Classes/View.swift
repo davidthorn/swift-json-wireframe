@@ -47,24 +47,53 @@ open class View: UIViewController, NavigationManager {
         stackView.pinHorizontal(insets: .init(value: 20))
         stackView.pinBottom(lessThanOrEqualTo: 10)
 
-        route.buttons.forEach {
-            $0.delegate = self
-            stackView.addArrangedSubview($0)
+        route.buttons.enumerated().forEach {
+            $0.element.delegate = self
+            $0.element.tag = $0.offset
+            stackView.addArrangedSubview($0.element)
         }
 
-        configureNavigationBarItem(selector: #selector(barButtonTapped))
+        do {
+            try configureNavigationBarItem(selector: #selector(barButtonTapped))
+        } catch let error {
+            let debugError = error as! WireframeError
+            debugPrint(debugError.localizedDescription)
+            debugPrint("Error in file: \(#file) Line: \(#line)")
+            ErrorView.message(controller: self, error: debugError).show()
+        }
+
+        if route.presentationType == .push, route.type == .view, navigationController.isNil {
+            route.presentationType = .present
+            assert(route.presentationType == .present)
+        }
 
     }
 
     @objc func barButtonTapped(button: UIBarButtonItem) {
 
-        if route.navigation?.buttons?[button.tag] == nil {
+        if route.navigation?.buttons[button.tag] == nil {
             assertionFailure("The button does not exist")
         }
 
-        if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
-            let view = View(route: targetRoute)
-            navigationController?.pushViewController(view, animated: true)
+        if let name = route.navigation?.buttons[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
+
+            let view = targetRoute.datasource.controller(for: targetRoute)
+            switch targetRoute.presentationType {
+            case .push:
+                navigationController?.pushViewController(view, animated: true)
+            case .present:
+                let presentor = navigationController?.topViewController ?? self
+                presentor.present(view, animated: true)
+            case .pop:
+                navigationController?.popViewController(animated: true)
+            case .popToRoot:
+                navigationController?.popToRootViewController(animated: true)
+            case .popToView:
+                navigationController?.popToViewController(view, animated: true)
+            case .dismiss:
+                let presentor = navigationController ?? self
+                presentor.dismiss(animated: true)
+            }
         }
     }
 
@@ -78,24 +107,43 @@ open class View: UIViewController, NavigationManager {
 
 extension View: RouteButtonDelegate {
 
-    public func buttonTapped(tag: Int) {
+    public func handleError(error: WireframeError) {
+        debugPrint("\(error.title)")
+        debugPrint("Error: \(error.localizedDescription)")
+        debugPrint("FIle: \(#file) Line: \(#line)")
+        ErrorView.message(controller: self, error: error).show()
+    }
+
+    public func buttonTapped(tag: Int) throws {
         guard let route = route.routes?[tag] else { return }
-        let commonView: UIViewController
-        switch route.type {
-        case .view:
-            commonView = View(route: route)
-        case .tabbar:
-            commonView = TabBarView(route: route)
-        case .navigation:
-            let navigation = UINavigationController()
-            let view = View(route: route)
-            navigation.setViewControllers([view], animated: true)
-            view.didMove(toParent: navigation)
-            commonView = navigation
+
+        if route.presentationType == .push, navigationController.isNil {
+            route.presentationType = .present
+            route.type = .navigation
+            assert(route.presentationType == .present)
         }
 
-        let view = route.controller(with: route.name) ?? commonView
-        navigationController?.pushViewController(view, animated: true)
+        let view = route.datasource.controller(for: route)
+        switch route.presentationType {
+        case .push:
+            if route.type == .navigation {
+                throw WireframeError.navigationControllerBeingPushed(route.name)
+            }
+            navigationController?.pushViewController(view, animated: true)
+        case .present:
+            let presentor = navigationController?.topViewController ?? self
+            presentor.present(view, animated: true)
+        case .pop:
+            navigationController?.popViewController(animated: true)
+        case .popToRoot:
+            navigationController?.popToRootViewController(animated: true)
+        case .popToView:
+            navigationController?.popToViewController(view, animated: true)
+        case .dismiss:
+            let presentor = navigationController ?? self
+            presentor.dismiss(animated: true)
+        }
+
     }
 
 }

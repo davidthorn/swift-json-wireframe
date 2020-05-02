@@ -18,14 +18,24 @@ public class Icon: Codable {
 
 public extension Icon {
 
-    var image: UIImage? {
-        UIImage(named: imageName,
+    func image() throws -> UIImage? {
+
+       let loadedImage = UIImage(named: imageName,
                 in: .main,
                 compatibleWith: nil)
+
+        if loadedImage.isNil {
+            let error = WireframeError.resourceImageDoesNotExist(imageName)
+            debugPrint("Resource image \(error.localizedDescription) does not exist")
+            debugPrint("Error in file: \(#file) Line: \(#line)")
+            throw error
+        }
+
+        return loadedImage
     }
 
-    func barButtonItem(selector: Selector, target: Any) -> UIBarButtonItem {
-        .init(image: image, style: .plain, target: target, action:selector)
+    func barButtonItem(selector: Selector, target: Any) throws -> UIBarButtonItem {
+        .init(image: try image(), style: .plain, target: target, action:selector)
     }
 
 }

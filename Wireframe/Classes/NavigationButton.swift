@@ -26,21 +26,26 @@ public class NavigationButton: Codable {
     public let icon: Icon?
 
     enum CodingKeys: CodingKey, CaseIterable {
+
+        // MARK: - Required -
+        
         case name
-        case type
         case target
+
+        // MARK: - Optonal -
+
+        case type
         case icon
     }
 
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
-        type = try container.debugDecodeIfPresent(NavigationButtonType.self, forKey: .type, parent: Self.self)
+        type = try container.debugDecodeIfPresent(NavigationButtonType.self, forKey: .type, parent: Self.self) ?? .left
         icon = try container.debugDecodeIfPresent(Icon.self, forKey: .icon, parent: Self.self)
         target = try container.debugDecode(RouteName.self, forKey: .target, parent: Self.self)
     }
     
-
 }
 
 // MARK: - Extension - KeyedDecodingContainer -
@@ -52,6 +57,7 @@ extension KeyedDecodingContainer where K == NavigationButton.CodingKeys {
             return try decode(T.self, forKey: key)
         } catch let error {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
             throw error
         }
@@ -63,6 +69,7 @@ extension KeyedDecodingContainer where K == NavigationButton.CodingKeys {
             return try decodeIfPresent(T.self, forKey: key)
         } catch let error {
             debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
+            debugPrint("File: \(#file) Line: \(#line)")
             debugPrint(K.allCases)
             throw error
         }

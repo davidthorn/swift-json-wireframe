@@ -16,7 +16,9 @@ public protocol RouteButtonDelegate: AnyObject {
 
     /// Method called when the onTouchInside selector is called within the button.
     /// - Parameter tag: The tag of the button.
-    func buttonTapped(tag: Int)
+    func buttonTapped(tag: Int) throws
+
+    func handleError(error: WireframeError)
 
 }
 
@@ -74,7 +76,16 @@ public final class RouteButton: UIControl {
     // MARK: - OnTouchInside Handler -
 
     @objc func buttonTapped() {
-        delegate?.buttonTapped(tag: tag)
+        do {
+            try delegate?.buttonTapped(tag: tag)
+        } catch let error {
+            if delegate.isNil {
+                fatalError("Why is the delegate nil")
+            }
+
+            delegate?.handleError(error: error as! WireframeError)
+        }
+
     }
 
 }

@@ -36,7 +36,15 @@ public final class TabBarView: UITabBarController, NavigationManager {
         edgesForExtendedLayout = []
         title = route.title
         view.backgroundColor = .white
-        configureNavigationBarItem(selector: #selector(barButtonTapped))
+        do {
+            try configureNavigationBarItem(selector: #selector(barButtonTapped))
+        } catch let error {
+            let debugError = error as! WireframeError
+            debugPrint(debugError.localizedDescription)
+            debugPrint("Error in file: \(#file) Line: \(#line)")
+            ErrorView.message(controller: self, error: debugError).show()
+        }
+
         viewControllers = tabBarControllers()
 
     }
@@ -45,11 +53,11 @@ public final class TabBarView: UITabBarController, NavigationManager {
 
     @objc func barButtonTapped(button: UIBarButtonItem) {
 
-        if route.navigation?.buttons?[button.tag] == nil {
+        if route.navigation?.buttons[button.tag] == nil {
             assertionFailure("The button does not exist")
         }
 
-        if let name = route.navigation?.buttons?[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
+        if let name = route.navigation?.buttons[button.tag].target, let targetRoute = route.wireframe?.route(for: name) {
             let view = View(route: targetRoute)
             show(controller: view, route: targetRoute)
         }
@@ -66,19 +74,28 @@ public final class TabBarView: UITabBarController, NavigationManager {
 
 extension TabBarView: RouteButtonDelegate {
 
-    public func buttonTapped(tag: Int) {
-        guard let route = route.routes?[tag] else { return }
+    public func handleError(error: WireframeError) {
+        debugPrint("\(error.title)")
+        debugPrint("Error: \(error.localizedDescription)")
+        debugPrint("FIle: \(#file) Line: \(#line)")
+        ErrorView.message(controller: self, error: error).show()
+    }
+
+    public func buttonTapped(tag: Int) throws {
+        guard let route = route.routes?[tag] else {
+            throw WireframeError.buttonNotExist(tag)
+        }
         let commonView: UIViewController
         switch route.type {
         case .view:
-            commonView = route.controller(with: route.name) ?? View(route: route)
+            commonView = route.datasource.controller(with: route.name) ?? View(route: route)
         case .tabbar:
-            commonView = route.controller(with: route.name) ?? TabBarView(route: route)
+            commonView = route.datasource.controller(with: route.name) ?? TabBarView(route: route)
         case .navigation:
             commonView = navigationController(containing: route)
         }
 
-        show(controller: route.controller(with: route.name) ?? commonView, route: route)
+        show(controller: route.datasource.controller(with: route.name) ?? commonView, route: route)
 
     }
 
@@ -90,16 +107,7 @@ extension TabBarView: RouteButtonDelegate {
 
         subItems?.enumerated().forEach { item in
             let subItemRoute = item.element
-            let commonView: UIViewController
-            switch subItemRoute.type {
-            case .navigation:
-                commonView = navigationController(containing: subItemRoute)
-            case .view:
-                commonView = route.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
-            case .tabbar:
-                fatalError("A tab bar cannot sit within a tab bar!")
-            }
-
+            let commonView: UIViewController = route.datasource.controller(for: subItemRoute)
             commonView.tabBarItem = .init(title: subItemRoute.name, image: nil, tag: item.offset)
             tabController.append(commonView)
         }
@@ -109,7 +117,7 @@ extension TabBarView: RouteButtonDelegate {
 
     func navigationController(containing subItemRoute: Route) -> UIViewController {
         let navigation = UINavigationController()
-        let view = route.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
+        let view = route.datasource.controller(with: subItemRoute.name) ?? View(route: subItemRoute)
         navigation.setViewControllers([view], animated: true)
         view.didMove(toParent: navigation)
         return navigation
