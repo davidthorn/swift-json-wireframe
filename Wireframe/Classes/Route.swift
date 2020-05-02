@@ -178,9 +178,9 @@ extension KeyedDecodingContainer where K == RouteImpl.CodingKeys {
 
 extension RouteImpl {
 
-    var navigationBar: Navigation {
-        return navigation ?? Navigation(name: name)
-    }
+//    var navigationBar: Navigation {
+//        return navigation ?? Navigation(name: name)
+//    }
 
     func setNavigation() throws {
         guard navigation.isNil, let navName = navigationName else { return }

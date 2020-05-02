@@ -1,0 +1,8 @@
+{
+    "name": "home",
+    "target": "home",
+    "type" : "left",
+    "icon" : {
+        "name" : "incorrect_key"
+    }
+}

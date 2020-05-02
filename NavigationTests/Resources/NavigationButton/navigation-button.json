@@ -1,0 +1,8 @@
+{
+    "type": "left",
+    "name" : "home",
+    "target" : "home",
+    "icon": {
+        "imageName" : "home_icon"
+    }
+}

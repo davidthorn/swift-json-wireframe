@@ -1,0 +1,12 @@
+{
+    "name": "home",
+    "buttons": [
+        {
+            "name": "home",
+            "target": "home",
+            "icon": {
+                "imageName": "profile_icon"
+            }
+        }
+    ]
+}

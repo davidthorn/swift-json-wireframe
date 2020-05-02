@@ -40,29 +40,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9394E2FA245AB551007F2325"
-               BuildableName = "WireframeTests.xctest"
-               BlueprintName = "WireframeTests"
-               ReferencedContainer = "container:JSONWireframe.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9346CBDF245DB708008D54E5"
-               BuildableName = "NavigationTests.xctest"
-               BlueprintName = "NavigationTests"
-               ReferencedContainer = "container:JSONWireframe.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -85,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9394E2F2245AB551007F2325"
-            BuildableName = "Wireframe.framework"
-            BlueprintName = "Wireframe"
+            BlueprintIdentifier = "9346CBDF245DB708008D54E5"
+            BuildableName = "NavigationTests.xctest"
+            BlueprintName = "NavigationTests"
             ReferencedContainer = "container:JSONWireframe.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

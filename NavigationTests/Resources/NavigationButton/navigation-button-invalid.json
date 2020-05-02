@@ -1,0 +1,6 @@
+{
+    "target" : "home",
+    "icon": {
+        "imageName" : "home_icon"
+    }
+}

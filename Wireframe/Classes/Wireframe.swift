@@ -36,6 +36,15 @@ public final class Wireframe {
             wireframeData = newValue
         }
     }
+
+    public func getWireframe() throws -> WireframeData {
+        if wireframeData.isNil {
+            throw WireframeError.wireframeDataNil
+        }
+
+        return wireframe
+    }
+
     private(set) var datasourceHandler: (WireframeData) -> WireframeDatasource
     internal var datasource: WireframeDatasource {
         if wireframeData.isNil {

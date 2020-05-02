@@ -15,7 +15,7 @@ public class NavigationButton: Codable {
 
     // MARK: - Private Properties -
 
-    private(set) var type: NavigationButtonType?
+    private(set) var type: NavigationButtonType
 
      // MARK: - Public Properties -
 
@@ -25,7 +25,7 @@ public class NavigationButton: Codable {
 
     public let icon: Icon?
 
-    enum CodingKeys: CodingKey, CaseIterable {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
 
         // MARK: - Required -
         
@@ -55,25 +55,17 @@ extension KeyedDecodingContainer where K == NavigationButton.CodingKeys {
     func debugDecode<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T {
         do {
             return try decode(T.self, forKey: key)
-        } catch let error {
-            debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
-            debugPrint("File: \(#file) Line: \(#line)")
-            debugPrint(K.allCases)
-            throw error
+        } catch {
+            throw WireframeError.navigationButtonDecoding(key)
         }
-
     }
 
     func debugDecodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer<K>.Key, parent: Decodable.Type) throws -> T? {
         do {
             return try decodeIfPresent(T.self, forKey: key)
-        } catch let error {
-            debugPrint("Decoding Error: \(String(describing: parent.self)) \(key.stringValue): could not be decoded")
-            debugPrint("File: \(#file) Line: \(#line)")
-            debugPrint(K.allCases)
-            throw error
+        } catch {
+            throw WireframeError.navigationButtonDecoding(key)
         }
-
     }
 
 }
@@ -82,9 +74,7 @@ extension KeyedDecodingContainer where K == NavigationButton.CodingKeys {
 
 public extension NavigationButton {
 
-    var buttonType: NavigationButtonType {
-        type ?? .right
-    }
+    var buttonType: NavigationButtonType { type }
 
 }
 
@@ -98,6 +88,7 @@ extension NavigationButton: Hashable {
         hasher.combine(type)
         hasher.combine(name)
         hasher.combine(target)
+        hasher.combine(icon)
     }
 
 }

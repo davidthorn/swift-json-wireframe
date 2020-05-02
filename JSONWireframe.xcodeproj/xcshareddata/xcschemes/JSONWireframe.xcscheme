@@ -29,26 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9394E24C245A0860007F2325"
-               BuildableName = "JSONWireframeTests.xctest"
-               BlueprintName = "JSONWireframeTests"
-               ReferencedContainer = "container:JSONWireframe.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9394E2FA245AB551007F2325"
-               BuildableName = "WireframeTests.xctest"
-               BlueprintName = "WireframeTests"
-               ReferencedContainer = "container:JSONWireframe.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

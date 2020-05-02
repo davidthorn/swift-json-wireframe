@@ -1,0 +1,27 @@
+{
+    "navigations": [
+        {
+            "name": "home",
+            "buttons": [
+                {
+                    "name": "home",
+                    "target": "home"
+                }
+            ]
+        },
+        {
+            "name": "info",
+            "buttons": [
+                {
+                    "type": "right",
+                    "name": "info",
+                    "target": "info",
+                    "icon": {
+                        "imageName": "icon_image"
+                    }
+                }
+            ]
+        }
+
+    ]
+}

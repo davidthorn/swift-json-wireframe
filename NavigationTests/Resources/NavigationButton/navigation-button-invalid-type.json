@@ -1,0 +1,8 @@
+{
+    "type": "center",
+    "target": "home",
+    "name" : "home",
+    "icon": {
+        "imageName" : "home_icon"
+    }
+}

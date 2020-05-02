@@ -9,8 +9,10 @@
 import Foundation
 
 public enum WireframeError: Error {
+    case wireframeDataNil
     case unknownError(Error)
     case navigationButtonTargetNotExists(RouteName)
+    case navigationButtonDecoding(NavigationButton.CodingKeys)
     case navigationDecoding(Navigation.CodingKeys)
     case tabItemNotExist(Route, RouteName)
     case navigationControllerBeingPushed(RouteName)
@@ -39,10 +41,14 @@ public enum WireframeError: Error {
 
     public var title: String {
         switch self {
+        case .wireframeDataNil:
+            return "Wireframe Data Error"
         case .unknownError:
             return "Unknown error"
         case .navigationButtonTargetNotExists:
             return "Navigaton Button Error"
+        case .navigationButtonDecoding:
+            return "Navigation Button Decoding Error"
         case .navigationDecoding:
             return "Navigation Decoding Error"
         case .tabItemNotExist:
@@ -88,10 +94,14 @@ public enum WireframeError: Error {
 
     public var localizedDescription: String {
         switch self {
+        case .wireframeDataNil:
+            return "the wireframe data is nil."
         case .unknownError(let error):
             return "Error: \(error.localizedDescription)"
         case .navigationButtonTargetNotExists(let target):
             return "The navigation button target: \(target) does not match a registerd route."
+        case .navigationButtonDecoding(let key):
+            return "The Navigation Button requires for the key: `\(key.rawValue)` to be provided."
         case .navigationDecoding(let key):
             return "The Navigation requires for the key: `\(key.rawValue)` to be provided."
         case .tabItemNotExist(let route, let tabItemName):

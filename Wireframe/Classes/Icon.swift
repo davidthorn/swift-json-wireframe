@@ -10,8 +10,21 @@ import UIKit
 
 // MARK: - Implementation -
 
-public class Icon: Codable {
-    let imageName: String
+public class Icon: Codable, Hashable {
+
+     // MARK: - Public Properties -
+    
+    public let imageName: String
+
+    // MARK: - Hashable -
+
+    public static func == (lhs: Icon, rhs: Icon) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(imageName)
+    }
 }
 
 // MARK: - Extension - Icon -
