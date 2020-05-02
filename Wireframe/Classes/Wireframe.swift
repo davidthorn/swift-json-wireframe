@@ -44,10 +44,7 @@ public final class Wireframe {
     }
 
      // MARK: - Public Methods -
-    var loadCalled: Bool = false
     func load() throws {
-        assert(loadCalled == false)
-        loadCalled = true
         do {
             let data = try Data.init(contentsOf: resourceUrl)
             let decoder = JSONDecoder()
@@ -61,20 +58,18 @@ public final class Wireframe {
 
     func setup() throws {
         try wireframe.setRoutes()
-
-        if let root = wireframe.route(for: wireframe.root) {
-            switch root.type {
-            case .tabbar:
-                rootViewController = TabBarView(route: root)
-            case .view:
-                rootViewController =  View(route: root)
-            case .navigation:
-                let view =  View(route: root)
-                navigation.setViewControllers([view], animated: true)
-                view.didMove(toParent: navigation)
-                rootViewController = navigation
-            }
-
+        guard let root = wireframe.route(for: wireframe.root) else { return }
+        
+        switch root.type {
+        case .tabbar:
+            rootViewController = TabBarView(route: root)
+        case .view:
+            rootViewController =  View(route: root)
+        case .navigation:
+            let view =  View(route: root)
+            navigation.setViewControllers([view], animated: true)
+            view.didMove(toParent: navigation)
+            rootViewController = navigation
         }
     }
 
