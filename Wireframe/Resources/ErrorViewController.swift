@@ -28,8 +28,7 @@ public final class ErrorViewController: UIViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let okAction = UIAlertAction(title: "OK", style: .destructive) { _ in
-            fatalError()
+        let okAction = UIAlertAction(title: "OK", style: .destructive) { _ in            fatalError()
         }
 
         let alert = UIAlertController(

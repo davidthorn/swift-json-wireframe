@@ -127,7 +127,7 @@ extension View: RouteButtonDelegate {
         switch route.presentationType {
         case .push:
             if route.type == .navigation {
-                throw WireframeError.navigationControllerBeingPushed(route)
+                throw WireframeError.navigationControllerBeingPushed(route.name)
             }
             navigationController?.pushViewController(view, animated: true)
         case .present:

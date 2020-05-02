@@ -100,9 +100,9 @@ public class RouteImpl: Route {
         title = try container.debugDecode(String.self, forKey: .title, parent: Self.self)
 
         do {
-            type = try container.debugDecode(RouteType.self, forKey: .type, parent: Self.self)
+            type = try container.decode(RouteType.self, forKey: .type)
         } catch {
-            let decodedString = try container.debugDecodeIfPresent(String.self, forKey: .type, parent: Self.self)
+            let decodedString = try container.decodeIfPresent(String.self, forKey: .type)
             if let routeType = decodedString {
                 throw WireframeError.invalidRouteType(routeType)
             }
@@ -116,7 +116,7 @@ public class RouteImpl: Route {
         do {
             navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
         } catch {
-            navigationName = try container.debugDecodeIfPresent(String.self, forKey: .navigation, parent: Self.self)
+            navigationName = try container.decodeIfPresent(String.self, forKey: .navigation)
         }
 
         switch type {
@@ -130,6 +130,10 @@ public class RouteImpl: Route {
                 tabItems = try container.debugDecode([RouteName].self, forKey: .tabItems, parent: Self.self)
             } catch {
                 throw WireframeError.tabItemsKeyNotPresent(name)
+            }
+        case .navigation:
+            if presentationType == .push {
+                throw WireframeError.navigationControllerBeingPushed(name)
             }
         default:
             tabItems = nil
