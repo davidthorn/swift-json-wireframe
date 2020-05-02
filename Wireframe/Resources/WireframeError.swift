@@ -9,6 +9,7 @@
 import Foundation
 
 public enum WireframeError: Error {
+    case tabItemNotExist(Route, RouteName)
     case navigationControllerBeingPushed(RouteName)
     case rootViewControllerNil
     case subroutesRedundant(RouteName)
@@ -35,6 +36,8 @@ public enum WireframeError: Error {
 
     public var title: String {
         switch self {
+        case .tabItemNotExist:
+            return "Tab Bar Item Error"
         case .navigationControllerBeingPushed:
             return "Presentation Type Error"
         case .rootViewControllerNil:
@@ -76,6 +79,8 @@ public enum WireframeError: Error {
 
     public var localizedDescription: String {
         switch self {
+        case .tabItemNotExist(let route, let tabItemName):
+            return "The tabBarItem `\(tabItemName)` does not exist as a route for `\(route.name)`'s tabbar."
         case .navigationControllerBeingPushed(let route):
             return "Route name: \(route) is of type `navigation` and has presentation type `navigation`, should be `present`!"
         case .rootViewControllerNil:

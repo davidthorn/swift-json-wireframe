@@ -102,6 +102,18 @@ public extension WireframeData {
             routeNames.insert(route.name)
         }
 
+        try routes
+            .filter { $0.type == .tabbar && $0.tabItems.isNotNil }
+            .map { (route: $0, tabItems: $0.tabItems ?? []) }
+            .forEach { info in
+                try info.tabItems.forEach { tabItem in
+                    if !routes.contains(where: { $0.name == tabItem }) {
+                        throw WireframeError.tabItemNotExist(info.route, tabItem)
+                    }
+                }
+
+            }
+
         routes.forEach { route in
             route.datasource = nil
             route.wireframe = nil
