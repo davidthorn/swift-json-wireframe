@@ -9,6 +9,7 @@
 import Foundation
 
 public enum WireframeError: Error {
+    case navigationControllerBeingPushed(Route)
     case rootViewControllerNil
     case subroutesRedundant(RouteName)
     case tabItemsKeyNotPresent(RouteName)
@@ -34,6 +35,8 @@ public enum WireframeError: Error {
 
     public var title: String {
         switch self {
+        case .navigationControllerBeingPushed:
+            return "Presentation Type Error"
         case .rootViewControllerNil:
             return "Fatal Wireframe Data Error"
         case .subroutesRedundant:
@@ -73,6 +76,8 @@ public enum WireframeError: Error {
 
     public var localizedDescription: String {
         switch self {
+        case .navigationControllerBeingPushed(let route):
+            return "Route name: \(route.name) is of type `navigation` and has presentation type `navigation`, should be `present`!"
         case .rootViewControllerNil:
             return "The root view controller has not been set within the constructor or in the app delegate."
         case .subroutesRedundant(let route):

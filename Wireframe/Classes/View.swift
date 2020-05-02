@@ -114,7 +114,7 @@ extension View: RouteButtonDelegate {
         ErrorView.message(controller: self, error: error).show()
     }
 
-    public func buttonTapped(tag: Int) {
+    public func buttonTapped(tag: Int) throws {
         guard let route = route.routes?[tag] else { return }
 
         if route.presentationType == .push, navigationController.isNil {
@@ -127,7 +127,7 @@ extension View: RouteButtonDelegate {
         switch route.presentationType {
         case .push:
             if route.type == .navigation {
-                assertionFailure("Its gonna crash here, the presentType requires to be present")
+                throw WireframeError.navigationControllerBeingPushed(route)
             }
             navigationController?.pushViewController(view, animated: true)
         case .present:
