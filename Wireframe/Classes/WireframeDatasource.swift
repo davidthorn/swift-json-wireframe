@@ -107,7 +107,11 @@ extension WireframeDatasourceImpl: WireframeDatasource {
             case .view:
                 return View(route: route)
             case .list:
-                fatalError("No yet implemented")
+                let view = ListViewController(route: route)
+                let nav = navigationController(for: route.navigation, route: route)
+                nav.setViewControllers([view], animated: true)
+                view.didMove(toParent: nav)
+                return nav
             }
         }
     }

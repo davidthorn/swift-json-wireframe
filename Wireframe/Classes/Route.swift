@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ListItemPlugin
 
 public enum RouteType: String, Codable, Hashable, CaseIterable {
     case view
@@ -41,6 +42,7 @@ public protocol Route: AnyObject, Codable {
     var presentationType: PresentationType { get set }
     var type: RouteType  { get set }
     var tabItems: [String]?  { get }
+    var listItems: [ListItem]? { get }
     var name: String  { get }
     var title: String { get }
     var navigation: Navigation?  { get set }
@@ -61,6 +63,7 @@ public class RouteImpl: Route {
     private(set) var presentationStyle: PresentationType = .push
     public var type: RouteType = .view
     public var tabItems: [String]?
+    public var listItems: [ListItem]?
     public let name: String
     public let title: String
     public var navigation: Navigation?
@@ -80,6 +83,7 @@ public class RouteImpl: Route {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case tabItems
+        case listItems
         case name
         case title
         case navigation
@@ -150,6 +154,8 @@ public class RouteImpl: Route {
             if presentationType == .push {
                 throw WireframeError.navigationControllerBeingPushed(name)
             }
+        case .list:
+            listItems = try container.decode([ListItem].self, forKey: .listItems)
         default:
             tabItems = nil
         }

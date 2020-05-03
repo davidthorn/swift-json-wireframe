@@ -4,10 +4,19 @@
     "routes": [
         {
             "type" : "list",
+            "name": "list",
+            "title": "List",
             "listItems": [
                 {
                     "type": "label",
+                    "name" : "label",
                     "text" : "Hello"
+                },
+                {
+                    "name" : "banner",
+                    "type": "custom",
+                    "title": "My Title",
+                    "subtitle": "An important subtitle"
                 }
             ]
         }        

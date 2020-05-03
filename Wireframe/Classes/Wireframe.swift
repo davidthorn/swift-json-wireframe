@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ListItemPlugin
 
 public typealias RouteName = String
 
@@ -18,7 +19,6 @@ public final class Wireframe {
 
     public static var plugins = [Plugin.Type]()
     public static var navigationPlugins = [NavigationPlugin.Type]()
-    public static var listItemPlugins = [ListItemPlugin.Type]()
     public var rootViewController: UIViewController?
 
     // MARK: - Private Properties -
@@ -105,14 +105,12 @@ public final class Wireframe {
         case .tabbar:
             rootViewController = TabBarView(route: root)
         case .view:
-            rootViewController =  View(route: root)
-        case .navigation:
-            let view =  View(route: root)
+            rootViewController = View(route: root)
+        case .navigation, .list:
+            let view = root.type == .list ?  ListViewController(route: root) : View(route: root)
             navigation.setViewControllers([view], animated: true)
             view.didMove(toParent: navigation)
             rootViewController = navigation
-        case .list:
-            fatalError("No yet implemented")
         }
     }
 

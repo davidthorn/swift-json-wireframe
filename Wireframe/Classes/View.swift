@@ -147,3 +147,38 @@ extension View: RouteButtonDelegate {
     }
 
 }
+
+public protocol RoutePresentor: AnyObject {
+
+    func show(route: Route) throws
+
+}
+
+extension UIViewController: RoutePresentor { }
+
+extension RoutePresentor where Self: UIViewController {
+
+    public func show(route: Route) throws {
+        let view = route.datasource.controller(for: route)
+        switch route.presentationType {
+        case .push:
+            if route.type == .navigation {
+                throw WireframeError.navigationControllerBeingPushed(route.name)
+            }
+            navigationController?.pushViewController(view, animated: true)
+        case .present:
+            let presentor = navigationController?.topViewController ?? self
+            presentor.present(view, animated: true)
+        case .pop:
+            navigationController?.popViewController(animated: true)
+        case .popToRoot:
+            navigationController?.popToRootViewController(animated: true)
+        case .popToView:
+            navigationController?.popToViewController(view, animated: true)
+        case .dismiss:
+            let presentor = navigationController ?? self
+            presentor.dismiss(animated: true)
+        }
+    }
+
+}

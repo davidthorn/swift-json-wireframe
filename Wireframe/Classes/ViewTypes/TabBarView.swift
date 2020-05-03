@@ -94,7 +94,7 @@ extension TabBarView: RouteButtonDelegate {
         case .navigation:
             commonView = navigationController(containing: route)
         case .list:
-            fatalError("No yet implemented")
+            commonView = route.datasource.controller(with: route.name) ?? View(route: route)
         }
 
         show(controller: route.datasource.controller(with: route.name) ?? commonView, route: route)

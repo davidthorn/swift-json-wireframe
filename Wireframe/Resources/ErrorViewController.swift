@@ -7,14 +7,25 @@
 //
 
 import UIKit
+import ListItemPlugin
 
 public final class ErrorViewController: UIViewController {
 
-    let error: WireframeError
+    let errorTitle: String
+    let message: String
 
-    public init(error: WireframeError) {
-        self.error = error
+    public convenience init(error: WireframeError) {
+        self.init(title: error.title, message: error.localizedDescription)
+    }
+
+    public init(title: String, message: String) {
+        errorTitle = title
+        self.message = message
         super.init(nibName: nil, bundle: nil)
+    }
+
+    public convenience init(error: ListItemPluginError) {
+        self.init(title: "List View Error", message: error.localizedDescription)
     }
 
     required init?(coder: NSCoder) {
@@ -33,8 +44,8 @@ public final class ErrorViewController: UIViewController {
         }
 
         let alert = UIAlertController(
-            title: error.title,
-            message: error.localizedDescription,
+            title: errorTitle,
+            message: message,
             preferredStyle: .alert)
         alert.addAction(okAction)
 
@@ -46,10 +57,14 @@ public final class ErrorViewController: UIViewController {
 public enum ErrorView {
     
     case message(controller: UIViewController, error: WireframeError)
+    case listPluginMessage(controller: UIViewController, error: ListItemPluginError)
 
     func show() {
         switch self {
         case .message(let controller, let error):
+            let alertController = ErrorViewController(error: error)
+            controller.present(alertController, animated: true)
+        case .listPluginMessage(let controller, let error):
             let alertController = ErrorViewController(error: error)
             controller.present(alertController, animated: true)
         }

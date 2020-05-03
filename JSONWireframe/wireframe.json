@@ -3,53 +3,40 @@
     "root" : "home",
     "routes": [
         {
-            "presentationType" : "present",
             "name": "home",
-            "title" : "Home",
-            "type" : "tabbar",
-            "tabItems": [
-                "profile",
-                "settings"
-            ]
-        },
-        {
-            "presentationType" : "present",
-            "type" : "navigation",
-            "name" : "profile",
-            "title" : "profile",
-            "navigation": "info",
-            "subroutes":[ "account" ]
-        },
-        {
-            "presentationType" : "present",
-            "type" : "navigation",
-            "name" : "settings",
-            "title" : "settings",
-            "navigation": "info"
-        },
-        {
-            "name" : "info",
-            "title" : "Info",
-            "subroutes": [
-                "account"
-            ]
-        },
-        {
-            "presentationStyle": "present",
-            "name" : "account",
-            "title" : "account"
-        }
-    ],
-    "navigations": [
-        {
-            "name" : "info",
-            "buttons": [
+            "type": "list",
+            "title": "Home",
+            "listItems": [
                 {
-                    "type" : "right",
-                    "name": "info",
-                    "target": "info"
-                }
+                    "name" : "label",
+                    "type" : "label",
+                    "text": "Hello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\n",
+                    "disclosure": true,
+                    "target": "settings"
+                },
+                {
+                    "name" : "detailedLabel",
+                    "type" : "detailedLabel",
+                    "title": "Hello, world!",
+                    "subtitle": "Its a great day!",
+                    "disclosure": true
+                },
+                {
+                    "name": "image",
+                    "type" : "custom",
+                    "source": "https://via.placeholder.com/600/92c952"
+                },
+                {
+                    "name" : "label",
+                    "type" : "label",
+                    "text": "Hello, world!"
+                },
             ]
+        },
+        {
+            "name": "settings",
+            "title": "Settings"
         }
     ]
 }
+
