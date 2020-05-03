@@ -18,6 +18,7 @@ public final class Wireframe {
 
     public static var plugins = [Plugin.Type]()
     public static var navigationPlugins = [NavigationPlugin.Type]()
+    public static var listItemPlugins = [ListItemPlugin.Type]()
     public var rootViewController: UIViewController?
 
     // MARK: - Private Properties -
@@ -110,6 +111,8 @@ public final class Wireframe {
             navigation.setViewControllers([view], animated: true)
             view.didMove(toParent: navigation)
             rootViewController = navigation
+        case .list:
+            fatalError("No yet implemented")
         }
     }
 

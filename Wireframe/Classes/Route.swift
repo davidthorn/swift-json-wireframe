@@ -12,6 +12,7 @@ public enum RouteType: String, Codable, Hashable, CaseIterable {
     case view
     case tabbar
     case navigation
+    case list
 }
 
 public enum PresentationType: String, Codable, Hashable {

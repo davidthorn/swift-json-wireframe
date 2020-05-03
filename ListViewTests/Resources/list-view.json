@@ -1,0 +1,15 @@
+{
+    "root": "home",
+    "appName": "home",
+    "routes": [
+        {
+            "type" : "list",
+            "listItems": [
+                {
+                    "type": "label",
+                    "text" : "Hello"
+                }
+            ]
+        }        
+    ]
+}

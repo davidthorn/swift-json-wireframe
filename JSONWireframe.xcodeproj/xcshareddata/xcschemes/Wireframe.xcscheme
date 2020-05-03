@@ -63,6 +63,16 @@
                ReferencedContainer = "container:JSONWireframe.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9346CC0B245EAFD5008D54E5"
+               BuildableName = "ListViewTests.xctest"
+               BlueprintName = "ListViewTests"
+               ReferencedContainer = "container:JSONWireframe.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

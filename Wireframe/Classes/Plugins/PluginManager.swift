@@ -20,11 +20,15 @@ public class PluginManager {
     /// Store all plugins that are transient
     public static var navigationPlugins: [String: NavigationPlugin] = [:]
 
+    public static var listItemPlugins: [String: ListItemPlugin] = [:]
+
     public static func purge() {
         plugins.removeAll()
         navigationPlugins.removeAll()
+        listItemPlugins.removeAll()
         Wireframe.plugins.removeAll()
         Wireframe.navigationPlugins.removeAll()
+        Wireframe.listItemPlugins.removeAll()
     }
 
 

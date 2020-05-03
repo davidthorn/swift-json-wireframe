@@ -106,6 +106,8 @@ extension WireframeDatasourceImpl: WireframeDatasource {
                 return TabBarView(route: route)
             case .view:
                 return View(route: route)
+            case .list:
+                fatalError("No yet implemented")
             }
         }
     }

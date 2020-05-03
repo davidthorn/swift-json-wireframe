@@ -1,45 +1,55 @@
 {
-    "app_name" : "tester",
-    "root": "home",
-    "navigations": [
-        {
-            "name": "profile",
-            "buttons": []
-        }
-    ],
+    "appName" : "tester",
+    "root" : "home",
     "routes": [
         {
-            "type": "tabbar",
-            "name" : "home",
-            "title": "Home",
+            "presentationType" : "present",
+            "name": "home",
+            "title" : "Home",
+            "type" : "tabbar",
             "tabItems": [
                 "profile",
-                "account"
-            ],
-            "navigation": {
-                "buttons": [
-                    {
-                        "type": "left",
-                        "name" : "profile",
-                        "target": "profile",
-                        "icon": {
-                            "imageName" : "profile_icon"
-                        }
-                    }
-                ]
-            }
+                "settings"
+            ]
         },
         {
-            "type": "navigation",
+            "presentationType" : "present",
+            "type" : "navigation",
             "name" : "profile",
-            "title" : "Profile Page",
-            "subroutes": [ "account" ],
-            "navigation": "profile"
+            "title" : "profile",
+            "navigation": "info",
+            "subroutes":[ "account" ]
         },
         {
-            "type": "view",
+            "presentationType" : "present",
+            "type" : "navigation",
+            "name" : "settings",
+            "title" : "settings",
+            "navigation": "info"
+        },
+        {
+            "name" : "info",
+            "title" : "Info",
+            "subroutes": [
+                "account"
+            ]
+        },
+        {
+            "presentationStyle": "present",
             "name" : "account",
-            "title" : "Acconut Page"
+            "title" : "account"
+        }
+    ],
+    "navigations": [
+        {
+            "name" : "info",
+            "buttons": [
+                {
+                    "type" : "right",
+                    "name": "info",
+                    "target": "info"
+                }
+            ]
         }
     ]
 }
