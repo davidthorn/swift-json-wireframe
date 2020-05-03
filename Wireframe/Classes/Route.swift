@@ -14,6 +14,7 @@ public enum RouteType: String, Codable, Hashable, CaseIterable {
     case tabbar
     case navigation
     case list
+    case tableview
 }
 
 public enum PresentationType: String, Codable, Hashable {
@@ -154,7 +155,7 @@ public class RouteImpl: Route {
             if presentationType == .push {
                 throw WireframeError.navigationControllerBeingPushed(name)
             }
-        case .list:
+        case .list, .tableview:
             listItems = try container.decode([ListItem].self, forKey: .listItems)
         default:
             tabItems = nil

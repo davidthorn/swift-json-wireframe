@@ -111,6 +111,8 @@ public final class Wireframe {
             navigation.setViewControllers([view], animated: true)
             view.didMove(toParent: navigation)
             rootViewController = navigation
+        case .tableview:
+            rootViewController = ListViewController(route: root)
         }
     }
 
