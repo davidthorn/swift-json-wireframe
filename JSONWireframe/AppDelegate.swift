@@ -8,6 +8,7 @@
 
 import UIKit
 import Wireframe
+import ListItemPlugin
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,10 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var wireframe: Wireframe!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+//
+//        Wireframe.plugins.append(ProfilePlugin.self)
+//        Wireframe.navigationPlugins.append(ProfilePlugin.self)
 
-        Wireframe.plugins.append(ProfilePlugin.self)
-        Wireframe.navigationPlugins.append(ProfilePlugin.self)
-
+        ListItemPluginsManager.plugins.append(LabelListItemPluginImpl.self)
+        ListItemPluginsManager.plugins.append(DetailedLabelListItemPluginImpl.self)
+        ListItemPluginsManager.plugins.append(ImagePlugin.self)
+        
         let nav = UINavigationController()
 
         guard let url = Bundle.main.url(forResource: "wireframe", withExtension: "json") else{

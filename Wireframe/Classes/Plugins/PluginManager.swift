@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ListItemPlugin
 
 // MARK: - Implementation -
 
@@ -25,6 +26,7 @@ public class PluginManager {
         navigationPlugins.removeAll()
         Wireframe.plugins.removeAll()
         Wireframe.navigationPlugins.removeAll()
+        ListItemPluginsManager.plugins.removeAll()
     }
 
 

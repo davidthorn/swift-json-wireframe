@@ -7,11 +7,14 @@
 //
 
 import Foundation
+import ListItemPlugin
 
 public enum RouteType: String, Codable, Hashable, CaseIterable {
     case view
     case tabbar
     case navigation
+    case list
+    case tableview
 }
 
 public enum PresentationType: String, Codable, Hashable {
@@ -40,6 +43,7 @@ public protocol Route: AnyObject, Codable {
     var presentationType: PresentationType { get set }
     var type: RouteType  { get set }
     var tabItems: [String]?  { get }
+    var listItems: [ListItem]? { get }
     var name: String  { get }
     var title: String { get }
     var navigation: Navigation?  { get set }
@@ -60,6 +64,7 @@ public class RouteImpl: Route {
     private(set) var presentationStyle: PresentationType = .push
     public var type: RouteType = .view
     public var tabItems: [String]?
+    public var listItems: [ListItem]?
     public let name: String
     public let title: String
     public var navigation: Navigation?
@@ -79,6 +84,7 @@ public class RouteImpl: Route {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case tabItems
+        case listItems
         case name
         case title
         case navigation
@@ -102,12 +108,15 @@ public class RouteImpl: Route {
 
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
 
+        // MARK: - Title -
+
         do {
             title = try container.decode(String.self, forKey: .title)
         } catch {
             throw WireframeError.routeDecoding(.title)
         }
 
+        // MARK: - Type -
 
         do {
             type = try container.decode(RouteType.self, forKey: .type)
@@ -121,7 +130,11 @@ public class RouteImpl: Route {
 
         }
 
+        // MARK: - Subroutes -
+
         subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)
+
+        // MARK: - Navigation -
 
         do {
             navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
@@ -132,6 +145,8 @@ public class RouteImpl: Route {
 
             navigationName = try container.decodeIfPresent(String.self, forKey: .navigation)
         }
+
+        // MARK: - Type Based Decisions -
 
         switch type {
         case .tabbar:
@@ -149,6 +164,8 @@ public class RouteImpl: Route {
             if presentationType == .push {
                 throw WireframeError.navigationControllerBeingPushed(name)
             }
+        case .list, .tableview:
+            listItems = try container.decode([ListItem].self, forKey: .listItems)
         default:
             tabItems = nil
         }

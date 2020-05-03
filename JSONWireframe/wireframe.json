@@ -1,45 +1,42 @@
 {
-    "app_name" : "tester",
-    "root": "home",
-    "navigations": [
-        {
-            "name": "profile",
-            "buttons": []
-        }
-    ],
+    "appName" : "tester",
+    "root" : "home",
     "routes": [
         {
-            "type": "tabbar",
-            "name" : "home",
+            "name": "home",
+            "type": "list",
             "title": "Home",
-            "tabItems": [
-                "profile",
-                "account"
-            ],
-            "navigation": {
-                "buttons": [
-                    {
-                        "type": "left",
-                        "name" : "profile",
-                        "target": "profile",
-                        "icon": {
-                            "imageName" : "profile_icon"
-                        }
-                    }
-                ]
-            }
+            "listItems": [
+                {
+                    "name" : "label",
+                    "type" : "label",
+                    "text": "Hello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\n",
+                    "disclosure": true,
+                    "target": "settings"
+                },
+                {
+                    "name" : "detailedLabel",
+                    "type" : "detailedLabel",
+                    "title": "Hello, world!",
+                    "subtitle": "Its a great day!",
+                    "disclosure": true
+                },
+                {
+                    "name": "image",
+                    "type" : "custom",
+                    "source": "https://via.placeholder.com/600/92c952"
+                },
+                {
+                    "name" : "label",
+                    "type" : "label",
+                    "text": "Hello, world!"
+                },
+            ]
         },
         {
-            "type": "navigation",
-            "name" : "profile",
-            "title" : "Profile Page",
-            "subroutes": [ "account" ],
-            "navigation": "profile"
-        },
-        {
-            "type": "view",
-            "name" : "account",
-            "title" : "Acconut Page"
+            "name": "settings",
+            "title": "Settings"
         }
     ]
 }
+

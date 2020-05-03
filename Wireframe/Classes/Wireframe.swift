@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ListItemPlugin
 
 public typealias RouteName = String
 
@@ -104,12 +105,14 @@ public final class Wireframe {
         case .tabbar:
             rootViewController = TabBarView(route: root)
         case .view:
-            rootViewController =  View(route: root)
-        case .navigation:
-            let view =  View(route: root)
+            rootViewController = View(route: root)
+        case .navigation, .list:
+            let view = root.type == .list ?  ListViewController(route: root) : View(route: root)
             navigation.setViewControllers([view], animated: true)
             view.didMove(toParent: navigation)
             rootViewController = navigation
+        case .tableview:
+            rootViewController = ListViewController(route: root)
         }
     }
 

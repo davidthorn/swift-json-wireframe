@@ -95,9 +95,10 @@ extension WireframeDatasourceImpl: WireframeDatasource {
             let  view = plugin.controller(route: route)
             return handler(route, view)
         } else {
+            let type = route.type
             switch route.type {
-            case .navigation:
-                let view = View(route: route)
+            case .navigation, .list:
+                let view = type == .list ? ListViewController(route: route): View(route: route)
                 let nav = navigationController(for: route.navigation, route: route)
                 nav.setViewControllers([view], animated: true)
                 view.didMove(toParent: nav)
@@ -106,6 +107,8 @@ extension WireframeDatasourceImpl: WireframeDatasource {
                 return TabBarView(route: route)
             case .view:
                 return View(route: route)
+            case .tableview:
+                return ListViewController(route: route)
             }
         }
     }
