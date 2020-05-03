@@ -108,12 +108,15 @@ public class RouteImpl: Route {
 
         name = try container.debugDecode(String.self, forKey: .name, parent: Self.self)
 
+        // MARK: - Title -
+
         do {
             title = try container.decode(String.self, forKey: .title)
         } catch {
             throw WireframeError.routeDecoding(.title)
         }
 
+        // MARK: - Type -
 
         do {
             type = try container.decode(RouteType.self, forKey: .type)
@@ -127,7 +130,11 @@ public class RouteImpl: Route {
 
         }
 
+        // MARK: - Subroutes -
+
         subroutes = try container.debugDecodeIfPresent([RouteName].self, forKey: .subroutes, parent: Self.self)
+
+        // MARK: - Navigation -
 
         do {
             navigation = try container.debugDecodeIfPresent(Navigation.self, forKey: .navigation, parent: Self.self)
@@ -138,6 +145,8 @@ public class RouteImpl: Route {
 
             navigationName = try container.decodeIfPresent(String.self, forKey: .navigation)
         }
+
+        // MARK: - Type Based Decisions -
 
         switch type {
         case .tabbar:

@@ -19,6 +19,9 @@ public protocol ListItemPlugin {
     /// The type list item that this plugin is.
     var type: ListItemType { get }
 
+    /// The id for this individual list item using this plugin.
+    var id: String { get }
+
     /// The name for this plugin.
     var name: String { get }
 

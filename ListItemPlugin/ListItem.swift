@@ -20,6 +20,7 @@ public class ListItem: Codable {
         }
     }
 
+    public let id: String
     public let type: ListItemType
     public let name: String
     public let target: String?
@@ -31,6 +32,7 @@ public class ListItem: Codable {
     // MARK: - Decoding List Item -
 
     public enum CodingKeys: CodingKey {
+        case id
         case type
         case name
         case target
@@ -38,6 +40,7 @@ public class ListItem: Codable {
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        let itemId = try container.decode(String.self, forKey: .id)
         let pluginName = try container.decode(String.self, forKey: .name)
         let pluginType = try container.decode(ListItemType.self, forKey: .type)
         let pluginTarget = try container.decodeIfPresent(String.self, forKey: .target)
@@ -52,6 +55,7 @@ public class ListItem: Codable {
         name = pluginName
         plugin = localPlugin
         target = pluginTarget
+        id = itemId
         plugin.delegate = delegate
     }
 
@@ -66,7 +70,7 @@ extension Array where Element == ListItem {
     }
 
     public func index(of plugin: ListItemPlugin) -> Int? {
-        firstIndex(where: { $0.name == plugin.name && plugin.type == $0.type })
+        firstIndex(where: { $0.name == plugin.name && plugin.type == $0.type && plugin.id == $0.id })
     }
 
 }

@@ -40,6 +40,7 @@ public final class DetailedLabelListItemPluginImpl {
 
      // MARK: - Public Properties -
 
+    public var id: String = UUID().uuidString
     public weak var delegate: ListItemPluginDelegate?
     public var name: String = "detailedLabel"
     public var type: ListItemType = .detailedLabel
@@ -106,9 +107,15 @@ extension DetailedLabelListItemPluginImpl: ListItemPlugin {
 
     }
 
+    enum CodingKeys: CodingKey {
+        case id
+    }
+
     // MARK: - List Item Decodable -
 
     public func decode(with decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
         item = try DetailedLabelItem(from: decoder)
     }
 
