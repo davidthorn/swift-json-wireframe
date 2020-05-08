@@ -33,7 +33,8 @@ public final class ListView: UIView, ListItemPluginDelegate {
 
     public func commonInit() {
         addSubview(tableView)
-        if let listItems = route.listItems {
+        if let plugin = route.plugin as? ListViewPlugin,
+            let listItems = plugin.listItems {
             items = listItems
             items.forEach {
                 $0.delegate = self
@@ -46,6 +47,11 @@ public final class ListView: UIView, ListItemPluginDelegate {
         tableView.edgesToSuperview()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+
+    public func update(items: [ListItem]) {
+        self.items = items
+        self.tableView.reloadData()
     }
 
     public func update(_ plugin: ListItemPlugin) {

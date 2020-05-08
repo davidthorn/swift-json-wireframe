@@ -50,21 +50,21 @@ class NavigationTests: XCTestCase {
         XCTAssertEqual(infoButton?.target, "info")
     }
 
-    func test_home_unknown_target() {
-        wireframe = resource(name: "home-unknown-target", datasourceHandler: {  WireframeDatasourceImpl(wireframe: $0) })
-        let controller = wireframe.rootViewController as? ErrorViewController
-        XCTAssertNotNil(controller)
-
-        let error = controller!.error
-
-        switch error {
-        case .navigationButtonTargetNotExists(let target):
-            XCTAssertEqual(target, "info")
-        default:
-            XCTFail()
-        }
-
-    }
+//    func test_home_unknown_target() {
+//        wireframe = resource(name: "home-unknown-target", datasourceHandler: {  WireframeDatasourceImpl(wireframe: $0) })
+//        let controller = wireframe.rootViewController as? ErrorViewController
+//        XCTAssertNotNil(controller)
+//
+//        let error = controller!.error
+//
+//        switch error {
+//        case .navigationButtonTargetNotExists(let target):
+//            XCTAssertEqual(target, "info")
+//        default:
+//            XCTFail()
+//        }
+//
+//    }
 
     func test_home_navigation() {
         let navigationData = MockNavigation.encoded

@@ -15,6 +15,7 @@ public enum RouteType: String, Codable, Hashable, CaseIterable {
     case navigation
     case list
     case tableview
+    case custom
 }
 
 public enum PresentationType: String, Codable, Hashable {
@@ -43,7 +44,7 @@ public protocol Route: AnyObject, Codable {
     var presentationType: PresentationType { get set }
     var type: RouteType  { get set }
     var tabItems: [String]?  { get }
-    var listItems: [ListItem]? { get }
+//    var listItems: [ListItem]? { get }
     var name: String  { get }
     var title: String { get }
     var navigation: Navigation?  { get set }
@@ -52,6 +53,7 @@ public protocol Route: AnyObject, Codable {
     var parent: Route? { get set }
     var routes: [Route]? { get }
     var datasource: WireframeDatasource! { get }
+    var plugin: ViewPlugin? { get }
 }
 
 // MARK: - Implementation -
@@ -64,7 +66,7 @@ public class RouteImpl: Route {
     private(set) var presentationStyle: PresentationType = .push
     public var type: RouteType = .view
     public var tabItems: [String]?
-    public var listItems: [ListItem]?
+//    public var listItems: [ListItem]?
     public let name: String
     public let title: String
     public var navigation: Navigation?
@@ -72,6 +74,7 @@ public class RouteImpl: Route {
     public var routes: [Route]?
     public weak var parent: Route?
     public weak var wireframe: WireframeData?
+    public var plugin: ViewPlugin?
 
     public func set(wireframeData: WireframeData?) throws {
         assert(wireframe.isNil && datasource.isNil)
@@ -84,7 +87,7 @@ public class RouteImpl: Route {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case tabItems
-        case listItems
+//        case listItems
         case name
         case title
         case navigation
@@ -102,7 +105,9 @@ public class RouteImpl: Route {
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        let presentType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self) ?? .push
+        let definedPresentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationType, parent: Self.self)
+
+        let presentType = definedPresentationType ?? .push
 
         presentationType = try container.debugDecodeIfPresent(PresentationType.self, forKey: .presentationStyle, parent: Self.self) ?? presentType
 
@@ -162,10 +167,13 @@ public class RouteImpl: Route {
             }
         case .navigation:
             if presentationType == .push {
-                throw WireframeError.navigationControllerBeingPushed(name)
+                presentationType = .present
+                debugPrint("Setting the presentationType to `present`, defined: \(String(describing: definedPresentationType))")
             }
-        case .list, .tableview:
-            listItems = try container.decode([ListItem].self, forKey: .listItems)
+        case .custom:
+            let plugin = ListViewPlugin()
+            try plugin.decode(with: decoder)
+            self.plugin = plugin
         default:
             tabItems = nil
         }

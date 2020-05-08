@@ -97,8 +97,8 @@ extension WireframeDatasourceImpl: WireframeDatasource {
         } else {
             let type = route.type
             switch route.type {
-            case .navigation, .list:
-                let view = type == .list ? ListViewController(route: route): View(route: route)
+            case .navigation:
+                let view = View(route: route)
                 let nav = navigationController(for: route.navigation, route: route)
                 nav.setViewControllers([view], animated: true)
                 view.didMove(toParent: nav)
@@ -108,7 +108,16 @@ extension WireframeDatasourceImpl: WireframeDatasource {
             case .view:
                 return View(route: route)
             case .tableview:
-                return ListViewController(route: route)
+                return try! route.plugin!.getController(route: route)
+            case .list:
+                let view = try! route.plugin!.getController(route: route)
+                let nav = navigationController(for: route.navigation, route: route)
+                nav.setViewControllers([view], animated: true)
+                view.didMove(toParent: nav)
+                return nav
+            case .custom:
+                let view = try! route.plugin!.getController(route: route)
+                return view
             }
         }
     }

@@ -14,15 +14,15 @@ The `Wireframe` within the  `JSONWireframe` project reads from the `wireframe.js
 
 For the application to open without any fatal errors being throw, its requires a json object to be present within the file containing the following 3 keys: `appName`, `root` and `route`.
 
-> appName
+> `appName` - `string` - (required)
 
 The `appName` is an arbitury name that indicates which wireframe this json file is handling. At the moment it does not have any use, but it is there for the future.
 
-> root
+> `root`:`string` - (required)
 
 The `root` indicates to the application which `route` is going to be used as `window`'s the `rootViewController`.
 
-> routes
+> `routes` - `array` (required)
 
 The `routes` key, initially must contain the `root`'s route definition for the application to not crash.
 
@@ -36,15 +36,15 @@ The `routes` key, initially must contain the `root`'s route definition for the a
 }
 ```
 
-> WARNING
+># WARNING
 The application will still crash at this point if you run it, because it cannot detect the `home` route.
 
-## Route Definition
+# Route Definition
 
 A `route` is a way of saying a `Screen`.
 The presenting of `UIViewController`'s within the wireframe application is completely dependant upon it knowing about how to build the view controller and which route is responsible for it.
 
-## Basic `route` Usage
+# Basic `route` Usage
 
 The following keys are mandatory for the application to not crash.
 
@@ -80,11 +80,8 @@ You notice in the `debug`log that the following information has been outputted:
 
 The application registers some useful default routes that you can use as to complete some actions that only require for the route to be removed. I will discuss this later in the documentation.
 
----
 
-## `route` : `type`
-
----
+# `route` : `type`
 
 
 The routes `type` property defines the type of view controller that will be displayed.
@@ -112,10 +109,8 @@ When the `route`'s `type` value is `navigation`. The `View` will be placed withi
 
 ```
 
----
+# `route` : `presentationType` or `presentationStyle` (optional)
 
-## `route` : `presentationType` or `presentationStyle`
----
 
 The default `presentationStyle` of a `route` is `push` unless the `type` has been set to `navigation`. 
 
@@ -136,7 +131,7 @@ If the `type` is `navigation` and the `presentationStyle` or `presentationType` 
 }
 ```
 
-OR
+> OR
 
 ```json
 {
@@ -153,9 +148,8 @@ OR
 }
 ```
 
-# Subroutes
+# `route`: `subroutes` (optional)
 
----
 
 The `wireframe` allows for you to define `route`'s with `subroutes`. This means that a `route` `present`s, or `push`es other `route`'s.
 

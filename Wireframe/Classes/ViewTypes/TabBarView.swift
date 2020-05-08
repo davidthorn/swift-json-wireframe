@@ -97,6 +97,8 @@ extension TabBarView: RouteButtonDelegate {
             commonView = route.datasource.controller(with: route.name) ?? View(route: route)
         case .tableview:
             commonView = route.datasource.controller(with: route.name) ?? View(route: route)
+        case .custom:
+            fatalError()
         }
 
         show(controller: route.datasource.controller(with: route.name) ?? commonView, route: route)

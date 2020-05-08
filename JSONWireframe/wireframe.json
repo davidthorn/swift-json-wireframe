@@ -3,40 +3,12 @@
     "root" : "home",
     "routes": [
         {
-            "name": "home",
-            "type": "list",
-            "title": "Home",
-            "listItems": [
-                {
-                    "name" : "label",
-                    "type" : "label",
-                    "text": "Hello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\nHello, world!\n",
-                    "disclosure": true,
-                    "target": "settings"
-                },
-                {
-                    "name" : "detailedLabel",
-                    "type" : "detailedLabel",
-                    "title": "Hello, world!",
-                    "subtitle": "Its a great day!",
-                    "disclosure": true
-                },
-                {
-                    "name": "image",
-                    "type" : "custom",
-                    "source": "https://via.placeholder.com/600/92c952"
-                },
-                {
-                    "name" : "label",
-                    "type" : "label",
-                    "text": "Hello, world!"
-                },
-            ]
-        },
-        {
-            "name": "settings",
-            "title": "Settings"
+            "type": "navigation",
+            "name" : "home",
+            "title" : "Home",
+        },{
+            "name": "dismiss",
+            "title": "Dismiss"
         }
-    ]
-}
+    ]}
 

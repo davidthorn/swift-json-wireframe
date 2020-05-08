@@ -16,11 +16,13 @@ public final class ListViewController: UIViewController {
     // MARK: - Private Properties -
 
     private(set) weak var route: Route!
+    private(set) var listView: ListView
 
     // MARK: - Constructors -
 
     public init(route: Route) {
         self.route = route
+        self.listView = ListView(route: route)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -31,10 +33,13 @@ public final class ListViewController: UIViewController {
     // MARK: - ViewController Lifecycle -
 
     public override func loadView() {
-        let listView = ListView(route: route)
         listView.presentor = self
         view = listView
         title = route.title
+    }
+
+    public func update(items: [ListItem]) {
+        listView.update(items: items)
     }
 
 }

@@ -106,13 +106,20 @@ public final class Wireframe {
             rootViewController = TabBarView(route: root)
         case .view:
             rootViewController = View(route: root)
-        case .navigation, .list:
-            let view = root.type == .list ?  ListViewController(route: root) : View(route: root)
+        case .navigation:
+            let view = View(route: root)
             navigation.setViewControllers([view], animated: true)
             view.didMove(toParent: navigation)
             rootViewController = navigation
         case .tableview:
-            rootViewController = ListViewController(route: root)
+            rootViewController = try root.plugin!.getController(route: root)
+        case .list:
+            let view = try root.plugin!.getController(route: root)
+            navigation.setViewControllers([view], animated: true)
+            view.didMove(toParent: navigation)
+            rootViewController = navigation
+        case .custom:
+            rootViewController = try root.plugin!.getController(route: root)
         }
     }
 

@@ -85,7 +85,6 @@ class ProfileViewController: View {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = self.route.name
     }
 
     override func viewDidAppear(_ animated: Bool) {

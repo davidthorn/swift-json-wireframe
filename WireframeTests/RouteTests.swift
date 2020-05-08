@@ -49,20 +49,20 @@ class RouteTests: XCTestCase {
         XCTAssertEqual(dashboard?.navigation?.rightBarButtonItems.count, nil)
     }
 
-    func test_navigation_fails() {
-        let url = Bundle(for: WireframeTests.self).url(forResource: "navigation-button-unknown-target", withExtension: "json")!
-        let navigationController = UINavigationController()
-        testSubject = Wireframe(navigation: navigationController, resourceUrl: url) {
-            WireframeDatasourceImpl(wireframe: $0)
-        }
-        let controller = testSubject.rootViewController as? ErrorViewController
-        XCTAssertNotNil(controller)
-        switch controller!.error {
-        case .navigationButtonTargetNotExists(let route):
-            XCTAssertEqual(route, "notifications")
-        default:
-            XCTFail()
-        }
-    }
+//    func test_navigation_fails() {
+//        let url = Bundle(for: WireframeTests.self).url(forResource: "navigation-button-unknown-target", withExtension: "json")!
+//        let navigationController = UINavigationController()
+//        testSubject = Wireframe(navigation: navigationController, resourceUrl: url) {
+//            WireframeDatasourceImpl(wireframe: $0)
+//        }
+//        let controller = testSubject.rootViewController as? ErrorViewController
+//        XCTAssertNotNil(controller)
+//        switch controller!.error {
+//        case .navigationButtonTargetNotExists(let route):
+//            XCTAssertEqual(route, "notifications")
+//        default:
+//            XCTFail()
+//        }
+//    }
 
 }

@@ -100,6 +100,7 @@ public extension WireframeData {
         RouteImpl.defaultRoutes.forEach { defaultRoute in
 
             if !routes.contains(where: { $0.name == defaultRoute.name }) {
+                debugPrint("Auto Registering route: \(defaultRoute.name)")
                 routes.append(defaultRoute)
             }
         }
@@ -116,7 +117,6 @@ public extension WireframeData {
             if routeNames.contains(route.name) {
                 throw WireframeError.routeNameAlreadyExist(route.name)
             }
-
             routeNames.insert(route.name)
         }
 
@@ -125,13 +125,14 @@ public extension WireframeData {
         routes.forEach { route in
             route.datasource = nil
             route.wireframe = nil
-            debugPrint(route.name)
         }
 
         let wireframe = self
         try routes.forEach { route in
             try route.set(wireframeData: wireframe)
-            debugPrint("Route name: \(route.name)")
+            if !RouteImpl.defaultRoutes.contains(where: { $0.name == route.name }) {
+                debugPrint("Registerd Route name: \(route.name)")
+            }
         }
 
         try routes.forEach { route in
