@@ -2,7 +2,7 @@
 
 The wireframe has been developed so that an iOS developer can sit with a Project Manager or customer and create a simple navigationable application that reflects the customers requirements.
 
-The wireframe allows for you to create views with a navigation bar that contains your icons or text, that will then open a new screen based upon the target page provided.
+The wireframe allows for you to create views with a navigation bar that contain your icons or text, that will then open a new screen based upon the target page provided.
 
 The wireframe, allows for you to create quick lists of data.
 
@@ -39,6 +39,8 @@ The `routes` key, initially must contain the `root`'s route definition for the a
 ># WARNING
 The application will still crash at this point if you run it, because it cannot detect the `home` route.
 
+The `root`'s route can contain any name, just as long as a `route` with that name has been defined within the `routes` key value pair. See below for further information about creating a `route`.
+
 # Route Definition
 
 A `route` is a way of saying a `Screen`.
@@ -50,7 +52,7 @@ The following keys are mandatory for the application to not crash.
 
 > `title` is used for the application when presenting within a `UINavigation Controller`.
 
-> `name` allows for other routes to identifier it.
+> `name` allows for other routes to identify it.
 
 ```json
 {
@@ -66,9 +68,9 @@ The following keys are mandatory for the application to not crash.
 
 ```
 
-You can not run the application and you will see a completely which screen.
+You can now run the `application` and you will see a completely white screen.
 
-You notice in the `debug`log that the following information has been outputted:
+You notice in the `debug` log that the following information has been outputted:
 
 ```bash
 "Auto Registering route: dismiss"
@@ -78,7 +80,7 @@ You notice in the `debug`log that the following information has been outputted:
 "Registerd Route name: home"
 ```
 
-The application registers some useful default routes that you can use as to complete some actions that only require for the route to be removed. I will discuss this later in the documentation.
+The application registers some useful default `routes` that you can use as to complete some actions that only require for the `route` to be removed. I will discuss this later in the documentation.
 
 
 # `route` : `type`
